@@ -6,7 +6,7 @@ use function Livewire\Volt\{state, rules};
 
 state(['email' => null, 'emailSentMessage' => false]);
 rules(['email' => 'required|email']);
-name('password.request');
+name('auth.password.request');
 
 
 
@@ -31,7 +31,7 @@ $sendResetPasswordLink = function(){
     <div class="flex flex-col justify-center items-stretch py-10 w-screen min-h-screen sm:items-center">
 
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
-            <x-auth::devdojoauth.link href="{{ route('home') }}">
+            <x-auth::devdojoauth.link href="/">
                 <x-auth::devdojoauth.logo class="mx-auto w-auto h-10 text-gray-700 fill-current dark:text-gray-100" />
             </x-auth::devdojoauth.link>
 
@@ -40,7 +40,7 @@ $sendResetPasswordLink = function(){
             </h2>
             <div class="space-x-0.5 text-sm leading-5 text-center text-gray-600 dark:text-gray-400">
                 <span>Or</span>
-                <x-auth::devdojoauth.text-link href="{{ route('login') }}">return to login</x-auth::devdojoauth.text-link>
+                <x-auth::devdojoauth.text-link href="{{ route('auth.login') }}">return to login</x-auth::devdojoauth.text-link>
             </div>
         </div>
 

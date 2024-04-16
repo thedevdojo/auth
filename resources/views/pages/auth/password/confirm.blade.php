@@ -5,7 +5,7 @@
 
     state(['password' => '']);
     rules(['password' => 'required|current_password']);
-    name('password.confirm');
+    name('auth.password.confirm');
 
     $confirm = function(){
         $this->validate();
@@ -20,7 +20,7 @@
     <div class="flex flex-col justify-center items-stretch py-10 w-screen min-h-screen sm:items-center">
 
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
-            <x-auth::devdojoauth.link href="{{ route('home') }}">
+            <x-auth::devdojoauth.link href="/">
                 <x-auth::devdojoauth.logo class="mx-auto w-auto h-10 text-gray-700 fill-current dark:text-gray-100" />
             </x-auth::devdojoauth.link>
 
@@ -38,7 +38,7 @@
                     <form wire:submit="confirm" class="space-y-6">
                         <x-auth::devdojoauth.input label="Password" type="password" id="password" name="password" wire:model="password" />
                         <div class="flex justify-end items-center text-sm">
-                            <x-auth::devdojoauth.text-link href="{{ route('password.request') }}">Forgot your password?</x-auth::devdojoauth.text-link>
+                            <x-auth::devdojoauth.text-link href="{{ route('auth.password.request') }}">Forgot your password?</x-auth::devdojoauth.text-link>
                         </div>
                         <x-auth::devdojoauth.button type="primary" rounded="md" submit="true">Confirm password</x-auth::devdojoauth.button>
                     </form>

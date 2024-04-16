@@ -5,7 +5,7 @@
     use function Laravel\Folio\{middleware, name};
 
     middleware(['auth', 'throttle:6,1']);
-    name('verification.notice');
+    name('auth.verification.notice');
 
     $resend = function(){
         $user = auth()->user();
@@ -28,7 +28,7 @@
     <div class="flex flex-col justify-center items-stretch py-10 w-screen min-h-screen sm:items-center">
 
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
-            <x-auth::devdojoauth.link href="{{ route('home') }}">
+            <x-auth::devdojoauth.link href="/">
                 <x-auth::devdojoauth.logo class="mx-auto w-auto h-10 text-gray-700 fill-current dark:text-gray-100" />
             </x-auth::devdojoauth.link>
 
@@ -41,7 +41,7 @@
                 <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-gray-500 underline cursor-pointer dark:text-gray-400 dark:hover:text-gray-300 hover:text-gray-800">
                     sign out
                 </button>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
             </div>

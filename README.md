@@ -1,52 +1,57 @@
-# Very short description of the package
+<p align="center"><a href="https://devdojo.com" target="_blank"><img src="https://cdn.devdojo.com/images/april2024/devdojo-auth-logo.png" width="400" alt="Auth Logo"></a></p>
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/devdojo/auth.svg?style=flat-square)](https://packagist.org/packages/devdojo/auth)
-[![Total Downloads](https://img.shields.io/packagist/dt/devdojo/auth.svg?style=flat-square)](https://packagist.org/packages/devdojo/auth)
-![GitHub Actions](https://github.com/devdojo/auth/actions/workflows/main.yml/badge.svg)
+<p align="center">
+<a href="https://github.com/thedevdojo/auth/actions"><img src="https://github.com/thedevdojo/auth/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/devdojo/auth"><img src="https://img.shields.io/packagist/dt/devdojo/auth" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/devdojo/auth"><img src="https://img.shields.io/packagist/v/devdojo/auth" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/devdojo/auth"><img src="https://img.shields.io/packagist/l/devdojo/auth" alt="License"></a>
+</p>
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+## About Auth
+
+The DevDojo Auth package is a plug'n play Authentication wrapper for your Laravel application. Easily update and modify your authentication pages, add social providers, and many other auth features.
+
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
 ## Installation
 
-You can install the package via composer:
+To install this package you'll want to first have Laravel Breeze, Jetstream, Genesis, or any other Laravel starter kit installed. Then you'll need to install the package:
 
-```bash
+```
 composer require devdojo/auth
 ```
 
-## Usage
+After the package has been installed you'll need to publish the authentication assets with the followign command:
 
-```php
-// Usage description here
+```
+php artisan vendor:publish --tag=auth:assets
 ```
 
-### Testing
+Auth has just been isntalled and you'll be able to visit the following authentication routes:
 
-```bash
-composer test
+ - Login (project.test/auth/login)
+ - Register (project.test/auth/register)
+ - Forgot Password (project.test/auth/register)
+ - Password Reset (project.test/auth/password/reset)
+ - Password Reset Token (project.test/auth/password/ReAlLyLoNgPaSsWoRdReSeTtOkEn)
+ - Password Confirmation (project.test/auth/password/confirm)
+
+## Auth Config
+
+You may also want to publish the auth config by running the following:
+
 ```
-
-### Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
-
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-### Security
-
-If you discover any security related issues, please email tony@devdojo.com instead of using the issue tracker.
-
-## Credits
-
--   [Tony Lea](https://github.com/devdojo)
--   [All Contributors](../../contributors)
+php artisan vendor:publish --tag=auth:config
+```
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
-
-## Laravel Package Boilerplate
-
-This package was generated using the [Laravel Package Boilerplate](https://laravelpackageboilerplate.com).
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

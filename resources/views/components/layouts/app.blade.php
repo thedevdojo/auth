@@ -7,12 +7,15 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <script src="/auth/build/assets/scripts.js"></script>
-        <link rel="stylesheet" href="/auth/build/assets/styles.css" />
-        <!-- Scripts -->
-        {{-- @vite(['packages/devdojo/auth/resources/css/auth.css', 'packages/devdojo/auth/resources/css/auth.js']) --}}
+        @if(config('devdojo.auth.dev'))
+            <script src="/auth/build/assets/scripts.js"></script>
+            <link rel="stylesheet" href="/auth/build/assets/styles.css" />
+        @else
+            @vite(['packages/devdojo/auth/resources/css/auth.css', 'packages/devdojo/auth/resources/css/auth.js'])
+        @endif
+        
     </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 dark:bg-zinc-950">
     {{ $slot }}
 </body>
 </html>

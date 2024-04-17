@@ -35,19 +35,9 @@ $register = function(){
 
     <div class="flex flex-col justify-center items-stretch py-10 w-screen min-h-screen sm:items-center">
 
-        <div class="sm:mx-auto sm:w-full sm:max-w-md">
-            <x-auth::devdojoauth.link href="/">
-                <x-auth::devdojoauth.logo class="mx-auto w-auto h-10 text-gray-700 fill-current dark:text-gray-100" />
-            </x-auth::devdojoauth.link>
-            <h2 class="mt-5 text-2xl font-extrabold leading-9 text-center text-gray-800 dark:text-gray-200">Create a new account</h2>
-            <div class="space-x-0.5 text-sm leading-5 text-center text-gray-600 dark:text-gray-400">
-                <span>Or</span>
-                <x-auth::devdojoauth.text-link href="{{ route('auth.login') }}">sign in to your account</x-auth::devdojoauth.text-link>
-            </div>
-        </div>
+        <x-auth::devdojoauth.heading text="Sign up" />
 
-        <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div class="px-10 py-0 sm:py-8 sm:shadow-sm sm:bg-white dark:sm:bg-gray-950/50 dark:border-gray-200/10 sm:border sm:rounded-lg border-gray-200/60">
+        <x-auth::devdojoauth.container>
                 @volt('auth.register')
                     <form wire:submit="register" class="space-y-6">
                         <x-auth::devdojoauth.input label="Name" type="text" id="name" name="name" wire:model="name" />
@@ -57,8 +47,12 @@ $register = function(){
                         <x-auth::devdojoauth.button type="primary" rounded="md" submit="true">Register</x-auth::devdojoauth.button>
                     </form>
                 @endvolt
-            </div>
-        </div>
+
+                <div class="mt-3 space-x-0.5 text-sm leading-5 text-center text-gray-400 translate-y-3 dark:text-gray-300">
+                    <span>Already have an account?</span>
+                    <x-auth::devdojoauth.text-link href="{{ route('auth.login') }}">Sign in</x-auth::devdojoauth.text-link>
+                </div>
+        </x-auth::devdojoauth.container>
         
     </div>
 

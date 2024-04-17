@@ -38,7 +38,13 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
-        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "post-install-cmd": [
+            "Devdojo\\Auth\\Installer::postInstall"
+        ],
+        "post-update-cmd": [
+            "Devdojo\\Auth\\Installer::postUpdate"
+        ]
 
     },
     "config": {

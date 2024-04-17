@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth\EmailVerificationController;
-use App\Http\Controllers\Auth\LogoutController;
+use Devdojo\Auth\Http\Controllers\LogoutController;
 use Illuminate\Support\Facades\Route;
 
 // Create redirect routes for common authentication routes

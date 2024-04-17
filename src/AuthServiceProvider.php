@@ -26,8 +26,8 @@ class AuthServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/config.php' => config_path('devdojo/auth.php'),
-            ], 'config');
+                __DIR__.'/../config/' => config_path('/'),
+            ], 'auth:config');
 
             // Publishing the views.
             /*$this->publishes([
@@ -37,7 +37,7 @@ class AuthServiceProvider extends ServiceProvider
             // Publishing assets.
             $this->publishes([
                 __DIR__.'/../public' => public_path('auth'),
-            ], 'auth');
+            ], 'auth:assets');
 
             // Publishing the translation files.
             /*$this->publishes([
@@ -67,7 +67,7 @@ class AuthServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'devdojo.auth');
+        $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth.php', 'devdojo.auth');
 
         // Register the main class to use with the facade
         $this->app->singleton('devdojoauth', function () {

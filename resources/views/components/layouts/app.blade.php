@@ -6,16 +6,16 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
-
         @if(config('devdojo.auth.dev'))
+            @vite(['packages/devdojo/auth/resources/css/auth.css', 'packages/devdojo/auth/resources/css/auth.js'])
+        @else
             <script src="/auth/build/assets/scripts.js"></script>
             <link rel="stylesheet" href="/auth/build/assets/styles.css" />
-        @else
-            @vite(['packages/devdojo/auth/resources/css/auth.css', 'packages/devdojo/auth/resources/css/auth.js'])
         @endif
         
     </head>
 <body class="bg-gray-50 dark:bg-zinc-950">
+    
     {{ $slot }}
 </body>
 </html>

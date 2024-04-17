@@ -12,6 +12,7 @@
         <!-- Scripts -->
         {{-- @vite(['packages/devdojo/auth/resources/css/auth.css', 'packages/devdojo/auth/resources/css/auth.js']) --}}
     </head>
+<body class="bg-gray-50">
     {{ $slot }}
 </body>
 </html>

@@ -2,9 +2,10 @@
 
 namespace Devdojo\Auth;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Folio\Folio;
-use Illuminate\Support\Facades\File;
+use Livewire\Volt\Volt;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
         $this->registerAuthFolioDirectory();
+        $this->registerVoltDirectory();
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -59,6 +61,12 @@ class AuthServiceProvider extends ServiceProvider
                 ],
             ]);
         }
+    }
+
+    private function registerVoltDirectory(){
+        Volt::mount([
+            __DIR__ . '/../resources/views/pages'
+        ]);
     }
 
     /**

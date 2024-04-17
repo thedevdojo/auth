@@ -1,4 +1,4 @@
-<p align="center"><a href="https://devdojo.com" target="_blank"><img src="https://cdn.devdojo.com/images/april2024/devdojo-auth.png" width="auto" height="64px" alt="Auth Logo"></a></p>
+<p align="center"><a href="https://devdojo.com" target="_blank"><img src="https://cdn.devdojo.com/images/april2024/Group%204.png" width="auto" height="64px" alt="Auth Logo"></a></p>
 <br>
 <p align="center">
 <a href="https://github.com/thedevdojo/auth/actions"><img src="https://github.com/thedevdojo/auth/workflows/tests/badge.svg" alt="Build Status"></a>

@@ -1,13 +1,17 @@
 <?php
 
-    use Illuminate\Auth\Events\Verified;
-    use Illuminate\Support\Facades\Auth;
-    use function Laravel\Folio\{middleware, name};
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Support\Facades\Auth;
+use function Laravel\Folio\{middleware, name};
+use Livewire\Volt\Component;
 
-    middleware(['auth', 'throttle:6,1']);
-    name('auth.verification.notice');
+middleware(['auth', 'throttle:6,1']);
+name('auth.verification.notice');
 
-    $resend = function(){
+new class extends Component
+{
+    public function resend()
+    {
         $user = auth()->user();
         if ($user->hasVerifiedEmail()) {
             redirect('/');
@@ -16,10 +20,11 @@
         $user->sendEmailVerificationNotification();
 
         event(new Verified($user));
-        
+
         $this->dispatch('resent');
         session()->flash('resent');
     }
+};
 
 ?>
 

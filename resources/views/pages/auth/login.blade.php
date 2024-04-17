@@ -3,26 +3,37 @@
 use App\Models\User;
 use Illuminate\Auth\Events\Login;
 use function Laravel\Folio\{middleware, name};
-use function Livewire\Volt\{state, rules};
+use Livewire\Attributes\Validate;
+use Livewire\Volt\Component;
 
 middleware(['guest']);
-state(['email' => '', 'password' => '', 'remember' => false]);
-rules(['email' => 'required|email', 'password' => 'required']);
 name('auth.login');
 
-$authenticate = function(){
-    $this->validate();
+new class extends Component
+{
+    #[Validate('required|email')]
+    public $email = '';
 
-    if (!Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
-        $this->addError('email', trans('auth.failed'));
+    #[Validate('required')]
+    public $password = '';
 
-        return;
+    public $remember = false;
+
+    public function authenticate()
+    {
+        $this->validate();
+
+        if (!Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+            $this->addError('email', trans('auth.failed'));
+
+            return;
+        }
+
+        event(new Login(auth()->guard('web'), User::where('email', $this->email)->first(), $this->remember));
+
+        return redirect()->intended('/');
     }
-    
-    event(new Login(auth()->guard('web'), User::where('email', $this->email)->first(), $this->remember));
-
-    return redirect()->intended('/');
-}
+};
 
 ?>
 

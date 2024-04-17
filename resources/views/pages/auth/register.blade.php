@@ -4,30 +4,44 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
-
+use Livewire\Volt\Component;
+use Livewire\Attributes\Validate;
 use function Laravel\Folio\{middleware, name};
-use function Livewire\Volt\{state, rules};
 
 middleware(['guest']);
-state(['name' => '', 'email' => '', 'password' => '', 'passwordConfirmation' => '']);
-rules(['name' => 'required', 'email' => 'required|email|unique:users', 'password' => 'required|min:8|same:passwordConfirmation']);
 name('auth.register');
 
-$register = function(){
-    $this->validate();
+new class extends Component
+{
+    #[Validate('required')]
+    public $name = '';
 
-    $user = User::create([
-        'email' => $this->email,
-        'name' => $this->name,
-        'password' => Hash::make($this->password),
-    ]);
+    #[Validate('required|email|unique:users')]
+    public $email = '';
 
-    event(new Registered($user));
+    #[Validate('required|min:8|same:passwordConfirmation')]
+    public $password = '';
 
-    Auth::login($user, true);
+    #[Validate('required|min:8|same:password')]
+    public $passwordConfirmation = '';
 
-    return redirect()->intended('/');
-}
+    public function register()
+    {
+        $this->validate();
+
+        $user = User::create([
+            'email' => $this->email,
+            'name' => $this->name,
+            'password' => Hash::make($this->password),
+        ]);
+
+        event(new Registered($user));
+
+        Auth::login($user, true);
+
+        return redirect()->intended('/');
+    }
+};
 
 ?>
 

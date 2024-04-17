@@ -2,27 +2,33 @@
 
 use Illuminate\Support\Facades\Password;
 use function Laravel\Folio\name;
-use function Livewire\Volt\{state, rules};
+use Livewire\Volt\Component;
+use Livewire\Attributes\Validate;
 
-state(['email' => null, 'emailSentMessage' => false]);
-rules(['email' => 'required|email']);
 name('auth.password.request');
 
+new class extends Component
+{
+    #[Validate('required|email')]
+    public $email = null;
 
+    public $emailSentMessage = false;
 
-$sendResetPasswordLink = function(){
-    $this->validate();
+    public function sendResetPasswordLink()
+    {
+        $this->validate();
 
-    $response = Password::broker()->sendResetLink(['email' => $this->email]);
+        $response = Password::broker()->sendResetLink(['email' => $this->email]);
 
-    if ($response == Password::RESET_LINK_SENT) {
-        $this->emailSentMessage = trans($response);
+        if ($response == Password::RESET_LINK_SENT) {
+            $this->emailSentMessage = trans($response);
 
-        return;
+            return;
+        }
+
+        $this->addError('email', trans($response));
     }
-
-    $this->addError('email', trans($response));
-}
+};
 
 ?>
 

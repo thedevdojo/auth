@@ -19,6 +19,12 @@ new class extends Component
 
     public $remember = false;
 
+    public $authData = [];
+
+    public function mount(){
+        $this->authData = config('devdojo.auth.pages.login');
+    }
+
     public function authenticate()
     {
         $this->validate();
@@ -38,35 +44,33 @@ new class extends Component
 ?>
 
 <x-auth::layouts.app>
-
-    <div class="flex flex-col justify-center items-stretch py-10 w-screen min-h-screen sm:items-center">
-
-        <x-auth::devdojoauth.heading text="Sign in" />
-
-        <x-auth::devdojoauth.container>
+    @volt('auth.login')
+    <div class="w-full">
+        <x-auth::elements.heading :text="$authData['headline'] ?? ''" />
+        
+        <x-auth::elements.container>
             
-                @volt('auth.login')
+                
                     <form wire:submit="authenticate" class="space-y-6">
                         
-                        <x-auth::devdojoauth.input label="Email address" type="email" id="email" name="email" wire:model="email" />
-                        <x-auth::devdojoauth.input label="Password" type="password" id="password" name="password" wire:model="password" />
+                        <x-auth::elements.input label="Email address" type="email" id="email" name="email" wire:model="email" />
+                        <x-auth::elements.input label="Password" type="password" id="password" name="password" wire:model="password" />
 
                         <div class="flex justify-between items-center mt-6 text-sm leading-5">
-                            <x-auth::devdojoauth.checkbox label="Remember me" id="remember" name="remember" wire:model="remember" />
-                            <x-auth::devdojoauth.text-link href="{{ route('auth.password.request') }}">Forgot your password?</x-auth::devdojoauth.text-link>
+                            <x-auth::elements.checkbox label="Remember me" id="remember" name="remember" wire:model="remember" />
+                            <x-auth::elements.text-link href="{{ route('auth.password.request') }}">Forgot your password?</x-auth::elements.text-link>
                         </div>
 
-                        <x-auth::devdojoauth.button type="primary" rounded="md" submit="true">Sign in</x-auth::devdojoauth.button>
+                        <x-auth::elements.button type="primary" rounded="md" submit="true">Sign in</x-auth::elements.button>
                     </form>
-                @endvolt
+                
                 
                 <div class="mt-3 space-x-0.5 text-sm leading-5 text-center text-gray-400 translate-y-3 dark:text-gray-300">
                     <span>Don't have an account?</span>
-                    <x-auth::devdojoauth.text-link href="{{ route('auth.register') }}">Sign up</x-auth::devdojoauth.text-link>
+                    <x-auth::elements.text-link href="{{ route('auth.register') }}">Sign up</x-auth::elements.text-link>
                 </div>
 
-        </x-auth::devdojoauth.container>
-        
+        </x-auth::elements.container>
     </div>
-
+    @endvolt
 </x-auth::layouts.app>

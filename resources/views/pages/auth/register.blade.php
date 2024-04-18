@@ -47,27 +47,23 @@ new class extends Component
 
 <x-auth::layouts.app>
 
-    <div class="flex flex-col justify-center items-stretch py-10 w-screen min-h-screen sm:items-center">
+    <x-auth::elements.heading text="Sign up" />
 
-        <x-auth::devdojoauth.heading text="Sign up" />
+    <x-auth::elements.container>
+            @volt('auth.register')
+                <form wire:submit="register" class="space-y-6">
+                    <x-auth::elements.input label="Name" type="text" id="name" name="name" wire:model="name" />
+                    <x-auth::elements.input label="Email address" type="email" id="email" name="email" wire:model="email" />
+                    <x-auth::elements.input label="Password" type="password" id="password" name="password" wire:model="password" />
+                    <x-auth::elements.input label="Confirm Password" type="password" id="password_confirmation" name="password_confirmation" wire:model="passwordConfirmation" />
+                    <x-auth::elements.button type="primary" rounded="md" submit="true">Register</x-auth::elements.button>
+                </form>
+            @endvolt
 
-        <x-auth::devdojoauth.container>
-                @volt('auth.register')
-                    <form wire:submit="register" class="space-y-6">
-                        <x-auth::devdojoauth.input label="Name" type="text" id="name" name="name" wire:model="name" />
-                        <x-auth::devdojoauth.input label="Email address" type="email" id="email" name="email" wire:model="email" />
-                        <x-auth::devdojoauth.input label="Password" type="password" id="password" name="password" wire:model="password" />
-                        <x-auth::devdojoauth.input label="Confirm Password" type="password" id="password_confirmation" name="password_confirmation" wire:model="passwordConfirmation" />
-                        <x-auth::devdojoauth.button type="primary" rounded="md" submit="true">Register</x-auth::devdojoauth.button>
-                    </form>
-                @endvolt
-
-                <div class="mt-3 space-x-0.5 text-sm leading-5 text-center text-gray-400 translate-y-3 dark:text-gray-300">
-                    <span>Already have an account?</span>
-                    <x-auth::devdojoauth.text-link href="{{ route('auth.login') }}">Sign in</x-auth::devdojoauth.text-link>
-                </div>
-        </x-auth::devdojoauth.container>
-        
-    </div>
+            <div class="mt-3 space-x-0.5 text-sm leading-5 text-center text-gray-400 translate-y-3 dark:text-gray-300">
+                <span>Already have an account?</span>
+                <x-auth::elements.text-link href="{{ route('auth.login') }}">Sign in</x-auth::elements.text-link>
+            </div>
+    </x-auth::elements.container>
 
 </x-auth::layouts.app>

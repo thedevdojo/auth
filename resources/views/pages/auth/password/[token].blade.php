@@ -67,19 +67,18 @@ new class extends Component
 ?>
 
 <x-auth::layouts.app>
-    <div class="flex flex-col justify-center items-stretch py-10 w-screen min-h-screen sm:items-center">
 
-        <x-auth::devdojoauth.heading text="Reset password" />
-        
-        <x-auth::devdojoauth.container>
-            @volt('auth.password.token')
-                <form wire:submit="resetPassword" class="space-y-6">
-                    <x-auth::devdojoauth.input label="Email address" type="email" id="email" name="email" wire:model="email" />
-                    <x-auth::devdojoauth.input label="Password" type="password" id="password" name="password" wire:model="password" />
-                    <x-auth::devdojoauth.input label="Confirm Password" type="password" id="password_confirmation" name="password_confirmation" wire:model="passwordConfirmation" />
-                    <x-auth::devdojoauth.button type="primary" rounded="md" submit="true">Reset password</x-auth::devdojoauth.button>
-                </form>
-            @endvolt
-        </x-auth::devdojoauth.container>
-    </div>
+    <x-auth::elements.heading text="Reset password" />
+    
+    <x-auth::elements.container>
+        @volt('auth.password.token')
+            <form wire:submit="resetPassword" class="space-y-6">
+                <x-auth::elements.input label="Email address" type="email" id="email" name="email" wire:model="email" />
+                <x-auth::elements.input label="Password" type="password" id="password" name="password" wire:model="password" />
+                <x-auth::elements.input label="Confirm Password" type="password" id="password_confirmation" name="password_confirmation" wire:model="passwordConfirmation" />
+                <x-auth::elements.button type="primary" rounded="md" submit="true">Reset password</x-auth::elements.button>
+            </form>
+        @endvolt
+    </x-auth::elements.container>
+    
 </x-auth::layouts.app>

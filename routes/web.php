@@ -1,5 +1,6 @@
 <?php
 
+use Devdojo\Auth\Http\Controllers\VerifyEmailController;
 use Devdojo\Auth\Http\Controllers\LogoutController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,4 +13,7 @@ Route::redirect('register', 'auth/register')->name('register');
 Route::middleware(['auth', 'web'])->group(function () {
     Route::post('logout', LogoutController::class)
         ->name('logout');
+    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
 });

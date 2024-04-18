@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Auth;
 use function Laravel\Folio\{middleware, name};
 use Livewire\Volt\Component;
 
-middleware(['auth', 'throttle:6,1']);
-name('auth.verification.notice');
+//middleware(['auth', 'throttle:6,1']);
+name('verification.notice');
 
 new class extends Component
 {
@@ -30,49 +30,37 @@ new class extends Component
 
 <x-auth::layouts.app>
 
-    <div class="flex flex-col justify-center items-stretch py-10 w-screen min-h-screen sm:items-center">
+    <x-auth::elements.heading text="Verify your email address" />
 
-        <div class="sm:mx-auto sm:w-full sm:max-w-md">
-            <x-auth::devdojoauth.link href="/">
-                <x-auth::devdojoauth.logo class="mx-auto w-auto h-10 text-gray-700 fill-current dark:text-gray-100" />
-            </x-auth::devdojoauth.link>
+    <x-auth::elements.container>
 
-            <h2 class="mt-6 text-2xl font-extrabold leading-9 text-center text-gray-700 dark:text-gray-200">
-                Verify your email address
-            </h2>
+        @volt('auth.verify')
+            @if (session('resent'))
+                <div class="flex items-center px-4 py-3 mb-6 text-sm text-white bg-green-500 rounded shadow" role="alert">
+                    <svg class="mr-3 w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
 
-            <div class="mt-2 space-x-0.5 text-sm leading-5 text-center text-gray-600 dark:text-gray-400">
-                <span>Or</span>
-                <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-gray-500 underline cursor-pointer dark:text-gray-400 dark:hover:text-gray-300 hover:text-gray-800">
-                    sign out
-                </button>
-                <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            </div>
-        </div>
-
-        <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-
-            @volt('auth.verify')
-                <div class="px-10 py-0 sm:py-8 sm:shadow-sm sm:bg-white dark:sm:bg-gray-950/50 dark:border-gray-200/10 sm:border sm:rounded-lg border-gray-200/60">
-                    @if (session('resent'))
-                        <div class="flex items-center px-4 py-3 mb-6 text-sm text-white bg-green-500 rounded shadow" role="alert">
-                            <svg class="mr-3 w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                            </svg>
-
-                            <p>A fresh verification link has been sent to your email address.</p>
-                        </div>
-                    @endif
-
-                    <div class="text-sm leading-6 text-gray-700 dark:text-gray-400">
-                        <p>Before proceeding, please check your email for a verification link. If you did not receive the email, <a wire:click="resend" class="text-gray-700 underline transition duration-150 ease-in-out cursor-pointer dark:text-gray-300 hover:text-gray-600 focus:outline-none focus:underline">click here to request another</a>.</p>
-                    </div>
+                    <p>A fresh verification link has been sent to your email address.</p>
                 </div>
-            @endvolt
-            
+            @endif
+
+            <div class="text-sm leading-6 text-gray-700 dark:text-gray-400">
+                <p>Before proceeding, please check your email for a verification link. If you did not receive the email, <a wire:click="resend" class="text-gray-700 underline transition duration-150 ease-in-out cursor-pointer dark:text-gray-300 hover:text-gray-600 focus:outline-none focus:underline">click here to request another</a>.</p>
+            </div>
+        @endvolt
+
+
+        <div class="mt-2 space-x-0.5 text-sm leading-5 text-center text-gray-600 translate-y-4 dark:text-gray-400">
+            <span>or</span>
+            <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-gray-500 underline cursor-pointer dark:text-gray-400 dark:hover:text-gray-300 hover:text-gray-800">
+                click here to logout
+            </button>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
         </div>
-    </div>
+        
+    </x-auth::elements.container>
 
 </x-auth::layouts.app>

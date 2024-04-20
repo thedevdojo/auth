@@ -39,7 +39,10 @@ new class extends Component
                 <div class="flex justify-center items-center py-2.5 w-1/2 h-screen">
                     <div class="flex flex-col justify-center items-center w-full max-w-md h-full">
 
-                    <div @click="sidebar=!sidebar" class="fixed top-0 left-0 px-3 py-2 mt-3 ml-3 text-xs font-medium bg-white rounded-lg border cursor-pointer hover:bg-zinc-200 border-zinc-200">Menu</div>
+                    <div @click="sidebar=!sidebar" class="flex fixed top-0 left-0 items-center px-3 py-2 mt-3 ml-3 text-xs font-medium bg-white rounded-lg border cursor-pointer hover:bg-zinc-200 border-zinc-200">
+                        <x-phosphor-arrow-left class="mr-1 w-3 h-3" />
+                        <span>Menu</span>
+                    </div>
 
                         <div class="px-5 w-full">
                             <h2 class="mb-2 text-lg font-semibold">Let's configure your login page</h2>

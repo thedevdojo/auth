@@ -23,8 +23,9 @@
                     <x-auth::elements.logo class="w-auto h-7"></x-auth::elements.logo>
                     <h1 class="text-base font-bold leading-none">Setup</h1>
                 </div>
-                <button @click="sidebar=false" class="px-2.5 py-2.5 bg-white rounded-lg border hover:bg-zinc-200 border-zinc-200">
-                    <x-phosphor-x-bold class="w-3 h-3" />
+                <button @click="sidebar=false" :class="{ 'translate-x-1' : fullscreen }"  class="flex z-20 items-center px-3 py-2 text-xs font-medium bg-white rounded-lg border duration-300 ease-out cursor-pointer hover:bg-zinc-200 border-zinc-200">
+                    <x-phosphor-x-bold class="mr-1 w-3 h-3" />
+                    <span>Close</span>
                 </button>
             </div>
             <div class="px-5 py-2">

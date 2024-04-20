@@ -4,7 +4,7 @@
             <div class="text-xs font-semibold leading-6 text-gray-400">Configure</div>
             <ul role="list" class="-mx-2 mt-2 space-y-1">
                 <x-auth::setup.sidebar-link-item
-                    href="/"
+                    href="/auth/setup/login"
                     icon="key"
                     text="Login"
                 ></x-auth::setup.sidebar-link-item>

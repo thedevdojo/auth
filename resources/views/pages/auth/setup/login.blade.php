@@ -4,7 +4,7 @@ use function Laravel\Folio\name;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Validate;
 
-name('auth.setup');
+name('auth.setup.login');
 
 new class extends Component
 {
@@ -16,15 +16,6 @@ new class extends Component
     public function mount(){
         $this->authData = config('devdojo.auth.pages.login');
         $this->heading = $this->authData['heading'];
-    }
-
-    public function confirm()
-    {
-        $this->validate();
-
-        session()->put('auth.password_confirmed_at', time());
-
-        return redirect()->intended('/');
     }
 
 };

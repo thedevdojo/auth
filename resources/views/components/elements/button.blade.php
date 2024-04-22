@@ -10,7 +10,7 @@
 @php
     $sizeClasses = match ($size) {
         'sm' => 'px-2.5 py-1.5 text-xs font-medium rounded-' . $rounded,
-        'md' => 'px-4 py-2 text-sm font-medium rounded-' . $rounded,
+        'md' => 'px-4 py-2.5 text-sm font-medium rounded-' . $rounded,
         'lg' => 'px-5 py-3  text-sm font-medium rounded-' . $rounded,
         'xl' => 'px-6 py-3.5 text-base font-medium rounded-' . $rounded,
         '2xl' => 'px-7 py-4 text-base font-medium rounded-' . $rounded

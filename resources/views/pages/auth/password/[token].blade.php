@@ -67,18 +67,16 @@ new class extends Component
 ?>
 
 <x-auth::layouts.app>
-
-    <x-auth::elements.heading text="Reset password" />
-    
-    <x-auth::elements.container>
-        @volt('auth.password.token')
-            <form wire:submit="resetPassword" class="space-y-6">
+    @volt('auth.password.token')
+        <x-auth::elements.container>
+            <x-auth::elements.heading text="Reset password" />
+            
+            <form wire:submit="resetPassword" class="mt-5 space-y-3">
                 <x-auth::elements.input label="Email address" type="email" id="email" name="email" wire:model="email" />
                 <x-auth::elements.input label="Password" type="password" id="password" name="password" wire:model="password" />
                 <x-auth::elements.input label="Confirm Password" type="password" id="password_confirmation" name="password_confirmation" wire:model="passwordConfirmation" />
                 <x-auth::elements.button type="primary" rounded="md" submit="true">Reset password</x-auth::elements.button>
             </form>
-        @endvolt
-    </x-auth::elements.container>
-    
+        </x-auth::elements.container>
+    @endvolt
 </x-auth::layouts.app>

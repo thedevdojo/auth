@@ -17,8 +17,6 @@ new class extends Component
     #[Validate('required')]
     public $password = '';
 
-    public $remember = false;
-
     public $authData = [];
 
     public function mount(){
@@ -29,13 +27,13 @@ new class extends Component
     {
         $this->validate();
 
-        if (!Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+        if (!Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
             $this->addError('email', trans('auth.failed'));
 
             return;
         }
 
-        event(new Login(auth()->guard('web'), User::where('email', $this->email)->first(), $this->remember));
+        event(new Login(auth()->guard('web'), User::where('email', $this->email)->first(), true));
 
         return redirect()->intended('/');
     }

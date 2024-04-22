@@ -4,34 +4,40 @@
             <div class="text-xs font-semibold leading-6 text-gray-400">Configure</div>
             <ul role="list" class="-mx-2 mt-2 space-y-1">
                 <x-auth::setup.sidebar-link-item
-                    href="/auth/setup/login"
+                    pageLink="login"
                     icon="key"
                     text="Login"
+                    :$page
                 ></x-auth::setup.sidebar-link-item>
                 <x-auth::setup.sidebar-link-item
-                    href="/"
+                    pageLink="register"
                     icon="user-circle-plus"
                     text="Register"
+                    :$page
                 ></x-auth::setup.sidebar-link-item>
                 <x-auth::setup.sidebar-link-item
-                    href="/"
+                    pageLink="verify"
                     icon="shield-check"
                     text="Verify"
+                    :$page
                 ></x-auth::setup.sidebar-link-item>
                 <x-auth::setup.sidebar-link-item
-                    href="/"
+                    pageLink="password-request"
                     icon="cursor-text"
                     text="Password Reset Request"
+                    :$page
                 ></x-auth::setup.sidebar-link-item>
                 <x-auth::setup.sidebar-link-item
-                    href="/"
+                    pageLink="password-reset"
                     icon="password"
                     text="Password Reset"
+                    :$page
                 ></x-auth::setup.sidebar-link-item>
                 <x-auth::setup.sidebar-link-item
-                    href="/"
+                    pageLink="password-confirmation"
                     icon="lock-key"
                     text="Password Confirmation"
+                    :$page
                 ></x-auth::setup.sidebar-link-item>
             </ul>
         </li>
@@ -39,14 +45,16 @@
             <div class="text-xs font-semibold leading-6 text-gray-400">Customize</div>
             <ul role="list" class="-mx-2 mt-2 space-y-1">
                 <x-auth::setup.sidebar-link-item
-                    href="/"
+                    pageLink="branding"
                     icon="swatches"
                     text="Branding"
+                    :$page
                 ></x-auth::setup.sidebar-link-item>
                 <x-auth::setup.sidebar-link-item
-                    href="/"
+                    pageLink="appearance"
                     icon="paint-bucket"
                     text="Appearance"
+                    :$page
                 ></x-auth::setup.sidebar-link-item>
             </ul>
         </li>

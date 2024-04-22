@@ -34,12 +34,14 @@ new class extends Component
 
 <x-auth::layouts.app>
 
-    <x-auth::elements.heading text="Reset password" />
 
     @volt('auth.password.reset')
         <x-auth::elements.container>
+
+            <x-auth::elements.heading text="Reset password" />
+            
             @if ($emailSentMessage)
-                <div class="p-4 bg-green-50 rounded-md dark:bg-green-600">
+                <div class="p-4 mt-5 bg-green-50 rounded-md dark:bg-green-600">
                     <div class="flex">
                         <div class="flex-shrink-0">
                             <svg class="w-5 h-5 text-green-400 dark:text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -55,7 +57,7 @@ new class extends Component
                     </div>
                 </div>
             @else
-                <form wire:submit="sendResetPasswordLink" class="space-y-6">
+                <form wire:submit="sendResetPasswordLink" class="mt-5 space-y-3">
                     <x-auth::elements.input label="Email address" type="email" id="email" name="email" wire:model="email" />
                     <x-auth::elements.button type="primary" rounded="md" submit="true">Send password reset link</x-auth::elements.button>
                 </form>

@@ -69,7 +69,7 @@ new class extends Component
                             <div class="absolute top-0 left-0 z-10 w-10 h-full bg-gradient-to-r from-white to-transparent opacity-80"></div>
                             
                             <div class="flex z-20 justify-center items-center w-full h-full">
-                                @include('auth::includes.' . $page)
+                                Login Page Here
                             </div>
                         </div>
                     </div>

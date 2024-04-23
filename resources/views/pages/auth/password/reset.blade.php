@@ -57,8 +57,8 @@ new class extends Component
                     </div>
                 </div>
             @else
-                <form wire:submit="sendResetPasswordLink" class="mt-5 space-y-3">
-                    <x-auth::elements.input label="Email address" type="email" id="email" name="email" wire:model="email" />
+                <form wire:submit="sendResetPasswordLink" class="mt-5 space-y-5">
+                    <x-auth::elements.input label="Email address" type="email" id="email" name="email" wire:model="email" autofocus="true" />
                     <x-auth::elements.button type="primary" rounded="md" submit="true">Send password reset link</x-auth::elements.button>
                 </form>
             @endif

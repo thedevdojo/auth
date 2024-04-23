@@ -75,7 +75,8 @@ class AuthServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/auth.php', 'devdojo.auth.auth');
+        $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/settings.php', 'devdojo.auth.settings');
+        $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/branding.php', 'devdojo.auth.branding');
 
         // Register the main class to use with the facade
         $this->app->singleton('devdojoauth', function () {

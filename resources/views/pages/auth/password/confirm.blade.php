@@ -28,7 +28,7 @@ new class extends Component
     @volt('auth.password.confirm')
         <x-auth::elements.container>
             <x-auth::elements.heading text="Confirm password" description="Please confirm your password before continuing" />        
-            <form wire:submit="confirm" class="mt-5 space-y-3">
+            <form wire:submit="confirm" class="mt-5 space-y-5">
                 <x-auth::elements.input label="Password" type="password" id="password" name="password" wire:model="password" />
                 <x-auth::elements.button type="primary" rounded="md" submit="true">Confirm password</x-auth::elements.button>
             </form>

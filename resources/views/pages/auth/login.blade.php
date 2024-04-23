@@ -32,10 +32,12 @@ new class extends Component
     public function authenticate()
     {
         if(!$this->showPasswordField){
+            $this->validateOnly('email');
             $this->showPasswordField = true;
             $this->js("setTimeout(function(){ window.dispatchEvent(new CustomEvent('focus-password', {})); }, 10);");
             return;
         }
+        
         $this->validate();
 
         if (!Auth::attempt(['email' => $this->email, 'password' => $this->password])) {

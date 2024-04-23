@@ -1,0 +1,1 @@
+<svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none"><path fill="#F35325" d="M2.087 2.087h20.87v20.87H2.086V2.086Z"/><path fill="#81BC06" d="M25.044 2.087h20.869v20.87h-20.87V2.086Z"/><path fill="#05A6F0" d="M2.087 25.044h20.87v20.869H2.086v-20.87Z"/><path fill="#FFBA08" d="M25.044 25.044h20.869v20.869h-20.87v-20.87Z"/></svg>

@@ -22,6 +22,12 @@ new class extends Component
     #[Validate('required|min:8|same:passwordConfirmation')]
     public $password = '';
 
+    public $customizations = [];
+
+    public function mount(){
+        $this->customizations = config('devdojo.auth.customizations');
+    }
+
     public function register()
     {
         $this->validate();
@@ -47,7 +53,11 @@ new class extends Component
     @volt('auth.register')
         <x-auth::elements.container>
 
-            <x-auth::elements.heading text="Sign up" />
+            <x-auth::elements.heading 
+                :text="($customizations['register']['text']['headline'] ?? 'No Heading')" 
+                :align="($customizations['heading']['align'] ?? 'center')" 
+                :description="($customizations['register']['text']['subheadline'] ?? 'No Description')"
+                :show_subheadline="($customizations['register']['show_subheadline'] ?? false)" />
                 
             <form wire:submit="register" class="mt-5 space-y-5">
                 {{-- <x-auth::elements.input label="Name" type="text" wire:model="name" /> --}}

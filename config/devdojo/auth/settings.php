@@ -1,7 +1,7 @@
 <?php
 
 /*
- * You can place your custom package configuration in here.
+ * These are some default authentication settings
  */
 return [
     'dev' => env('DEVDOJO_AUTH_DEV', false),

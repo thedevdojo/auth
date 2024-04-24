@@ -14,7 +14,7 @@
         @endif
         
     </head>
-<body class="bg-zinc-950">
+<body class="overflow-x-hidden bg-zinc-950">
     <div class="flex flex-col justify-center items-stretch py-10 w-screen min-h-screen sm:items-center">
         {{ $slot }} 
     </div>

@@ -20,9 +20,11 @@ new class extends Component
     public $showPasswordField = false;
 
     public $authData = [];
+    public $customizations = [];
 
     public function mount(){
         $this->authData = config('devdojo.auth.pages.login');
+        $this->customizations = config('devdojo.auth.customizations');
     }
 
     public function editIdentity(){
@@ -57,8 +59,12 @@ new class extends Component
 <x-auth::layouts.app>
     @volt('auth.login') 
         <x-auth::elements.container>
-            
-                <x-auth::elements.heading :text="$authData['heading'] ?? ''" />
+        
+                <x-auth::elements.heading 
+                :text="($customizations['login']['text']['headline'] ?? 'No Heading')" 
+                :align="($customizations['heading']['align'] ?? 'center')" 
+                :description="($customizations['login']['text']['subheadline'] ?? 'No Description')"
+                :show_subheadline="($customizations['login']['show_subheadline'] ?? false)" />
                 
                 <form wire:submit="authenticate" class="mt-5 space-y-5">
 

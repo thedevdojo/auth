@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Devdojo\Auth\Models\SocialProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
@@ -26,6 +27,7 @@ new class extends Component
 
     public function mount(){
         $this->customizations = config('devdojo.auth.customizations');
+        $this->social_providers = SocialProvider::active()->get();
     }
 
     public function register()
@@ -72,15 +74,21 @@ new class extends Component
                 <x-auth::elements.text-link href="{{ route('auth.login') }}">Sign in</x-auth::elements.text-link>
             </div>
 
-            <x-auth::elements.separator class="my-7">or</x-auto::elements.separator>
-            
-            <div class="relative space-y-2 w-full">
-                <x-auth::elements.social-button network="google" name="Google" />
-                <x-auth::elements.social-button network="linkedin" name="LinkedIn" />
-                <x-auth::elements.social-button network="microsoft" name="Microsoft Account" />
-                <x-auth::elements.social-button network="github" name="GitHub" />
-                <x-auth::elements.social-button network="apple" name="Apple" />
-            </div>
+            @if(count($this->social_providers))
+                <x-auth::elements.separator class="my-7">or</x-auto::elements.separator>
+                
+                <div class="relative space-y-2 w-full">
+                    @foreach($this->social_providers as $provider)
+                        <x-auth::elements.social-button :$provider />    
+                    @endforeach
+                    {{-- <x-auth::elements.social-button network="google" name="Google" />
+                    <x-auth::elements.social-button network="linkedin" name="LinkedIn" />
+                    <x-auth::elements.social-button network="microsoft" name="Microsoft Account" />
+                    <x-auth::elements.social-button network="github" name="GitHub" />
+                    <x-auth::elements.social-button network="apple" name="Apple" /> --}}
+                </div>
+            @endif
+
 
         </x-auth::elements.container>
     @endvolt

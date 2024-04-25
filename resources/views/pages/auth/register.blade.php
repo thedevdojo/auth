@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Validate;
+use Devdojo\Auth\Helper;
 use function Laravel\Folio\{middleware, name};
 
 middleware(['guest']);
@@ -27,7 +28,7 @@ new class extends Component
 
     public function mount(){
         $this->customizations = config('devdojo.auth.customizations');
-        $this->social_providers = SocialProvider::active()->get();
+        $this->social_providers = Helper::activeProviders();
     }
 
     public function register()

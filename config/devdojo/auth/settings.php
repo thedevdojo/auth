@@ -5,5 +5,6 @@
  */
 return [
     'dev' => env('DEVDOJO_AUTH_DEV', false),
-    'branding' => env('DEVDOJO_AUTH_BRANDING', true)
+    'branding' => env('DEVDOJO_AUTH_BRANDING', true),
+    'redirect_after_auth' => '/dashboard'
 ];

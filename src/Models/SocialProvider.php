@@ -2,42 +2,33 @@
 
 namespace Devdojo\Auth\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Sushi\Sushi;
 
 class SocialProvider extends Model
 {
-    protected $table = 'social_providers';
+    use Sushi;
 
-    // Indicates if the model should be timestamped.
-    public $timestamps = true;
+    protected $rows = [];
 
-    // The attributes that are mass assignable.
-    protected $fillable = [
-        'name',
-        'slug',
-        'scopes',
-        'parameters',
-        'override_scopes',
-        'stateless'
-    ];
-
-    // The attributes that should be cast to native types.
-    protected $casts = [
-        'scopes' => 'array',
-        'parameters' => 'array',
-        'override_scopes' => 'boolean',
-        'stateless' => 'boolean'
-    ];
-
-    // Define a relationship with the SocialProviderUser model
-    public function users()
+    public function getRows()
     {
-        return $this->hasMany(SocialProviderUser::class, 'social_provider_id');
+        // Fetching the social providers from the configuration file
+        $this->rows = config('devdojo.auth.providers', []);
+        return $this->rows;
     }
 
-    public function scopeActive(Builder $query): void
+    public function getSchema()
     {
-        $query->where('active', 1);
+        return [
+            'id' => $this->autoIncrement(),
+            'name' => $this->string(),
+            'slug' => $this->string(),
+            'scopes' => $this->string()->nullable(),
+            'parameters' => $this->string()->nullable(),
+            'stateless' => $this->boolean(),
+            'active' => $this->boolean(),
+            'svg' => $this->text(),
+        ];
     }
 }

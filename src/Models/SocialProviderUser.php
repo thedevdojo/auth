@@ -4,6 +4,7 @@ namespace Devdojo\Auth\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\User;
 
 class SocialProviderUser extends Model
 {
@@ -15,17 +16,22 @@ class SocialProviderUser extends Model
     // The attributes that are mass assignable.
     protected $fillable = [
         'user_id',
-        'social_provider_id',
+        'provider_slug',
+        'provider_user_id',
+        'nickname',
+        'name',
+        'email',
+        'avatar',
+        'provider_data',
         'token',
         'refresh_token',
-        'token_expires_at',
-        'provider_specific_data'
+        'token_expires_at'
     ];
 
     // The attributes that should be cast to native types.
     protected $casts = [
         'token_expires_at' => 'datetime',
-        'provider_specific_data' => 'array'
+        'provider_data' => 'array'
     ];
 
     // Define a relationship to the User model
@@ -34,9 +40,9 @@ class SocialProviderUser extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // Define a relationship to the SocialProvider model
+    // Define a relationship to the SocialProvider model via Sushi
     public function socialProvider()
     {
-        return $this->belongsTo(SocialProvider::class, 'social_provider_id');
+        return $this->belongsTo(SocialProvider::class, 'provider_slug', 'slug');
     }
 }

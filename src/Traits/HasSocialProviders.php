@@ -3,6 +3,7 @@
 namespace Devdojo\Auth\Traits;
 
 use Devdojo\Auth\Models\SocialProviderUser;
+use Devdojo\Auth\Models\SocialProvider;
 
 trait HasSocialProviders
 {
@@ -27,39 +28,40 @@ trait HasSocialProviders
     /**
      * Get social provider user data for a specific provider.
      *
-     * @param string $providerName The name of the social provider.
+     * @param string $providerSlug The slug of the social provider.
      * @return SocialProviderUser|null
      */
-    public function getSocialProviderUser($providerName)
+    public function getSocialProviderUser($providerSlug)
     {
-        return $this->socialProviders->firstWhere('socialProvider.name', $providerName);
+        return $this->socialProviders->firstWhere('provider_slug', $providerSlug);
     }
 
     /**
      * Check if the user is linked to a specific social provider.
      *
-     * @param string $providerName The name of the social provider.
+     * @param string $providerSlug The slug of the social provider.
      * @return bool
      */
-    public function hasSocialProvider($providerName)
+    public function hasSocialProvider($providerSlug)
     {
-        return $this->getSocialProviderUser($providerName) !== null;
+        return $this->getSocialProviderUser($providerSlug) !== null;
     }
 
     /**
      * Add or update social provider user information for a given provider.
      *
-     * @param string $providerName The name of the social provider.
+     * @param string $providerSlug The slug of the social provider.
      * @param array $data Data to store/update for the provider.
      * @return SocialProviderUser
      */
-    public function addOrUpdateSocialProviderUser($providerName, array $data)
+    public function addOrUpdateSocialProviderUser($providerSlug, array $data)
     {
-        $providerUser = $this->getSocialProviderUser($providerName);
+        $providerUser = $this->getSocialProviderUser($providerSlug);
 
         if ($providerUser) {
             $providerUser->update($data);
         } else {
+            $data['provider_slug'] = $providerSlug;
             $providerUser = new SocialProviderUser($data);
             $this->socialProviders()->save($providerUser);
         }

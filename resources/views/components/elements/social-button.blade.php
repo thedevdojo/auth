@@ -3,11 +3,7 @@
         @if(isset($provider->svg) && !empty(trim($provider->svg)))
             {!! $provider->svg !!}
         @else
-            @if(view()->exists("auth::includes.social-icons." . $provider->slug))
-                @include("auth::includes.social-icons." . $provider->slug)
-            @else
-                <span class="block w-full h-full rounded-full bg-zinc-200"></span>
-            @endif
+            <span class="block w-full h-full rounded-full bg-zinc-200"></span>
         @endif
     </span>
     <span>Continue with {{ $provider->name }}</span>

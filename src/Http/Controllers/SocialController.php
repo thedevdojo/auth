@@ -86,14 +86,8 @@ class SocialController extends Controller
     private function dynamicallySetSocialProviderCredentials($provider){
         $socialProvider = SocialProvider::where('slug', $provider)->first();
 
-        if(app()->isLocal()){
-            Config::set('services.' . $provider . '.client_id', $socialProvider->client_id_dev);
-            Config::set('services.' . $provider . '.client_secret', $socialProvider->client_secret_dev);
-        } else {
-            Config::set('services.' . $provider . '.client_id', $socialProvider->client_id_prod);
-            Config::set('services.' . $provider . '.client_secret', $socialProvider->client_secret_prod);
-        }
-
+        Config::set('services.' . $provider . '.client_id', $socialProvider->client_id);
+        Config::set('services.' . $provider . '.client_secret', $socialProvider->client_secret);
         Config::set('services.' . $provider . '.redirect', '/auth/' . $provider . '/callback');
 
     }

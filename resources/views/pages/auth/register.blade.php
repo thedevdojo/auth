@@ -77,16 +77,10 @@ new class extends Component
 
             @if(count($this->social_providers))
                 <x-auth::elements.separator class="my-7">or</x-auto::elements.separator>
-                
                 <div class="relative space-y-2 w-full">
                     @foreach($this->social_providers as $provider)
                         <x-auth::elements.social-button :$provider />    
                     @endforeach
-                    {{-- <x-auth::elements.social-button network="google" name="Google" />
-                    <x-auth::elements.social-button network="linkedin" name="LinkedIn" />
-                    <x-auth::elements.social-button network="microsoft" name="Microsoft Account" />
-                    <x-auth::elements.social-button network="github" name="GitHub" />
-                    <x-auth::elements.social-button network="apple" name="Apple" /> --}}
                 </div>
             @endif
 

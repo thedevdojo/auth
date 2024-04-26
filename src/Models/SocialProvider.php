@@ -11,6 +11,7 @@ class SocialProvider extends Model
 
     protected $rows = [];
 
+    
     public function getRows()
     {
         // Fetching the social providers from the configuration file
@@ -18,17 +19,11 @@ class SocialProvider extends Model
         return $this->rows;
     }
 
-    public function getSchema()
+    protected function sushiShouldCache()
     {
-        return [
-            'id' => $this->autoIncrement(),
-            'name' => $this->string(),
-            'slug' => $this->string(),
-            'scopes' => $this->string()->nullable(),
-            'parameters' => $this->string()->nullable(),
-            'stateless' => $this->boolean(),
-            'active' => $this->boolean(),
-            'svg' => $this->text(),
-        ];
+        if(app()->isLocal()){
+            return false;
+        }
+        return true;
     }
 }

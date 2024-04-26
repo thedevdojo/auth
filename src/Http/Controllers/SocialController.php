@@ -7,19 +7,29 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Config;
+use Devdojo\Auth\Models\SocialProvider;
 use Illuminate\Support\Facades\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Devdojo\Auth\Models\SocialProviderUser;
 
 class SocialController extends Controller
 {
+    public function __construct(){
+        
+    }
+
     public function redirect(Request $request, $driver)
     {
+        $this->dynamicallySetSocialProviderCredentials($driver);
+
         return Socialite::driver($driver)->redirect();
     }
 
     public function callback(Request $request, $driver)
     {
+        $this->dynamicallySetSocialProviderCredentials($driver);
+
         $socialiteUser = Socialite::driver($driver)->user();
 
         DB::transaction(function () use ($socialiteUser, $driver) {
@@ -71,5 +81,20 @@ class SocialController extends Controller
 
         // Redirect to a specific page after successful registration and login
         return redirect()->to(config('devdojo.auth.settings.redirect_after_auth')); // Adjust according to your needs
+    }
+
+    private function dynamicallySetSocialProviderCredentials($provider){
+        $socialProvider = SocialProvider::where('slug', $provider)->first();
+
+        if(app()->isLocal()){
+            Config::set('services.' . $provider . '.client_id', $socialProvider->client_id_dev);
+            Config::set('services.' . $provider . '.client_secret', $socialProvider->client_secret_dev);
+        } else {
+            Config::set('services.' . $provider . '.client_id', $socialProvider->client_id_prod);
+            Config::set('services.' . $provider . '.client_secret', $socialProvider->client_secret_prod);
+        }
+
+        Config::set('services.' . $provider . '.redirect', '/auth/' . $provider . '/callback');
+
     }
 }

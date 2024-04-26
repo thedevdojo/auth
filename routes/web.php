@@ -1,8 +1,10 @@
 <?php
 
+use Devdojo\Auth\Http\Controllers\SocialController;
 use Devdojo\Auth\Http\Controllers\VerifyEmailController;
 use Devdojo\Auth\Http\Controllers\LogoutController;
 use Illuminate\Support\Facades\Route;
+
 
 // Create redirect routes for common authentication routes
 
@@ -16,4 +18,11 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');
+});
+
+
+Route::middleware(['web'])->group(function () {
+    // Add social routes
+    Route::get('auth/{driver}/redirect', [SocialController::class, 'redirect']);
+    Route::get('auth/{driver}/callback', [SocialController::class, 'callback']);
 });

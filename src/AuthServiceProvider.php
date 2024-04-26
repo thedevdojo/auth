@@ -20,7 +20,7 @@ class AuthServiceProvider extends ServiceProvider
          */
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'auth');
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'auth');
-        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
         $this->registerAuthFolioDirectory();
@@ -75,7 +75,9 @@ class AuthServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/auth.php', 'devdojo.auth.auth');
+        $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/settings.php', 'devdojo.auth.settings');
+        $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/customizations.php', 'devdojo.auth.customizations');
+        $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/providers.php', 'devdojo.auth.providers');
 
         // Register the main class to use with the facade
         $this->app->singleton('devdojoauth', function () {

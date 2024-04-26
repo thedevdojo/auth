@@ -1,14 +1,9 @@
-<div :class="{ '-translate-x-80' : !sidebar, 'translate-x-0' : sidebar }" class="fixed left-0 z-50 w-72 h-screen duration-300 ease-out bg-zinc-50" x-cloak>
+<div class="left-0 z-50 w-80 h-screen duration-300 ease-out bg-zinc-50" x-cloak>
     <div class="flex justify-between items-center px-5 py-5 w-full">
         <div class="flex relative items-center space-x-1.5">
-            <x-auth::elements.logo class="w-auto h-7"></x-auth::elements.logo>
+            <x-auth::setup.logo class="w-auto h-7"></x-auth::setup.logo>
             <h1 class="text-base font-bold leading-none">Setup</h1>
         </div>
-        <x-auth::setup.top-button
-            icon="x-bold"
-            @click="sidebar=false"
-            ::class="{ 'translate-x-1' : fullscreen }"
-        >Close</x-auth::setup.top-button>
     </div>
     <div class="px-5 py-2">
         <a href="https://auth.devdojo.com/docs" target="_blank" class="block p-5 text-xs bg-white rounded-xl border duration-300 ease-out hover:shadow-md opacity-[0.98] hover:opacity-100 border-zinc-200">

@@ -52,6 +52,26 @@ You may also want to publish the auth config by running the following:
 php artisan vendor:publish --tag=auth:config
 ```
 
+## Adding the HasSocialProviders Trait.
+
+You can add all the social auth helpers to your user model by including the following Trait:
+
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Devdojo\Auth\Traits\HasSocialProviders; // Import the trait
+
+class User extends Authenticatable
+{
+    use HasSocialProviders; // Use the trait in the User model
+
+    // Existing User model code...
+}
+```
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

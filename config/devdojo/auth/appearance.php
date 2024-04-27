@@ -13,17 +13,9 @@ return [
         'align' => 'center'
     ],
     'login' => [
-        'text' => [
-            'headline' => 'Sign in',
-            'subheadline' => 'Login to your account below',
-        ],
         'show_subheadline' => false
     ],
     'register' => [
-        'text' => [
-            'headline' => 'Sign up',
-            'subheadline' => 'Register for your free account below.',
-        ],
         'show_subheadline' => false,
     ]
 ];

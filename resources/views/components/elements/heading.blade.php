@@ -17,11 +17,11 @@
         'items-start' => $align == 'left',
     ])
 >
-        <x-auth::elements.link href="/" class="block w-auto" style="height:{{ config('devdojo.auth.customizations.logo.height') }}px">
-            @if(config('devdojo.auth.customizations.logo.type') == 'image')
-                <img src="{{ config('devdojo.auth.customizations.logo.src') }}" class="w-auto h-full" />
+        <x-auth::elements.link href="/" class="block w-auto" style="height:{{ config('devdojo.auth.appearance.logo.height') }}px">
+            @if(config('devdojo.auth.appearance.logo.type') == 'image')
+                <img src="{{ config('devdojo.auth.appearance.logo.src') }}" class="w-auto h-full" />
             @else
-                {!! str_replace('<svg', '<svg class="w-auto h-full"', config('devdojo.auth.customizations.logo.src')) !!}
+                {!! str_replace('<svg', '<svg class="w-auto h-full"', config('devdojo.auth.appearance.logo.src')) !!}
             @endif
         </x-auth::elements.link>
     </div>

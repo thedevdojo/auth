@@ -2,6 +2,7 @@
 
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Auth;
+use Devdojo\Auth\Traits\HasConfigs;
 use function Laravel\Folio\{middleware, name};
 use Livewire\Volt\Component;
 
@@ -10,6 +11,12 @@ name('verification.notice');
 
 new class extends Component
 {
+    use HasConfigs;
+    
+    public function mount(){
+        $this->loadConfigs();
+    }
+
     public function resend()
     {
         $user = auth()->user();
@@ -30,37 +37,43 @@ new class extends Component
 
 <x-auth::layouts.app>
 
-    <x-auth::elements.heading text="Verify your email address" />
+    @volt('auth.verify')
+        <x-auth::elements.container>
 
-    <x-auth::elements.container>
+            <x-auth::elements.heading 
+                :text="($language->verify->headline ?? 'No Heading')" 
+                :align="($appearance->verify->align ?? 'center')" 
+                :description="($language->register->subheadline ?? 'No Description')"
+                :show_subheadline="($appearance->register->show_subheadline ?? false)" />
 
-        @volt('auth.verify')
-            @if (session('resent'))
-                <div class="flex items-center px-4 py-3 mb-6 text-sm text-white bg-green-500 rounded shadow" role="alert">
-                    <svg class="mr-3 w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                    </svg>
+            
+                @if (session('resent'))
+                    <div class="flex items-center px-4 py-3 mt-5 mb-6 text-sm text-white bg-green-500 rounded shadow" role="alert">
+                        <svg class="mr-3 w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                        </svg>
 
-                    <p>A fresh verification link has been sent to your email address.</p>
+                        <p>A fresh verification link has been sent to your email address.</p>
+                    </div>
+                @endif
+
+                <div class="mt-5 text-sm leading-6 text-gray-700 dark:text-gray-400">
+                    <p>Before proceeding, please check your email for a verification link. If you did not receive the email, <a wire:click="resend" class="text-gray-700 underline transition duration-150 ease-in-out cursor-pointer dark:text-gray-300 hover:text-gray-600 focus:outline-none focus:underline">click here to request another</a>.</p>
                 </div>
-            @endif
+            
 
-            <div class="text-sm leading-6 text-gray-700 dark:text-gray-400">
-                <p>Before proceeding, please check your email for a verification link. If you did not receive the email, <a wire:click="resend" class="text-gray-700 underline transition duration-150 ease-in-out cursor-pointer dark:text-gray-300 hover:text-gray-600 focus:outline-none focus:underline">click here to request another</a>.</p>
+
+            <div class="mt-2 space-x-0.5 text-sm leading-5 text-center text-gray-600 translate-y-4 dark:text-gray-400">
+                <span>or</span>
+                <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-gray-500 underline cursor-pointer dark:text-gray-400 dark:hover:text-gray-300 hover:text-gray-800">
+                    click here to logout
+                </button>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </div>
-        @endvolt
-
-
-        <div class="mt-2 space-x-0.5 text-sm leading-5 text-center text-gray-600 translate-y-4 dark:text-gray-400">
-            <span>or</span>
-            <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-gray-500 underline cursor-pointer dark:text-gray-400 dark:hover:text-gray-300 hover:text-gray-800">
-                click here to logout
-            </button>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-            </form>
-        </div>
-        
-    </x-auth::elements.container>
+            
+        </x-auth::elements.container>
+    @endvolt
 
 </x-auth::layouts.app>

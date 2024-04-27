@@ -5,12 +5,15 @@ use Illuminate\Auth\Events\Login;
 use function Laravel\Folio\{middleware, name};
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
+use Devdojo\Auth\Traits\HasConfigs;
 
 middleware(['guest']);
 name('auth.login');
 
 new class extends Component
 {
+    use HasConfigs;
+    
     #[Validate('required|email')]
     public $email = '';
 
@@ -19,12 +22,11 @@ new class extends Component
 
     public $showPasswordField = false;
 
-    public $authData = [];
-    public $customizations = [];
+    public $appearance = [];
+    public $language = [];
 
     public function mount(){
-        $this->authData = config('devdojo.auth.pages.login');
-        $this->customizations = config('devdojo.auth.customizations');
+        $this->loadConfigs();
     }
 
     public function editIdentity(){
@@ -61,10 +63,10 @@ new class extends Component
         <x-auth::elements.container>
         
                 <x-auth::elements.heading 
-                :text="($customizations['login']['text']['headline'] ?? 'No Heading')" 
-                :align="($customizations['heading']['align'] ?? 'center')" 
-                :description="($customizations['login']['text']['subheadline'] ?? 'No Description')"
-                :show_subheadline="($customizations['login']['show_subheadline'] ?? false)" />
+                    :text="($language->login->headline ?? 'No Heading')" 
+                    :align="($appearance->heading->align ?? 'center')" 
+                    :description="($language->login->subheadline ?? 'No Description')"
+                    :show_subheadline="($appearance->login->show_subheadline ?? false)" />
                 
                 <form wire:submit="authenticate" class="mt-5 space-y-5">
 
@@ -73,7 +75,7 @@ new class extends Component
                             <button type="button" wire:click="editIdentity" class="font-medium text-blue-500">Edit</button>
                         </x-auth::elements.input-placeholder>
                     @else  
-                        <x-auth::elements.input label="Email Address" type="email" wire:model="email" autofocus="true" id="email" />
+                        <x-auth::elements.input label="Email Address" type="email" wire:model="email" autofocus="true" id="email" required />
                     @endif
                     
                     @if($showPasswordField)

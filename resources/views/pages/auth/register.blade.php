@@ -8,6 +8,7 @@ use Illuminate\Auth\Events\Registered;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Helper;
+use Devdojo\Auth\Traits\HasConfigs;
 use function Laravel\Folio\{middleware, name};
 
 middleware(['guest']);
@@ -15,31 +16,73 @@ name('auth.register');
 
 new class extends Component
 {
-    #[Validate('required')]
-    public $name = '';
+    use HasConfigs;
 
-    #[Validate('required|email|unique:users')]
+    public $name;
     public $email = '';
-
-    #[Validate('required|min:8|same:passwordConfirmation')]
     public $password = '';
 
-    public $customizations = [];
+    public $showNameField = false;
+    public $showEmailField = true;
+    public $showPasswordField = false;
+
+
+    public $social_providers = [];
+
+    public function rules()
+    {   
+        $nameValidationRules = [];
+        if(config('devdojo.auth.settings.registration_include_name_field')){
+            $nameValidationRules = ['name' => 'required'];
+        }
+
+        return [
+            ...$nameValidationRules,
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
+        ];
+    }
 
     public function mount(){
-        $this->customizations = config('devdojo.auth.customizations');
         $this->social_providers = Helper::activeProviders();
+        $this->loadConfigs();
+
+        if($this->settings->registration_include_name_field){
+            $this->showNameField = true;
+        }
+
+        if($this->settings->registration_show_password_same_screen){
+            $this->showPasswordField = true;
+        }
     }
 
     public function register()
     {
+        if(!$this->showPasswordField){
+            if($this->settings->registration_include_name_field){
+                $this->validateOnly('name');
+            }
+            $this->validateOnly('email');
+            
+            $this->showPasswordField = true;
+            $this->showNameField = false;
+            $this->showEmailField = false;
+            $this->js("setTimeout(function(){ window.dispatchEvent(new CustomEvent('focus-password', {})); }, 10);");
+            return;
+        }
+
         $this->validate();
 
-        $user = User::create([
+        $userData = [
             'email' => $this->email,
-            //'name' => $this->name,
             'password' => Hash::make($this->password),
-        ]);
+        ];
+
+        if ($this->settings->registration_include_name_field) {
+            $userData['name'] = $this->name;
+        }
+
+        $user = User::create($userData);
 
         event(new Registered($user));
 
@@ -57,15 +100,27 @@ new class extends Component
         <x-auth::elements.container>
 
             <x-auth::elements.heading 
-                :text="($customizations['register']['text']['headline'] ?? 'No Heading')" 
-                :align="($customizations['heading']['align'] ?? 'center')" 
-                :description="($customizations['register']['text']['subheadline'] ?? 'No Description')"
-                :show_subheadline="($customizations['register']['show_subheadline'] ?? false)" />
+                :text="($language->register->headline ?? 'No Heading')" 
+                :align="($appearance->heading->align ?? 'center')" 
+                :description="($language->register->subheadline ?? 'No Description')"
+                :show_subheadline="($appearance->register->show_subheadline ?? false)" />
                 
             <form wire:submit="register" class="mt-5 space-y-5">
-                {{-- <x-auth::elements.input label="Name" type="text" wire:model="name" /> --}}
-                <x-auth::elements.input label="Email Address" type="email" wire:model="email" autofocus="true" />
-                {{-- <x-auth::elements.input label="Password" type="password" wire:model="password" /> --}}
+                
+                @if($showNameField)
+                    <x-auth::elements.input label="Name" type="text" wire:model="name" autofocus="true" required />
+                @endif
+                
+                @if($showEmailField)
+                    @php
+                        $autofocusEmail = ($showNameField) ? false : true;
+                    @endphp
+                    <x-auth::elements.input label="Email Address" type="email" wire:model="email" :autofocus="$autofocusEmail" required />
+                @endif
+                
+                @if($showPasswordField)
+                    <x-auth::elements.input label="Password" type="password" wire:model="password" id="password" required />
+                @endif
                 
                 <x-auth::elements.button type="primary" rounded="md" submit="true">Continue</x-auth::elements.button>
             </form>

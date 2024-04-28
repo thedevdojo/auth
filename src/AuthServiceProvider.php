@@ -80,6 +80,8 @@ class AuthServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/language.php', 'devdojo.auth.language');
         $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/providers.php', 'devdojo.auth.providers');
 
+        $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/descriptions.php', 'devdojo.auth.descriptions');
+
         // Register the main class to use with the facade
         $this->app->singleton('devdojoauth', function () {
             return new DevDojoAuth;

@@ -35,7 +35,15 @@ new class extends Component
             </div>
                 @foreach((array)$this->settings as $key => $value)
                     <div class="pb-5 mb-5 border-b border-zinc-200">
+                        @php
+                            $description = ($this->descriptions->settings[$key] ?? '');
+                        @endphp
                         @if(is_bool($value))
+                            <x-auth::setup.checkbox name="{{ $key }}" :$key :title="Helper::convertSlugToTitle($key)" :$description :checked="($value ? true : false)" />
+                        @else
+                            <x-auth::setup.input :id="$key" :$description :label="Helper::convertSlugToTitle($key)" type="text" name="{{ $key }}" value="{{ $value }}" />
+                        @endif
+                        {{-- @if(is_bool($value))
                             <div class="flex relative items-start">
                                 <div class="pr-2 translate-y-[3px]">
                                     <x-auth::setup.checkbox name="{{ $key }}" :checked="($value ? true : false)" />
@@ -53,7 +61,7 @@ new class extends Component
                             <div class="max-w-sm">
                                 <x-auth::setup.input type="text" name="{{ $key }}" value="{{ $value }}" />
                             </div>
-                        @endif
+                        @endif --}}
                         
                     </div>
                 @endforeach

@@ -35,7 +35,7 @@ new class extends Component
 
 ?>
 
-<x-auth::layouts.app>
+<x-auth::layouts.app title="{{ config('devdojo.auth.language.verify.page_title') }}">
 
     @volt('auth.verify')
         <x-auth::elements.container>

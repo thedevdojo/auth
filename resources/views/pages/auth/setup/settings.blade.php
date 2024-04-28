@@ -3,12 +3,19 @@
 use function Laravel\Folio\name;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Validate;
+use Devdojo\Auth\Helper;
 
 name('auth.setup.settings');
 
 new class extends Component
 {
+    public $settings;
+    public $descriptions;
 
+    public function mount(){
+        $this->settings = (object)config('devdojo.auth.settings');
+        $this->descriptions = (object)config('devdojo.auth.descriptions');
+    }
 };
 
 ?>
@@ -24,8 +31,32 @@ new class extends Component
                 </a>
                 <h2 class="mb-2 text-2xl font-bold text-left">Settings</h2>
                 <p class="text-sm text-left text-gray-600">Adjust specific authentication features and enable/disable functionality.</p>
+            
             </div>
-            <p>Settings updates here</p>
+                @foreach((array)$this->settings as $key => $value)
+                    <div class="pb-5 mb-5 border-b border-zinc-200">
+                        @if(is_bool($value))
+                            <div class="flex relative items-start">
+                                <div class="pr-2 translate-y-[3px]">
+                                    <x-auth::setup.checkbox name="{{ $key }}" :checked="($value ? true : false)" />
+                                </div>
+                        @endif
+                        <div class="relative">
+                            <label for="{{ $key }}" class="block text-sm font-medium leading-6 text-gray-900">{{ Helper::convertSlugToTitle($key) }}</label>
+                            @if(($this->descriptions->settings[$key]))
+                                <p class="text-sm leading-6 text-gray-400">{{ $this->descriptions->settings[$key] }}</p>
+                            @endif
+                        </div>
+                        @if(is_bool($value))
+                            </div>
+                        @else
+                            <div class="max-w-sm">
+                                <x-auth::setup.input type="text" name="{{ $key }}" value="{{ $value }}" />
+                            </div>
+                        @endif
+                        
+                    </div>
+                @endforeach
         </section>
     @endvolt
 

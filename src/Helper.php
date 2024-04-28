@@ -15,4 +15,9 @@ class Helper
         }
         return $activeProviders;
     }
+
+    public static function convertSlugToTitle($slug){
+        $readable = str_replace('_', ' ', str_replace('-', ' ', $slug)); 
+        return ucwords($readable); 
+    }
 }

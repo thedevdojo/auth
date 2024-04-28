@@ -94,7 +94,7 @@ new class extends Component
 
 ?>
 
-<x-auth::layouts.app>
+<x-auth::layouts.app title="{{ config('devdojo.auth.language.register.page_title') }}">
 
     @volt('auth.register')
         <x-auth::elements.container>

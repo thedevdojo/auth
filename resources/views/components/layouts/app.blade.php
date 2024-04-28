@@ -5,13 +5,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ $title ?? 'Auth' }}</title>
         @if(config('devdojo.auth.settings.dev'))
             @vite(['packages/devdojo/auth/resources/css/auth.css', 'packages/devdojo/auth/resources/css/auth.js'])
         @else
             <script src="/auth/build/assets/scripts.js"></script>
             <link rel="stylesheet" href="/auth/build/assets/styles.css" />
         @endif
+
+        <link href="{{ config('devdojo.auth.appearance.favicon.light') }}" rel="icon" media="(prefers-color-scheme: light)" />
+        <link href="{{ config('devdojo.auth.appearance.favicon.dark') }}" rel="icon" media="(prefers-color-scheme: dark)" />
         
     </head>
 <body class="overflow-x-hidden bg-zinc-950">

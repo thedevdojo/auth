@@ -15,12 +15,12 @@
                 ></x-auth::setup.sidebar-link-item>
                 
                 <x-auth::setup.sidebar-link-item
-                    pageLink="providers"
+                    pageLink="auth/setup/providers"
                     icon="user-circle-plus"
                     text="Social Providers"
                 ></x-auth::setup.sidebar-link-item>
                 <x-auth::setup.sidebar-link-item
-                    pageLink="language"
+                    pageLink="auth/setup/language"
                     icon="globe-hemisphere-east"
                     text="Language"
                 ></x-auth::setup.sidebar-link-item>

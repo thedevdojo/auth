@@ -42,13 +42,15 @@ new class extends Component
             return;
         }
         
+        
         $this->validate();
 
         if (!Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
-            $this->addError('email', trans('auth.failed'));
-
+            $this->addError('password', trans('auth.failed'));
             return;
         }
+
+        dd('waht');
 
         event(new Login(auth()->guard('web'), User::where('email', $this->email)->first(), true));
 

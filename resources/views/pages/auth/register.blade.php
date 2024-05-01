@@ -101,9 +101,9 @@ new class extends Component
 
             <x-auth::elements.heading 
                 :text="($language->register->headline ?? 'No Heading')" 
-                :align="($appearance->heading->align ?? 'center')" 
+                :align="($appearance->heading_align ?? 'center')" 
                 :description="($language->register->subheadline ?? 'No Description')"
-                :show_subheadline="($appearance->register->show_subheadline ?? false)" />
+                :show_subheadline="($language->register->show_subheadline ?? false)" />
                 
             <form wire:submit="register" class="mt-5 space-y-5">
                 
@@ -133,8 +133,8 @@ new class extends Component
             @if(count($this->social_providers))
                 <x-auth::elements.separator class="my-7">or</x-auto::elements.separator>
                 <div class="relative space-y-2 w-full">
-                    @foreach($this->social_providers as $provider)
-                        <x-auth::elements.social-button :$provider />    
+                    @foreach($this->social_providers as $slug => $provider)
+                        <x-auth::elements.social-button :$slug :$provider />    
                     @endforeach
                 </div>
             @endif

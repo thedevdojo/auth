@@ -17,13 +17,12 @@
         'items-start' => $align == 'left',
     ])
 >
-        <x-auth::elements.link href="/" class="block w-auto" style="height:{{ config('devdojo.auth.appearance.logo.height') }}px">
-            @if(config('devdojo.auth.appearance.logo.type') == 'image')
-                <img src="{{ config('devdojo.auth.appearance.logo.src') }}" class="w-auto h-full" />
-            @else
-                {!! str_replace('<svg', '<svg class="w-auto h-full"', config('devdojo.auth.appearance.logo.src')) !!}
-            @endif
-        </x-auth::elements.link>
+        <x-auth::elements.logo
+         :height="config('devdojo.auth.appearance.logo.height')"
+         :isImage="(config('devdojo.auth.appearance.logo.type') == 'image')"
+         :imageSrc="config('devdojo.auth.appearance.logo.image_src')"
+         :svgString="config('devdojo.auth.appearance.logo.svg_string')"
+         />
     </div>
     <h1 id="auth-heading" class="mt-1 text-xl font-medium leading-9 text-gray-800 dark:text-gray-200">{{ $text ?? '' }}</h1>
     @if(($description ?? false) && $show_subheadline)

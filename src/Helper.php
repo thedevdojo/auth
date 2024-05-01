@@ -8,9 +8,9 @@ class Helper
     public static function activeProviders(){
         $providers = config('devdojo.auth.providers');
         $activeProviders = [];
-        foreach($providers as $provider){
+        foreach($providers as $slug => $provider){
             if($provider['active']){
-                $activeProviders[] = (object)$provider;
+                $activeProviders[$slug] = (object)$provider;
             }
         }
         return $activeProviders;

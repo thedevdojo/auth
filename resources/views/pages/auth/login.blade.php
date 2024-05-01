@@ -66,9 +66,9 @@ new class extends Component
         
                 <x-auth::elements.heading 
                     :text="($language->login->headline ?? 'No Heading')" 
-                    :align="($appearance->heading->align ?? 'center')" 
+                    :align="($appearance->heading_align ?? 'center')" 
                     :description="($language->login->subheadline ?? 'No Description')"
-                    :show_subheadline="($appearance->login->show_subheadline ?? false)" />
+                    :show_subheadline="($language->login->show_subheadline ?? false)" />
                 
                 <form wire:submit="authenticate" class="mt-5 space-y-5">
 

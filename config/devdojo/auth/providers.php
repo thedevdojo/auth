@@ -1,10 +1,8 @@
 <?php
 
 return [
-    
-    [
+    'facebook' => [
         'name' => 'Facebook',
-        'slug' => 'facebook',
         'scopes' => null,
         'parameters' => null,
         'stateless' => true,
@@ -13,9 +11,8 @@ return [
         'client_id' => env('FACEBOOK_CLIENT_ID'),
         'client_secret' => env('FACEBOOK_CLIENT_SECRET')
     ],
-    [
+    'twitter' => [
         'name' => 'Twitter',
-        'slug' => 'twitter',
         'scopes' => null,
         'parameters' => null,
         'stateless' => true,
@@ -24,9 +21,8 @@ return [
         'client_id' => env('TWITTER_CLIENT_ID'),
         'client_secret' => env('TWITTER_CLIENT_SECRET')
     ],
-    [
+    'linkedin' => [
         'name' => 'LinkedIn',
-        'slug' => 'linkedin',
         'scopes' => null,
         'parameters' => null,
         'stateless' => true,
@@ -35,9 +31,8 @@ return [
         'client_id' => env('LINKEDIN_CLIENT_ID'),
         'client_secret' => env('LINKEDIN_CLIENT_SECRET')
     ],
-    [
+    'google' => [
         'name' => 'Google',
-        'slug' => 'google',
         'scopes' => null,
         'parameters' => null,
         'stateless' => true,
@@ -46,9 +41,8 @@ return [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET')
     ],
-    [
+    'github' => [
         'name' => 'Github',
-        'slug' => 'github',
         'scopes' => null,
         'parameters' => null,
         'stateless' => true,
@@ -57,9 +51,8 @@ return [
         'client_id' => env('GITHUB_CLIENT_ID'),
         'client_secret' => env('GITHUB_CLIENT_SECRET')
     ],
-    [
+    'gitlab' => [
         'name' => 'GitLab',
-        'slug' => 'gitlab',
         'scopes' => null,
         'parameters' => null,
         'stateless' => true,
@@ -68,9 +61,8 @@ return [
         'client_id' => env('GITLAB_CLIENT_ID'),
         'client_secret' => env('GITLAB_CLIENT_SECRET')
     ],
-    [
+    'bitbucket' => [
         'name' => 'Bitbucket',
-        'slug' => 'bitbucket',
         'scopes' => null,
         'parameters' => null,
         'stateless' => true,
@@ -79,9 +71,8 @@ return [
         'client_id' => env('BITBUCKET_CLIENT_ID'),
         'client_secret' => env('BITBUCKET_CLIENT_SECRET')
     ],
-    [
+    'slack' => [
         'name' => 'Slack',
-        'slug' => 'slack',
         'scopes' => null,
         'parameters' => null,
         'stateless' => true,
@@ -90,9 +81,8 @@ return [
         'client_id' => env('SLACK_CLIENT_ID'),
         'client_secret' => env('SLACK_CLIENT_SECRET')
     ],
-    [
+    'apple' => [
         'name' => 'Apple',
-        'slug' => 'apple',
         'scopes' => null,
         'parameters' => null,
         'stateless' => true,
@@ -101,9 +91,8 @@ return [
         'client_id' => env('APPLE_CLIENT_ID'),
         'client_secret' => env('APPLE_CLIENT_SECRET')
     ],
-    [
+    'microsoft' => [
         'name' => 'Microsoft',
-        'slug' => 'microsoft',
         'scopes' => null,
         'parameters' => null,
         'stateless' => true,
@@ -112,9 +101,8 @@ return [
         'client_id' => env('MICROSOFT_CLIENT_ID'),
         'client_secret' => env('MICROSOFT_CLIENT_SECRET')
     ],
-    [
+    'pinterest' => [
         'name' => 'Pinterest',
-        'slug' => 'pinterest',
         'scopes' => null,
         'parameters' => null,
         'stateless' => true,
@@ -123,9 +111,8 @@ return [
         'client_id' => env('PINTEREST_CLIENT_ID'),
         'client_secret' => env('PINTEREST_CLIENT_SECRET')
     ],
-    [
+    'reddit' => [
         'name' => 'Reddit',
-        'slug' => 'reddit',
         'scopes' => null,
         'parameters' => null,
         'stateless' => true,
@@ -134,9 +121,8 @@ return [
         'client_id' => env('REDDIT_CLIENT_ID'),
         'client_secret' => env('REDDIT_CLIENT_SECRET')
     ],
-    [
+    'tiktok' => [
         'name' => 'TikTok',
-        'slug' => 'tiktok',
         'scopes' => null,
         'parameters' => null,
         'stateless' => true,
@@ -145,9 +131,8 @@ return [
         'client_id' => env('TIKTOK_CLIENT_ID'),
         'client_secret' => env('TIKTOK_CLIENT_SECRET')
     ],
-    [
+    'twitch' => [
         'name' => 'Twitch',
-        'slug' => 'twitch',
         'scopes' => null,
         'parameters' => null,
         'stateless' => true,
@@ -156,5 +141,4 @@ return [
         'client_id' => env('TWITCH_CLIENT_ID'),
         'client_secret' => env('TWITCH_CLIENT_SECRET')
     ]
-
 ];

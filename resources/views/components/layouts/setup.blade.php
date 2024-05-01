@@ -6,12 +6,37 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Authentication Setup</title>
-        @if(config('devdojo.auth.settings.dev'))
+        @if(config('devdojo.auth.settings.dev_mode'))
             @vite(['packages/devdojo/auth/resources/css/auth.css', 'packages/devdojo/auth/resources/css/auth.js'])
         @else
             <script src="/auth/build/assets/scripts.js"></script>
             <link rel="stylesheet" href="/auth/build/assets/styles.css" />
         @endif
+
+        <script src="https://unpkg.com/@popperjs/core@2"></script>
+        <script src="https://unpkg.com/tippy.js@6"></script>
+        <!-- Source -->
+        <script>
+            document.addEventListener('alpine:init', () => {
+                // Magic: $tooltip
+                Alpine.magic('tooltip', el => message => {
+                    let instance = tippy(el, { content: message, trigger: 'manual' })
+        
+                    instance.show()
+        
+                    setTimeout(() => {
+                        instance.hide()
+        
+                        setTimeout(() => instance.destroy(), 150)
+                    }, 2000)
+                })
+        
+                // Directive: x-tooltip
+                Alpine.directive('tooltip', (el, { expression }) => {
+                    tippy(el, { content: expression })
+                })
+            })
+        </script>
         
     </head>
 <body x-data="{ sidebar: false }" class="bg-gray-50 dark:bg-zinc-950">
@@ -37,7 +62,13 @@
             </main>
         </div>
     </div>
-
+    
+    <div x-data="{ open: false }" x-show="open" x-transition.opacity x-init="$watch('open', function(value){ if(value){ setTimeout(function(){ open=false }, 2000)}})" class="fixed top-0 right-0 z-50 mt-8 mr-10 text-sm text-green-500 duration-300 ease-out" @saved-message-open.window="open=true" x-cloak>Saved!</div>
+    <script>
+        window.savedMessageOpen = function(){
+            window.dispatchEvent(new CustomEvent('saved-message-open', {}));
+        }
+    </script>
 
 </body>
 </html>

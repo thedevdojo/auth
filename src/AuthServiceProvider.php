@@ -2,10 +2,11 @@
 
 namespace Devdojo\Auth;
 
+use Livewire\Livewire;
+use Livewire\Volt\Volt;
+use Laravel\Folio\Folio;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Folio\Folio;
-use Livewire\Volt\Volt;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -49,6 +50,7 @@ class AuthServiceProvider extends ServiceProvider
             // Registering package commands.
             // $this->commands([]);
         }
+        Livewire::component('auth.setup.logo', \Devdojo\Auth\Livewire\Setup\Logo::class);
         
     }
 

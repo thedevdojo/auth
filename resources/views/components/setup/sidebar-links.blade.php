@@ -1,4 +1,4 @@
-<nav class="px-4 mt-3">
+<nav class="px-4 mt-1">
     <ul role="list" class="space-y-3">
         <x-auth::setup.sidebar-link-item
             pageLink="auth/setup"
@@ -31,6 +31,7 @@
                 ></x-auth::setup.sidebar-link-item>
             </ul>
         </li>
+        
         <li>
             <div class="px-1 text-xs font-semibold leading-6 text-gray-400">Resources</div>
             <ul role="list" class="mt-2 space-y-1">
@@ -47,4 +48,5 @@
             </ul>
         </li>
     </ul>
+
 </nav>

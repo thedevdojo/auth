@@ -17,8 +17,12 @@
         <link href="{{ url(config('devdojo.auth.appearance.favicon.dark')) }}" rel="icon" media="(prefers-color-scheme: dark)" />
         
     </head>
-<body class="overflow-x-hidden bg-zinc-950">
-    <div class="flex flex-col justify-center items-stretch py-10 w-screen min-h-screen sm:items-center">
+<body class="overflow-hidden relative w-screen h-screen" style="background-color:{{ config('devdojo.auth.appearance.background.color') }}">
+    @if(config('devdojo.auth.appearance.background.image'))
+        <img src="{{ config('devdojo.auth.appearance.background.image') }}" class="object-cover absolute z-10 w-screen h-screen" />
+        <div class="absolute inset-0 z-20 w-screen h-screen" style="background-color:{{ config('devdojo.auth.appearance.background.image_overlay_color') }}; opacity:{{ config('devdojo.auth.appearance.background.image_overlay_opacity') }};"></div>
+    @endif
+    <div class="flex relative z-30 flex-col justify-center items-stretch w-screen min-h-screen sm:py-10 sm:items-center">
         {{ $slot }} 
     </div>
 

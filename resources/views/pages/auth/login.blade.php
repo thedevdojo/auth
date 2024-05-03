@@ -7,7 +7,10 @@ use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 use Devdojo\Auth\Traits\HasConfigs;
 
-middleware(['guest']);
+if(!isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || !app()->isLocal()){
+    middleware(['guest']);
+}
+
 name('auth.login');
 
 new class extends Component

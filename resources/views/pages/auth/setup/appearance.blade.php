@@ -35,7 +35,26 @@ new class extends Component
 <x-auth::layouts.setup>
 
     @volt('auth.setup.appearance')
-        <section x-data="{ 'tab': 'logo'}" class="relative px-4 py-5 mx-auto w-full max-w-screen-lg">
+        <section x-data="{ 
+                'tab': new URLSearchParams(window.location.search).get('tab') || 'logo',
+                addQueryParam(key, value) {
+                    // Create a URL object based on the current document URL
+                    let url = new URL(window.location.href);
+
+                    // Set or replace the query parameter
+                    url.searchParams.set(key, value);
+
+                    // Update the URL in the address bar without reloading the page
+                    window.history.pushState({ path: url.toString() }, '', url.toString());
+                }
+            }"
+            x-init="
+                $watch('tab', function(value){
+                    if (value !== null) {
+                        addQueryParam('tab', value);
+                    }
+                });
+            " class="relative px-4 py-5 mx-auto w-full max-w-screen-lg">
             <x-auth::setup.full-screen-loader wire:target="update" />
             <x-auth::setup.heading title="Appearance" description="Change the appearance of your auth screens, add a logo, modify the color, and more." />
             
@@ -53,7 +72,7 @@ new class extends Component
                 <div class="hidden sm:block">
                     <div class="border-b border-gray-200">
                     @php
-                        $tabs = ['logo' => 'Logo', 'background' => 'Background', 'alignment' => 'Alignment'];
+                        $tabs = ['logo' => 'Logo', 'background' => 'Background', 'colors' => 'Colors', 'alignment' => 'Alignment', 'favicon' => 'Favicon'];
                     @endphp
                     <nav class="flex -mb-px space-x-8" aria-label="Tabs">
                         @foreach($tabs as $slug => $tab)
@@ -68,11 +87,10 @@ new class extends Component
             </div>
             <div class="mt-10">
                 <div x-show="tab == 'logo'" class="w-full h-auto" x-cloak>
-                    
                     <livewire:auth.setup.logo />
                 </div>
                 <div x-show="tab == 'background'" class="w-full h-auto" x-cloak>
-                    Bg
+                    <livewire:auth.setup.background />
                 </div>
                 <div x-show="tab == 'alignment'" class="w-full h-auto" x-cloak>
                     align

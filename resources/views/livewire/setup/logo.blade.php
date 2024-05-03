@@ -69,7 +69,7 @@
             <label class="block text-sm font-medium leading-6 text-gray-900">Logo Height (in pixels)</label>
         </div>
         <div class="w-full h-auto">
-            <x-auth::setup.input type="number" wire:model.live="logo_height"  />
+            <x-auth::setup.input type="number" wire:model.live="logo_height" class="w-24" />
         </div>
     </div>
 

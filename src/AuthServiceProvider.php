@@ -6,6 +6,7 @@ use Livewire\Livewire;
 use Livewire\Volt\Volt;
 use Laravel\Folio\Folio;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -51,6 +52,7 @@ class AuthServiceProvider extends ServiceProvider
             // $this->commands([]);
         }
         Livewire::component('auth.setup.logo', \Devdojo\Auth\Livewire\Setup\Logo::class);
+        Livewire::component('auth.setup.background', \Devdojo\Auth\Livewire\Setup\Background::class);
         
     }
 

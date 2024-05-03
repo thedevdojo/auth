@@ -94,8 +94,8 @@ new class extends Component
                 </form>
                 
                 
-                <div class="mt-3 space-x-0.5 text-sm leading-5 text-left text-gray-400 dark:text-gray-300">
-                    <span>Don't have an account?</span>
+                <div class="mt-3 space-x-0.5 text-sm leading-5 text-left" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
+                    <span class="opacity-[47%]">Don't have an account?</span>
                     <x-auth::elements.text-link href="{{ route('auth.register') }}">Sign up</x-auth::elements.text-link>
                 </div>
 

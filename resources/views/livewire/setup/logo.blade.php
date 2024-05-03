@@ -14,21 +14,21 @@
         </div>
 
         <div class="flex flex-col justify-center items-start w-full">
-            <div class="flex justify-start items-center p-1 space-x-1 w-auto text-xs font-medium rounded-md bg-zinc-100">
+            <div class="flex justify-start items-center p-1 w-auto text-xs font-medium rounded-lg bg-zinc-100">
                 <div 
                     x-on:click="logo_type = 'image';"
-                    :class="{'bg-white shadow-sm': logo_type == 'image', 'bg-gray-200': logo_type != 'image'}"
+                    :class="{'bg-white shadow-sm': logo_type == 'image', 'bg-transparent': logo_type != 'image'}"
                     class="flex-shrink-0 px-4 py-2 text-center text-gray-900 rounded-md cursor-pointer">Upload an Image</div>
                     
                 <div 
                     x-on:click="logo_type = 'svg'; setTimeout(function(){ document.getElementById('svgTextarea').focus(); }, 10);"
-                    :class="{'bg-white shadow-sm': logo_type == 'svg', 'bg-gray-200': logo_type != 'svg'}"
+                    :class="{'bg-white shadow-sm': logo_type == 'svg', 'bg-transparent': logo_type != 'svg'}"
                     class="flex-shrink-0 px-4 py-2 text-center text-gray-900 rounded-md cursor-pointer">Use an SVG</div>
             </div>
             <div class="mt-2 w-full bg-white">
                 <div x-show="logo_type == 'image'" class="rounded-lg border border-gray-300 border-dashed bg-zinc-50">
                     <div x-show="logo_image" class="flex justify-center items-center py-2">
-                        <img src="{{ url($logo_image_src) . '?' . uniqid() }}" class="w-auto h-20" alt="logo" />
+                        <img src="{{ url($logo_image_src) . '?' . uniqid() }}" class="w-auto" style="height:{{ $logo_height }}px" alt="logo" />
                     </div>
                     <div class="flex relative justify-center items-center w-full">                                
                         <div class="flex justify-center items-center w-full">
@@ -69,7 +69,9 @@
             <label class="block text-sm font-medium leading-6 text-gray-900">Logo Height (in pixels)</label>
         </div>
         <div class="w-full h-auto">
-            <x-auth::setup.input type="number" wire:model.live="logo_height" class="w-24" />
+            <div class="w-24">
+                <x-auth::setup.input type="number" wire:model.live="logo_height" />
+            </div>
         </div>
     </div>
 

@@ -22,7 +22,7 @@
         <div class="w-full h-auto">
             @if(isset($image) && $image != '')
                 <div class="relative">
-                    <img src="{{ url($image) }}" class="w-full h-auto rounded-md" />
+                    <img src="{{ url($image) . '?' . uniqid() }}" class="w-full h-auto rounded-md" />
                     <button wire:click="deleteBackgroundImage()" class="flex absolute top-0 right-0 items-center px-3 py-1.5 mt-2 mr-2 text-xs font-medium text-white rounded-md bg-red-500/70 hover:bg-red-500/90">
                         <x-phosphor-trash class="mr-1 w-4 h-4" />
                         <span>Remove Image</span>

@@ -13,6 +13,15 @@
             <link rel="stylesheet" href="/auth/build/assets/styles.css" />
         @endif
 
+        @php
+            $buttonRGBColor = \Devdojo\Auth\Helper::convertHexToRGBString(config('devdojo.auth.appearance.color.button'));
+        @endphp
+        <style>
+            .auth-button:focus{
+                --tw-ring-opacity: 1; --tw-ring-color: rgb({{ $buttonRGBColor }} / var(--tw-ring-opacity));
+            }
+        </style>
+
         <link href="{{ url(config('devdojo.auth.appearance.favicon.light')) }}" rel="icon" media="(prefers-color-scheme: light)" />
         <link href="{{ url(config('devdojo.auth.appearance.favicon.dark')) }}" rel="icon" media="(prefers-color-scheme: dark)" />
         

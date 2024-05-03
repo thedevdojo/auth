@@ -51,8 +51,10 @@ class AuthServiceProvider extends ServiceProvider
             // Registering package commands.
             // $this->commands([]);
         }
-        Livewire::component('auth.setup.logo', \Devdojo\Auth\Livewire\Setup\Logo::class);
-        Livewire::component('auth.setup.background', \Devdojo\Auth\Livewire\Setup\Background::class);
+        if (! $this->app->runningInConsole()) {
+            Livewire::component('auth.setup.logo', \Devdojo\Auth\Livewire\Setup\Logo::class);
+            Livewire::component('auth.setup.background', \Devdojo\Auth\Livewire\Setup\Background::class);
+        }
         
     }
 
@@ -85,6 +87,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/providers.php', 'devdojo.auth.providers');
 
         $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/descriptions.php', 'devdojo.auth.descriptions');
+        $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/pages.php', 'devdojo.auth.pages');
 
         // Register the main class to use with the facade
         $this->app->singleton('devdojoauth', function () {

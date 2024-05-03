@@ -40,15 +40,20 @@
         </script>
         
     </head>
-<body x-data="{ sidebar: false, preview: false, previewMenuDropdown: false }" 
-
+<body 
+    x-data="{ 
+        sidebar: false,
+        preview: false,
+        previewMenuDropdown: false,
+        previewURL: '/auth/login'
+    }" 
     x-init="
         $watch('preview', function(value){
             if(value){
                 console.log('new value');
                 
                 setTimeout(function(){
-                    document.getElementById('preview').src='/auth/login?' + Date.now();
+                    document.getElementById('preview').src= previewURL + '?' + Date.now();
                     setTimeout(function(){
                         document.getElementById('preview_loader').classList.add('hidden');
                         document.getElementById('preview').classList.remove('hidden');
@@ -57,10 +62,12 @@
                     
                 }, 1000);
             } else {
-                document.getElementById('preview').classList.add('hidden');
-                document.getElementById('preview_loader').classList.remove('hidden');
-                document.getElementById('preview').classList.add('opacity-0');
-                document.getElementById('preview').src='about:blank';
+                setTimeout(function(){
+                    document.getElementById('preview').classList.add('hidden');
+                    document.getElementById('preview_loader').classList.remove('hidden');
+                    document.getElementById('preview').classList.add('opacity-0');
+                    document.getElementById('preview').src='about:blank';
+                }, 1000);
             }
         });
     "
@@ -96,9 +103,9 @@
     </script>
 
     
-        <div x-show="preview" x-transition.opacity class="absolute inset-0 z-[98] w-screen h-screen delay-500 bg-black/50" x-cloak></div>
-        <div :class="{ 'translate-y-full' : !preview, 'translate-y-0 pt-3' : preview }"
-             class="flex absolute top-0 left-0 px-3 z-[99] ease-out duration-300 flex-col w-screen h-screen" x-cloak>
+        <div x-show="preview" @click="preview=false" x-transition.opacity class="absolute inset-0 z-[98] w-screen h-screen delay-500 bg-black/50" x-cloak></div>
+        <div :class="{ 'translate-y-full duration-500' : !preview, 'translate-y-0 pt-3 duration-300' : preview }"
+             class="flex absolute top-0 left-0 px-3 z-[99] ease-in-out  flex-col w-screen h-screen" x-cloak>
             
             <div class="flex flex-col w-full h-full bg-white rounded-t-md">
                 <div class="flex relative z-50 flex-shrink-0 justify-center items-center w-full h-10 bg-white rounded-t-md border-b border-zinc-200">
@@ -109,15 +116,16 @@
                             <x-phosphor-caret-down-fill class="ml-2 w-3 h-3" />
                         </button>
                         <div x-show="previewMenuDropdown" x-transition.scale.origin.top.opacity class="[&>button]:px-3 [&>button]:block [&>button]:rounded-md space-y-1 [&>button:hover]:bg-zinc-100 group [&>button]:text-left [&>button]:w-full [&>button]:text-sm [&>button]:py-1.5 absolute left-0 bg-white shadow-xl p-2 w-64 rounded-md top-0 mt-[33px] z-[99]">
-                            <button href="">Login</button>
-                            <button href="">Register</button>
-                            <button href="">Verify Account</button>
-                            <button href="">Password Reset Request</button>
-                            <button href="">Password Reset</button>
+                            <button @click="previewURL='/auth/login'">Login</button>
+                            <button @click="previewURL='/auth/register'">Register</button>
+                            <button @click="previewURL='/auth/verify'">Verify Account</button>
+                            <button @click="previewURL='/auth/password/confirm'">Password Confirmation</button>
+                            <button @click="previewURL='/auth/password/reset'">Password Reset Request</button>
+                            <button @click="previewURL='/auth/password/SomeReallyLongToken'">Password Reset</button>
                         </div>
                     </div>
                     <div class="flex absolute right-0 items-center h-full">
-                        <a href="/auth/login" target="_blank" class="flex flex-shrink-0 items-center px-2 py-1 mr-2 text-xs bg-white rounded-md border shadow-sm duration-200 ease-out text-zinc-500 hover:text-zinc-700 hover:border-zinc-200 group border-zinc-100">
+                        <a :href="previewURL" target="_blank" class="flex flex-shrink-0 items-center px-2 py-1 mr-2 text-xs bg-white rounded-md border shadow-sm duration-200 ease-out text-zinc-500 hover:text-zinc-700 hover:border-zinc-200 group border-zinc-100">
                             <span>Preview in New Tab</span>
                             <x-phosphor-arrow-right-bold class="flex-shrink-0 ml-1 w-3 h-3 duration-200 ease-out -rotate-45 group-hover:-translate-y-px group-hover:translate-x-px" />
                         </a>
@@ -132,12 +140,12 @@
                         </button>
                     </div>
                 </div>
-                <div x-show="preview" id="preview_loader" class="absolute top-0 left-0 z-40 justify-center items-center px-3 mt-10 w-full h-full">
-                    <div class="flex justify-center items-center w-full h-full bg-white">
+                <div id="preview_loader" class="absolute top-0 left-0 z-40 justify-center items-center px-3 mt-10 w-full h-full">
+                    <div class="flex justify-center items-center w-full h-full bg-zinc-100">
                         <svg class="w-5 h-5 animate-spin text-zinc-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                     </div>
                 </div>
-                <iframe x-show="preview" id="preview" src="/auth/login?preview=true" class="hidden overflow-hidden relative z-30 w-full h-full opacity-0 duration-300 ease-out"></iframe>
+                <iframe id="preview" :src="previewURL + '?preview=true'" class="hidden overflow-hidden relative z-30 w-full h-full opacity-0 duration-300 ease-out"></iframe>
             </div>
         </div>
         

@@ -26,10 +26,15 @@
         "laravel/socialite": "^5.0",
         "calebporzio/sushi": "^2.5"
     },
-    "require-dev": {},
+    "require-dev": {
+        "orchestra/testbench": "^9.0",
+        "pestphp/pest": "^2.34",
+        "pestphp/pest-plugin-laravel": "^2.4"
+    },
     "autoload": {
         "psr-4": {
-            "Devdojo\\Auth\\": "src"
+            "Devdojo\\Auth\\": "src",
+            "Devdojo\\Auth\\Tests\\": "tests"
         }
     },
     "autoload-dev": {
@@ -43,7 +48,10 @@
 
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     },
     "extra": {
         "laravel": {

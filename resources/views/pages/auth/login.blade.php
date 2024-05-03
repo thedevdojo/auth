@@ -7,6 +7,16 @@ use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 use Devdojo\Auth\Traits\HasConfigs;
 
+/*$vendor_folder_location = base_path('vendors/devdojo/auth/resources/views/includes')  . '/volt-page-dynamic-middleware-name.php';
+$package_folder_location = base_path('packages/devdojo/auth/resources/views/includes') . '/volt-page-dynamic-middleware-name.php';
+if(file_exists($package_folder_location)){
+    include($package_folder_location);
+}
+
+if(file_exists($vendor_folder_location)){
+    include($vendor_folder_location);
+}*/
+
 if(!isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || !app()->isLocal()){
     middleware(['guest']);
 }

@@ -9,7 +9,9 @@ To get a local version working of DevDojo Auth.
 - Create a new Laravel application
 - Create a new folder at the root called `packages`
 - Inisde the packages folder will be `devdojo/auth` where auth will be the contents of this repo
-- Update your composer.json to include `devdojo/auth` inside the `repositories` key, and include the package inside the `require` key.
+- Update your composer.json to include `devdojo/auth` inside the `repositories` key, and include the package inside the `require` key. 
+
+> You'll also need to set the stability to `dev` in the composer.json
 
 **composer.json example**
 
@@ -27,10 +29,17 @@ To get a local version working of DevDojo Auth.
             "url" : "./packages/devdojo/auth"
         }
     ],
+    "minimum-stability": "dev"
 }
 ```
 
-Finally, run `composer update` and the package will be included in your project and is ready for development.
+Finally, run `composer update` and publish the assets:
+
+```
+php artisan vendor:publish --tag=auth:assets
+```
+
+Auth is now included in your project and is ready for development.
 
 Please read and understand the contribution guide before creating an issue or pull request.
 

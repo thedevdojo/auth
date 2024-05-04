@@ -1,16 +1,10 @@
 <?php
 
-namespace Devdojo\Auth\Tests;
+namespace Tests;
 
-use Orchestra\Testbench\TestCase as Orchestra;
-use Devdojo\Auth\AuthServiceProvider;
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
-class TestCase extends Orchestra
+abstract class TestCase extends BaseTestCase
 {
-    protected function getPackageProviders($app)
-    {
-        return [
-            AuthServiceProvider::class,
-        ];
-    }
+    //
 }

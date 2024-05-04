@@ -33,10 +33,20 @@ To get a local version working of DevDojo Auth.
 }
 ```
 
-Finally, run `composer update` and publish the assets:
+Finally, run `composer update`. Next, we need to create two symlinks
+
+### Create Symlinks
+
+1. From the public directory create the following symlink
 
 ```
-php artisan vendor:publish --tag=auth:assets
+ln -s ../packages/devdojo/auth/public auth
+```
+
+2. From the root directory, delete the current `tests` folder and create the following symlink
+
+```
+ln -s packages/devdojo/auth/tests tests 
 ```
 
 Auth is now included in your project and is ready for development.

@@ -17,7 +17,7 @@
     <div class="pb-5 mb-5 border-b border-zinc-200">
         <div class="pb-3 w-full">
             <label class="block text-sm font-medium leading-6 text-gray-900">Background Image</label>
-            <p class="text-sm leading-6 text-gray-400">The background image will be positioned behind the background color element.</p>
+            <p class="text-sm leading-6 text-gray-400">Choose a nice background image to use as your authentication background.</p>
         </div>
         <div class="w-full h-auto">
             @if(isset($image) && $image != '')
@@ -48,6 +48,7 @@
     <div class="pb-5 mb-5 border-b border-zinc-200">
         <div class="pb-3 w-full">
             <label class="block text-sm font-medium leading-6 text-gray-900">Image Overlay Color</label>
+            <p class="text-sm leading-6 text-gray-400">If you use a background image you can specify a color overlay here.</p>
         </div>
         <div class="w-full h-auto">
             <input type="color" value="#000000" wire:model.live="image_overlay_color" />
@@ -56,8 +57,8 @@
 
     <div class="pb-5 mb-5 border-b border-zinc-200">
         <div class="pb-3 w-full">
-            <label class="block text-sm font-medium leading-6 text-gray-900">Background Color Opacity</label>
-            <p class="text-sm leading-6 text-gray-400">You'll want to set the opacity to less than 100% if you include an image.</p>
+            <label class="block text-sm font-medium leading-6 text-gray-900">Image Overlay Opacity</label>
+            <p class="text-sm leading-6 text-gray-400">The opacity of the image overlay color. Set to 0 for no overlay</p>
         </div>
         <div class="w-full h-auto">
             <p class="font-bold" x-text="image_overlay_opacity + '%'"></p>

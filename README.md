@@ -46,7 +46,7 @@ Auth has just been isntalled and you'll be able to visit the following authentic
 
 ## Auth Config
 
-You may also want to publish the auth config by running the following:
+You will also need to publish the auth config by running the following:
 
 ```
 php artisan vendor:publish --tag=auth:config

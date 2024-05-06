@@ -77,7 +77,7 @@ new class extends Component
                             <div class="hidden sm:block">
                                 <div class="border-b border-gray-200">
                                 @php
-                                    $tabs = ['logo' => 'Logo', 'background' => 'Background', 'colors' => 'Colors', 'alignment' => 'Alignment', 'favicon' => 'Favicon'];
+                                    $tabs = ['logo' => 'Logo', 'background' => 'Background', 'colors' => 'Colors', 'alignment' => 'Alignment', 'favicon' => 'Favicon', 'css' => 'Custom CSS'];
                                 @endphp
                                 <nav class="flex -mb-px space-x-8" aria-label="Tabs">
                                     @foreach($tabs as $slug => $tab)
@@ -97,8 +97,17 @@ new class extends Component
                             <div x-show="tab == 'background'" class="w-full h-auto" x-cloak>
                                 <livewire:auth.setup.background />
                             </div>
+                            <div x-show="tab == 'colors'" class="w-full h-auto" x-cloak>
+                                <livewire:auth.setup.color />
+                            </div>
                             <div x-show="tab == 'alignment'" class="w-full h-auto" x-cloak>
-                                align
+                                <livewire:auth.setup.alignment />
+                            </div>
+                            <div x-show="tab == 'favicon'" class="w-full h-auto" x-cloak>
+                                <livewire:auth.setup.favicon />
+                            </div>
+                            <div x-show="tab == 'css'" class="w-full h-auto" x-cloak>
+                                <livewire:auth.setup.css />
                             </div>
                         </div>
                     </div>

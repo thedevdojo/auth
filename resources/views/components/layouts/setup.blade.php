@@ -84,7 +84,7 @@
                             
                             <div class="flex overflow-x-hidden relative justify-center items-center w-full h-full bg-white rounded-tl-2xl border-t border-l border-zinc-200">
                                 
-                                <div class="flex z-20 justify-center items-start w-full h-full">
+                                <div class="flex z-20 justify-center items-start p-5 w-full h-full lg:p-0">
                                     {{ $slot }}
                                 </div>
                             </div>

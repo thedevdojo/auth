@@ -5,17 +5,24 @@
     'show_subheadline' => false
 ])
 
+@php
+    $heading_alignment = config('devdojo.auth.appearance.alignment.heading');
+@endphp
+
 <div @class([
         'flex flex-col sm:mx-auto sm:w-full sm:max-w-md',
-        'items-center' => $align == 'center',
-        'items-start' => $align == 'left'
+        'items-start' => $heading_alignment == 'left',
+        'items-center' => $heading_alignment == 'center',
+        'items-end' => $heading_alignment == 'right'
+        
     ])
     style="color:{{ config('devdojo.auth.appearance.color.text') }}"
     >
     <div @class([
         'flex flex-col w-full',
-        'items-center' => $align == 'center',
-        'items-start' => $align == 'left',
+        'items-start' => $heading_alignment == 'left',
+        'items-center' => $heading_alignment == 'center',
+        'items-end' => $heading_alignment == 'right',
     ])
 >
         <x-auth::elements.logo

@@ -54,6 +54,10 @@ class AuthServiceProvider extends ServiceProvider
         if (! $this->app->runningInConsole()) {
             Livewire::component('auth.setup.logo', \Devdojo\Auth\Livewire\Setup\Logo::class);
             Livewire::component('auth.setup.background', \Devdojo\Auth\Livewire\Setup\Background::class);
+            Livewire::component('auth.setup.color', \Devdojo\Auth\Livewire\Setup\Color::class);
+            Livewire::component('auth.setup.alignment', \Devdojo\Auth\Livewire\Setup\Alignment::class);
+            Livewire::component('auth.setup.favicon', \Devdojo\Auth\Livewire\Setup\Favicon::class);
+            Livewire::component('auth.setup.css', \Devdojo\Auth\Livewire\Setup\Css::class);
         }
         
     }

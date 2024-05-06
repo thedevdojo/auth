@@ -35,7 +35,6 @@ new class extends Component
 
     public $showPasswordField = false;
 
-    public $appearance = [];
     public $language = [];
 
     public function mount(){
@@ -78,8 +77,7 @@ new class extends Component
         <x-auth::elements.container>
         
                 <x-auth::elements.heading 
-                    :text="($language->login->headline ?? 'No Heading')" 
-                    :align="($appearance->heading_align ?? 'center')" 
+                    :text="($language->login->headline ?? 'No Heading')"
                     :description="($language->login->subheadline ?? 'No Description')"
                     :show_subheadline="($language->login->show_subheadline ?? false)" />
                 

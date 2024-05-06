@@ -29,7 +29,7 @@ class Helper
         if (strlen($hex) === 3) {
             $hex = str_repeat($hex[0], 2) . str_repeat($hex[1], 2) . str_repeat($hex[2], 2);
         } elseif (strlen($hex) !== 6) {
-            throw new Exception("Invalid hex color length");
+            throw new \Exception("Invalid hex color length");
         }
 
         // Split the hex color into its RGB components

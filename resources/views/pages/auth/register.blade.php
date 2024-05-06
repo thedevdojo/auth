@@ -100,8 +100,7 @@ new class extends Component
         <x-auth::elements.container>
 
             <x-auth::elements.heading 
-                :text="($language->register->headline ?? 'No Heading')" 
-                :align="($appearance->heading_align ?? 'center')" 
+                :text="($language->register->headline ?? 'No Heading')"
                 :description="($language->register->subheadline ?? 'No Description')"
                 :show_subheadline="($language->register->show_subheadline ?? false)" />
                 

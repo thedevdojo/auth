@@ -15,10 +15,21 @@
 
         @php
             $buttonRGBColor = \Devdojo\Auth\Helper::convertHexToRGBString(config('devdojo.auth.appearance.color.button'));
+            $inputBorderRGBColor = \Devdojo\Auth\Helper::convertHexToRGBString(config('devdojo.auth.appearance.color.input_border'));
         @endphp
         <style>
             .auth-button:focus{
                 --tw-ring-opacity: 1; --tw-ring-color: rgb({{ $buttonRGBColor }} / var(--tw-ring-opacity));
+            }
+            .auth-input{
+                color: {{ config('devdojo.auth.appearance.color.input_text') }}
+            }
+            .auth-input:focus{
+                --tw-ring-color: rgb({{ $inputBorderRGBColor }} / var(--tw-ring-opacity));
+                border-color: rgb({{ $inputBorderRGBColor }} / var(--tw-border-opacity));
+            }
+            .auth-input-label-focused{
+                color: {{ config('devdojo.auth.appearance.color.input_border') }}
             }
         </style>
 
@@ -31,7 +42,16 @@
         <img src="{{ config('devdojo.auth.appearance.background.image') }}" class="object-cover absolute z-10 w-screen h-screen" />
         <div class="absolute inset-0 z-20 w-screen h-screen" style="background-color:{{ config('devdojo.auth.appearance.background.image_overlay_color') }}; opacity:{{ config('devdojo.auth.appearance.background.image_overlay_opacity') }};"></div>
     @endif
-    <div class="flex relative z-30 flex-col justify-center items-stretch w-screen min-h-screen sm:py-10 sm:items-center">
+
+    @php
+        $slotParentClasses = match(config('devdojo.auth.appearance.alignment.container')){
+            'left' => 'items-start h-screen',
+            'center' => 'items-stretch sm:items-center sm:py-10',
+            'right' => 'items-end h-screen',
+        };
+    @endphp
+
+    <div class="flex relative z-30 flex-col justify-center w-screen min-h-screen {{ $slotParentClasses }}">
         {{ $slot }} 
     </div>
 

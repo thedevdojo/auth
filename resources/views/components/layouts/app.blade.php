@@ -12,6 +12,10 @@
             <script src="/auth/build/assets/scripts.js"></script>
             <link rel="stylesheet" href="/auth/build/assets/styles.css" />
         @endif
+        
+        @if(file_exists(public_path('auth/app.css')))
+            <link rel="stylesheet" href="/auth/app.css" />
+        @endif
 
         @php
             $buttonRGBColor = \Devdojo\Auth\Helper::convertHexToRGBString(config('devdojo.auth.appearance.color.button'));
@@ -37,10 +41,10 @@
         <link href="{{ url(config('devdojo.auth.appearance.favicon.dark')) }}" rel="icon" media="(prefers-color-scheme: dark)" />
         
     </head>
-<body class="overflow-hidden relative w-screen h-screen" style="background-color:{{ config('devdojo.auth.appearance.background.color') }}">
+<body id="auth-body" class="overflow-hidden relative w-screen h-screen" style="background-color:{{ config('devdojo.auth.appearance.background.color') }}">
     @if(config('devdojo.auth.appearance.background.image'))
-        <img src="{{ config('devdojo.auth.appearance.background.image') }}" class="object-cover absolute z-10 w-screen h-screen" />
-        <div class="absolute inset-0 z-20 w-screen h-screen" style="background-color:{{ config('devdojo.auth.appearance.background.image_overlay_color') }}; opacity:{{ config('devdojo.auth.appearance.background.image_overlay_opacity') }};"></div>
+        <img src="{{ config('devdojo.auth.appearance.background.image') }}" id="auth-background-image" class="object-cover absolute z-10 w-screen h-screen" />
+        <div id="auth-background-image-overlay" class="absolute inset-0 z-20 w-screen h-screen" style="background-color:{{ config('devdojo.auth.appearance.background.image_overlay_color') }}; opacity:{{ config('devdojo.auth.appearance.background.image_overlay_opacity') }};"></div>
     @endif
 
     @php
@@ -51,9 +55,9 @@
         };
     @endphp
 
-    <div class="flex relative z-30 flex-col justify-center w-screen min-h-screen {{ $slotParentClasses }}">
+    <main id="auth-main-content" class="flex relative z-30 flex-col justify-center w-screen min-h-screen {{ $slotParentClasses }}">
         {{ $slot }} 
-    </div>
+    </main>
 
     @if(config('devdojo.auth.settings.enable_branding') && !app()->isLocal())
         <a href="https://devdojo.com/auth" target="_blank" class="flex fixed bottom-0 left-1/2 z-30 justify-center items-center px-2.5 py-1.5 w-auto text-xs font-medium rounded-t-lg border -translate-x-1/2 cursor-pointer bg-zinc-900 hover:bg-zinc-800/70 text-white/40 hover:text-white/80 border-zinc-800">

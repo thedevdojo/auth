@@ -21,12 +21,15 @@
         <script>
             window.codemirrorEditor = null;
             function enableCodeMirror(){
-                
                 codemirrorEditor = CodeMirror.fromTextArea(document.getElementById('css-editor'), {
                     lineNumbers: true,
                     tabSize: 2,
-                    mode: "css",
+                    mode: {name: "css", json: true},
                     theme: "base16-light"
+                });
+
+                codemirrorEditor.on('change', () => {
+                    window.dispatchEvent(new CustomEvent('update-css-code', { detail: { value: codemirrorEditor.getValue() }}));
                 });
             }
         </script>

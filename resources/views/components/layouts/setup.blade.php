@@ -13,6 +13,25 @@
             <link rel="stylesheet" href="/auth/build/assets/styles.css" />
         @endif
 
+        <script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+        <script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/css/css.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/base16-light.min.css">
+
+        <script>
+            window.codemirrorEditor = null;
+            function enableCodeMirror(){
+                
+                codemirrorEditor = CodeMirror.fromTextArea(document.getElementById('css-editor'), {
+                    lineNumbers: true,
+                    tabSize: 2,
+                    mode: "css",
+                    theme: "base16-light"
+                });
+            }
+        </script>
+
+
         <script src="https://unpkg.com/@popperjs/core@2"></script>
         <script src="https://unpkg.com/tippy.js@6"></script>
 

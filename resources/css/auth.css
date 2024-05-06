@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.CodeMirror{
+    border-radius: 6px;
+    border: 1px solid #e1e1e5;
+}

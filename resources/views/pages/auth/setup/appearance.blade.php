@@ -53,7 +53,23 @@ new class extends Component
                     if (value !== null) {
                         addQueryParam('tab', value);
                     }
+                    if(tab == 'css'){
+                        if(codemirrorEditor == null){
+                            setTimeout(function(){
+                                enableCodeMirror();
+                            }, 100);
+                        }
+                        //enableCodeMirror();
+                    }
+                    
                 });
+
+                if(tab == 'css'){
+                    console.log('accessed');
+                    setTimeout(function(){
+                        enableCodeMirror();
+                    }, 100);
+                }
             " class="relative px-4 py-5 mx-auto w-full max-w-screen-lg">
             <x-auth::setup.full-screen-loader wire:target="update" />
             <x-auth::setup.heading title="Appearance" description="Change the appearance of your auth screens, add a logo, modify the color, and more." />

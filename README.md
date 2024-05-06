@@ -44,6 +44,16 @@ Auth has just been isntalled and you'll be able to visit the following authentic
  - Password Reset Token (project.test/auth/password/ReAlLyLoNgPaSsWoRdReSeTtOkEn)
  - Password Confirmation (project.test/auth/password/confirm)
 
+## Auth Migrations
+
+You'll also want to include the auth migrations:
+
+```
+php artisan migrate --path=vendor/devdojo/auth/database/migrations 
+```
+
+This will add a new `social_provider_user` table and it will also allow the `name` and `password` fields in the default `user` table to be nullable.
+
 ## Auth Config
 
 You will also need to publish the auth config by running the following:

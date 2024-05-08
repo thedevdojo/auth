@@ -24,7 +24,9 @@
         "codeat3/blade-phosphor-icons": "^2.0",
         "winter/laravel-config-writer": "^1.0",
         "laravel/socialite": "^5.0",
-        "calebporzio/sushi": "^2.5"
+        "calebporzio/sushi": "^2.5",
+        "pragmarx/google2fa": "^8.0",
+        "bacon/bacon-qr-code": "^2.0"
     },
     "require-dev": {
         "orchestra/testbench": "^9.0",

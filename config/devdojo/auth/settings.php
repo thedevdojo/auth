@@ -9,5 +9,6 @@ return [
     'registration_include_name_field' => false,
     'registration_require_email_verification' => false,
     'enable_branding' => env('DEVDOJO_AUTH_BRANDING', true),
-    'dev_mode' => env('DEVDOJO_AUTH_DEV', false)
+    'dev_mode' => env('DEVDOJO_AUTH_DEV', false),
+    'enable_2fa' => env('DEVDOJO_AUTH_ENABLE_2FA', false), // Enable or disable 2FA functionality globally
 ];

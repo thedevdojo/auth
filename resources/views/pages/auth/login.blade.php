@@ -62,8 +62,6 @@ new class extends Component
             return;
         }
 
-        dd('waht');
-
         event(new Login(auth()->guard('web'), User::where('email', $this->email)->first(), true));
 
         return redirect()->intended('/');

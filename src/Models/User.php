@@ -15,10 +15,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'name', 'email', 'password', 'two_factor_secret', 'two_factor_recovery_codes',
     ];
 
-    protected $casts = [
-        'two_factor_recovery_codes' => 'array',
-    ];
-
     public function hasVerifiedEmail()
     {
         if (!config('devdojo.auth.settings.registration_require_email_verification')) {
@@ -26,6 +22,10 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return $this->email_verified_at !== null;
+    }
+
+    public function twoFactorQrCodeSvg(){
+        return '';
     }
 
     /**

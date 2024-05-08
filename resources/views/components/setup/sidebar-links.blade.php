@@ -36,12 +36,14 @@
             <div class="px-1 text-xs font-semibold leading-6 text-gray-400">Resources</div>
             <ul role="list" class="mt-2 space-y-1">
                 <x-auth::setup.sidebar-link-item
-                    pageLink="appearance"
+                    newTab="true"
+                    pageLink="https://github.com/thedevdojo/auth"
                     icon="github-logo"
                     text="Github Repo"
                 ></x-auth::setup.sidebar-link-item>
                 <x-auth::setup.sidebar-link-item
-                    pageLink="documentation"
+                    newTab="true"
+                    pageLink="https://devdojo.com/platform/auth/docs"
                     icon="notebook"
                     text="Documentation"
                 ></x-auth::setup.sidebar-link-item>

@@ -12,30 +12,30 @@
             <script src="/auth/build/assets/scripts.js"></script>
             <link rel="stylesheet" href="/auth/build/assets/styles.css" />
         @endif
-        
-        @if(file_exists(public_path('auth/app.css')))
-            <link rel="stylesheet" href="/auth/app.css" />
-        @endif
 
         @php
             $buttonRGBColor = \Devdojo\Auth\Helper::convertHexToRGBString(config('devdojo.auth.appearance.color.button'));
             $inputBorderRGBColor = \Devdojo\Auth\Helper::convertHexToRGBString(config('devdojo.auth.appearance.color.input_border'));
         @endphp
         <style>
-            .auth-button:focus{
+            .auth-component-button:focus{
                 --tw-ring-opacity: 1; --tw-ring-color: rgb({{ $buttonRGBColor }} / var(--tw-ring-opacity));
             }
-            .auth-input{
+            .auth-component-input{
                 color: {{ config('devdojo.auth.appearance.color.input_text') }}
             }
-            .auth-input:focus{
+            .auth-component-input:focus{
                 --tw-ring-color: rgb({{ $inputBorderRGBColor }} / var(--tw-ring-opacity));
                 border-color: rgb({{ $inputBorderRGBColor }} / var(--tw-border-opacity));
             }
-            .auth-input-label-focused{
+            .auth-component-input-label-focused{
                 color: {{ config('devdojo.auth.appearance.color.input_border') }}
             }
         </style>
+
+        @if(file_exists(public_path('auth/app.css')))
+            <link rel="stylesheet" href="/auth/app.css" />
+        @endif
 
         <link href="{{ url(config('devdojo.auth.appearance.favicon.light')) }}" rel="icon" media="(prefers-color-scheme: light)" />
         <link href="{{ url(config('devdojo.auth.appearance.favicon.dark')) }}" rel="icon" media="(prefers-color-scheme: dark)" />

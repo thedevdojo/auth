@@ -2,14 +2,12 @@
 
 namespace Devdojo\Auth;
 
-use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use Livewire\Volt\Volt;
 use Laravel\Folio\Folio;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Devdojo\Auth\Http\Controllers\TwoFactorAuthenticationController;
 use PragmaRX\Google2FA\Google2FA;
 
 class AuthServiceProvider extends ServiceProvider
@@ -62,12 +60,6 @@ class AuthServiceProvider extends ServiceProvider
             Livewire::component('auth.setup.favicon', \Devdojo\Auth\Livewire\Setup\Favicon::class);
             Livewire::component('auth.setup.css', \Devdojo\Auth\Livewire\Setup\Css::class);
         }
-
-        // Register routes for 2FA setup and challenge
-        Route::middleware(['web', 'auth'])->group(function () {
-            Route::get('two-factor-challenge', [TwoFactorAuthenticationController::class, 'showTwoFactorChallengeForm'])->name('two-factor.login');
-            Route::post('two-factor-challenge', [TwoFactorAuthenticationController::class, 'verifyTwoFactorChallenge'])->name('two-factor.verify');
-        });
     }
 
     private function registerAuthFolioDirectory(){

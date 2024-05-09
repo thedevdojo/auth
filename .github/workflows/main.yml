@@ -1,5 +1,3 @@
-name: run-tests
-
 name: Laravel Package Test
 
 on:

@@ -41,10 +41,6 @@ jobs:
       run: composer update devdojo/auth:dev-main
       working-directory: ./laravel_app
 
-    - name: Run Migrations
-      run: php artisan migrate
-      working-directory: ./laravel_app
-
     - name: Run Tests
       run: ./vendor/bin/pest
       working-directory: ./laravel_app

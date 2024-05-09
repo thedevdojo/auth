@@ -23,18 +23,18 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/.composer/cache
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json', '**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-composer-
 
-    - name: Install Composer Dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+    - name: Create Laravel Application
+      run: composer create-project --prefer-dist laravel/laravel laravel_app --no-interaction
 
-    - name: Setup Laravel Application
-      run: |
-        composer create-project --prefer-dist laravel/laravel laravel_app --no-interaction
-        cd laravel_app
-        composer require devdojo/auth:dev-main
+    - name: Set Working Directory
+      working-directory: ./laravel_app
+
+    - name: Require Package
+      run: composer require devdojo/app:dev-main
 
     - name: Update My Package
       run: composer update devdojo/auth --with-dependencies

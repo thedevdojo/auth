@@ -31,14 +31,14 @@ jobs:
       run: |
         composer create-project --prefer-dist laravel/laravel laravel_app --no-interaction
         cd laravel_app
-        composer require devdojo/auth:dev-main
+        composer require devdojo/auth:dev-main --W
 
     - name: Set Working Directory
       run: echo "Change directory context to Laravel app"
       working-directory: ./laravel_app
 
-    - name: Require Package
-      run: composer require your/package:dev-main
+    - name: Update Package
+      run: composer update devdojo/auth:dev-main
       working-directory: ./laravel_app
 
     - name: Run Migrations

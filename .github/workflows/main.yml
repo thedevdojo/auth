@@ -31,7 +31,7 @@ jobs:
       run: |
         composer create-project --prefer-dist laravel/laravel laravel_app --no-interaction
         cd laravel_app
-        composer require devdojo/auth:dev-main --W
+        composer require devdojo/auth:dev-main --with-all-dependencies
 
     - name: Set Working Directory
       run: echo "Change directory context to Laravel app"

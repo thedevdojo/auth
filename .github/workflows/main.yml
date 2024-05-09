@@ -16,7 +16,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.0'
+        php-version: '8.1'
         extensions: mbstring, xml, ctype, iconv, mysql
 
     - name: Cache Composer Packages
@@ -33,11 +33,18 @@ jobs:
         cd laravel_app
         composer require devdojo/auth:dev-main
 
-    - name: Update My Package
-      run: composer update devdojo/auth --with-dependencies
+    - name: Set Working Directory
+      run: echo "Change directory context to Laravel app"
+      working-directory: ./laravel_app
+
+    - name: Require Package
+      run: composer require your/package:dev-main
+      working-directory: ./laravel_app
 
     - name: Run Migrations
       run: php artisan migrate
+      working-directory: ./laravel_app
 
     - name: Run Tests
       run: ./vendor/bin/pest
+      working-directory: ./laravel_app

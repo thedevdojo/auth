@@ -55,7 +55,9 @@ jobs:
       working-directory: ./laravel_app
 
     - name: Updating values in the .env
-      run: sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' .env
+      run: |
+        sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' .env
+        sed -i 's/^DB_DATABASE=laravel/#DB_DATABASE=laravel/' .env
       working-directory: ./laravel_app
 
     - name: Run the migrations

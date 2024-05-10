@@ -54,10 +54,17 @@ jobs:
       run: cat .env
       working-directory: ./laravel_app
 
+    # Testing on a mac, this command should be:
+    # sed -i '' 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' .env
+    # sed -i '' 's/^DB_DATABASE=laravel/#DB_DATABASE=laravel/' .env
     - name: Updating values in the .env
       run: |
         sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' .env
         sed -i 's/^DB_DATABASE=laravel/#DB_DATABASE=laravel/' .env
+      working-directory: ./laravel_app
+
+    - name: Include Doctrine DBAL Package which is used for renaming columns
+      run: composer require doctrine/dbal
       working-directory: ./laravel_app
 
     - name: Run the migrations

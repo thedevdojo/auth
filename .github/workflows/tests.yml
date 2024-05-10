@@ -103,6 +103,10 @@ jobs:
       run: composer require pestphp/pest --dev --with-all-dependencies
       working-directory: ./laravel_app
 
+    - name: Clear all view caches
+      run: php artisan view:clear
+      working-directory: ./laravel_app
+
     - name: Run Tests
       run: ./vendor/bin/pest
       working-directory: ./laravel_app

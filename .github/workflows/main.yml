@@ -30,7 +30,7 @@ jobs:
     - name: Setup Laravel Application
       run: composer create-project --prefer-dist laravel/laravel laravel_app --no-interaction
 
-   - name: Set Working Directory
+    - name: Set Working Directory
       run: echo "Change directory context to Laravel app"
       working-directory: ./laravel_app
 

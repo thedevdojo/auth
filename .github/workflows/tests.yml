@@ -46,6 +46,12 @@ jobs:
       run: php artisan vendor:publish --tag=auth:config
       working-directory: ./laravel_app
 
+    - name: Remove current tests and symlink to DevDojo Auth
+      run: |
+        rm -rf tests
+        ln -s vendor/devdojo/auth/tests tests
+      working-directory: ./laravel_app
+
     - name: Create sqlite file
       run: touch database/database.sqlite
       working-directory: ./laravel_app
@@ -73,10 +79,6 @@ jobs:
     
     - name: Run the Auth Migrations
       run: php artisan migrate --path=vendor/devdojo/auth/database/migrations 
-      working-directory: ./laravel_app
-
-    - name: Re-run migrations
-      run: php artisan migrate
       working-directory: ./laravel_app
 
     # Testing on a mac, this command should be:

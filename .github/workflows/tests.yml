@@ -1,4 +1,4 @@
-name: Laravel Package Test
+name: Tests
 
 on:
     push:
@@ -45,6 +45,9 @@ jobs:
     - name: Publish the DevDojo Configs
       run: php artisan vendor:publish --tag=auth:config
       working-directory: ./laravel_app
+
+    - name: List out .env
+      run: cat .env
     
     - name: Publish the Auth Migrations
       run: php artisan migrate --path=vendor/devdojo/auth/database/migrations 

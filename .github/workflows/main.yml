@@ -36,8 +36,24 @@ jobs:
 
     - name: Install DevDojo Auth dev-main
       run: composer require devdojo/auth:dev-main --with-all-dependencies
-      working-directory: ./laravel_app   
+      working-directory: ./laravel_app
     
+    - name: Publish the DevDojo Auth Assets
+      run: php artisan vendor:publish --tag=auth:assets
+      working-directory: ./laravel_app
+    
+    - name: Publish the DevDojo Configs
+      run: php artisan vendor:publish --tag=auth:config
+      working-directory: ./laravel_app
+    
+    - name: Publish the Auth Migrations
+      run: php artisan migrate --path=vendor/devdojo/auth/database/migrations 
+      working-directory: ./laravel_app
+
+    - name: Re-run migrations
+      run: php artisan migrate
+      working-directory: ./laravel_app
+
     # Testing on a mac, this command should be:
     # sed -i '' '/"phpunit\/phpunit"/d' composer.json
     - name: Remove PHPUnit from composer.json

@@ -6,10 +6,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Devdojo\Auth\Traits\HasSocialProviders;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use PragmaRX\Google2FA\Google2FA;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasSocialProviders;
+    use HasSocialProviders, TwoFactorAuthenticatable;
 
     protected $fillable = [
         'name', 'email', 'password', 'two_factor_secret', 'two_factor_recovery_codes',

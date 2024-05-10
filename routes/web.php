@@ -40,6 +40,10 @@ Route::middleware(['auth', 'web'])->group(function () {
         $generateCodesFor(auth()->user());
     });
 
+    Route::get('newr', function(){
+        dd(auth()->user()->hasEnabledTwoFactorAuthentication());
+    });
+
 });
 
 

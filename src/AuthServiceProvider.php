@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use PragmaRX\Google2FA\Google2FA;
+use Laravel\Fortify\Fortify;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -59,9 +60,15 @@ class AuthServiceProvider extends ServiceProvider
             Livewire::component('auth.setup.alignment', \Devdojo\Auth\Livewire\Setup\Alignment::class);
             Livewire::component('auth.setup.favicon', \Devdojo\Auth\Livewire\Setup\Favicon::class);
             Livewire::component('auth.setup.css', \Devdojo\Auth\Livewire\Setup\Css::class);
+
+            Livewire::component('auth.form.two-factor-authentication-form', \Devdojo\Auth\Livewire\Forms\TwoFactorAuthenticationForm::class);
         }
 
         //app()->register(\October\Rain\Config\ServiceProvider::class);
+
+        Fortify::loginView(function () {
+            return redirect('auth/login');
+        });
     }
 
     private function registerAuthFolioDirectory(){

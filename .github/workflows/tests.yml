@@ -48,6 +48,7 @@ jobs:
 
     - name: List out .env
       run: cat .env
+      working-directory: ./laravel_app
     
     - name: Publish the Auth Migrations
       run: php artisan migrate --path=vendor/devdojo/auth/database/migrations 

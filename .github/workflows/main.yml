@@ -36,9 +36,19 @@ jobs:
     - name: Set Working Directory
       run: echo "Change directory context to Laravel app"
       working-directory: ./laravel_app
+    
+    - name: Remove PHPUnit from composer.json
+      run: sed -i '' '/"phpunit\/phpunit"/d' composer.json
+      working-directory: ./laravel_app
 
-    - name: Update Package
-      run: composer update devdojo/auth:dev-main
+    - name: Remove composer.lock and re-run composer install
+      run: |
+        rm composer.lock
+        composer install
+      working-directory: ./laravel_app
+
+    - name: Install PestPHP
+      run: composer require pestphp/pest --dev --with-all-dependencies
       working-directory: ./laravel_app
 
     - name: Run Tests

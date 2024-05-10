@@ -34,8 +34,13 @@ jobs:
       run: echo "Change directory context to Laravel app"
       working-directory: ./laravel_app
 
-    - name: Install DevDojo Auth dev-main
-      run: composer require devdojo/auth:dev-main --with-all-dependencies
+    - name: Extract branch name
+      shell: bash
+      run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_ENV
+      id: extract_branch
+
+    - name: Install DevDojo Auth from current branch
+      run: composer require devdojo/auth:dev-${{ env.branch }} --with-all-dependencies
       working-directory: ./laravel_app
     
     - name: Publish the DevDojo Auth Assets

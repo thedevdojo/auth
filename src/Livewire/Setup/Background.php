@@ -5,7 +5,6 @@ namespace Devdojo\Auth\Livewire\Setup;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Artisan;
-use Winter\LaravelConfigWriter\ArrayFile;
 
 class Background extends Component
 {
@@ -53,10 +52,7 @@ class Background extends Component
     }
 
     private function updateConfigKeyValue($key, $value){
-        $config = ArrayFile::open(base_path('config/devdojo/auth/appearance.php'));
-        $config->set($key, $value);
-        $config->write();
-
+        \Config::write('devdojo.auth.appearance.' . $key, $value);
         Artisan::call('config:clear');
 
         $this->js('savedMessageOpen()');

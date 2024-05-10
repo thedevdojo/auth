@@ -4,7 +4,7 @@ use function Laravel\Folio\name;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Helper;
-use Winter\LaravelConfigWriter\ArrayFile;
+use Devdojo\ConfigWriter\ArrayFile;
 
 name('auth.setup.settings');
 
@@ -20,9 +20,9 @@ new class extends Component
     }
 
     public function update($key, $value){
-        $this->config = ArrayFile::open(base_path('config/devdojo/auth/settings.php'));
-        $this->config->set($key, $value);
-        $this->config->write();
+        \Config::write('devdojo.auth.settings.' . $key, $value);
+        Artisan::call('config:clear');
+
         $this->settings = (object)config('devdojo.auth.settings');
         $this->js('savedMessageOpen()');
     }

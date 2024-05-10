@@ -4,7 +4,7 @@ use function Laravel\Folio\name;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Helper;
-use Winter\LaravelConfigWriter\ArrayFile;
+use Devdojo\ConfigWriter\ArrayFile;
 
 name('auth.setup.providers');
 
@@ -20,9 +20,8 @@ new class extends Component
     }
 
     public function update($slug, $checked){
-        $this->config = ArrayFile::open(base_path('config/devdojo/auth/providers.php'));
-        $this->config->set($slug . '.active', $checked);
-        $this->config->write();
+        \Config::write('devdojo.auth.providers.' . $slug . '.active', $checked);
+        Artisan::call('config:clear');
         $this->providers = (object)config('devdojo.auth.providers');
         $this->js('savedMessageOpen()');
     }

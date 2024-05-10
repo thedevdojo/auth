@@ -22,7 +22,7 @@
         "livewire/livewire": "^3.0",
         "livewire/volt": "^1.0",
         "codeat3/blade-phosphor-icons": "^2.0",
-        "winter/laravel-config-writer": "^1.0",
+        "devdojo/config-writer": "^0.0.7",
         "laravel/socialite": "^5.0",
         "calebporzio/sushi": "^2.5",
         "pragmarx/google2fa": "^8.0",

@@ -4,7 +4,6 @@ use function Laravel\Folio\name;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Helper;
-use Winter\LaravelConfigWriter\ArrayFile;
 
 name('auth.setup.language');
 

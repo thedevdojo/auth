@@ -60,6 +60,8 @@ class AuthServiceProvider extends ServiceProvider
             Livewire::component('auth.setup.favicon', \Devdojo\Auth\Livewire\Setup\Favicon::class);
             Livewire::component('auth.setup.css', \Devdojo\Auth\Livewire\Setup\Css::class);
         }
+
+        //app()->register(\October\Rain\Config\ServiceProvider::class);
     }
 
     private function registerAuthFolioDirectory(){

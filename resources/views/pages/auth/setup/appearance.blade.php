@@ -4,7 +4,6 @@ use function Laravel\Folio\name;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Helper;
-use Winter\LaravelConfigWriter\ArrayFile;
 
 name('auth.setup.appearance');
 
@@ -21,11 +20,9 @@ new class extends Component
         $this->descriptions = (object)config('devdojo.auth.descriptions');
     }
 
-    public function update($key, $value){
-        $this->config = ArrayFile::open(base_path('config/devdojo/auth/appearance.php'));
-        $this->config->set($key, $value);
-        $this->config->write();
-        $this->appearance = (object)config('devdojo.auth.appearance');
+    private function update($key, $value){
+        \Config::write('devdojo.auth.appearance.' . $key, $value);
+        Artisan::call('config:clear');
         $this->js('savedMessageOpen()');
     }
 };

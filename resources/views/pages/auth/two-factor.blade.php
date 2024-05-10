@@ -7,12 +7,6 @@ use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 use Devdojo\Auth\Traits\HasConfigs;
 
-use Laravel\Fortify\Actions\ConfirmTwoFactorAuthentication;
-use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
-use Laravel\Fortify\Actions\EnableTwoFactorAuthentication;
-use Laravel\Fortify\Actions\GenerateNewRecoveryCodes;
-use Laravel\Fortify\Features;
-
 
 name('auth.two-factor');
 

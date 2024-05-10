@@ -6,8 +6,7 @@ use Devdojo\Auth\Http\Controllers\LogoutController;
 use Illuminate\Support\Facades\Route;
 
 
-use Devdojo\Auth\Actions\TwoFactorAuth\GenerateNewRecoveryCodes;
-use Devdojo\Auth\Actions\TwoFactorAuth\GenerateQrCodeAndSecretKey;
+
 
 // Create redirect routes for common authentication routes
 

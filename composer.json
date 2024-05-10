@@ -26,8 +26,7 @@
         "laravel/socialite": "^5.0",
         "calebporzio/sushi": "^2.5",
         "pragmarx/google2fa": "^8.0",
-        "bacon/bacon-qr-code": "^2.0",
-        "laravel/fortify": "^1.21"
+        "bacon/bacon-qr-code": "^2.0"
     },
     "require-dev": {
         "orchestra/testbench": "^9.0",

@@ -28,14 +28,15 @@ jobs:
           ${{ runner.os }}-composer-git
 
     - name: Setup Laravel Application
-      run: |
-        composer create-project --prefer-dist laravel/laravel laravel_app --no-interaction
-        cd laravel_app
-        composer require devdojo/auth:dev-main --with-all-dependencies
+      run: composer create-project --prefer-dist laravel/laravel laravel_app --no-interaction
 
-    - name: Set Working Directory
+   - name: Set Working Directory
       run: echo "Change directory context to Laravel app"
       working-directory: ./laravel_app
+
+    - name: Install DevDojo Auth dev-main
+      run: composer require devdojo/auth:dev-main --with-all-dependencies
+      working-directory: ./laravel_app   
     
     # Testing on a mac, this command should be:
     # sed -i '' '/"phpunit\/phpunit"/d' composer.json

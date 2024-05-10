@@ -37,9 +37,12 @@ jobs:
       run: echo "Change directory context to Laravel app"
       working-directory: ./laravel_app
     
+    # Testing on a mac, this command should be:
+    # sed -i '' '/"phpunit\/phpunit"/d' composer.json
     - name: Remove PHPUnit from composer.json
-      run: sed -i '' '/"phpunit\/phpunit"/d' composer.json
+      run: sed -i '/"phpunit\/phpunit"/d' composer.json
       working-directory: ./laravel_app
+      
 
     - name: Remove composer.lock and re-run composer install
       run: |

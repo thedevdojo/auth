@@ -6,3 +6,12 @@
     border-radius: 6px;
     border: 1px solid #e1e1e5;
 }
+
+input[type='number'].auth-component-code-input {
+    -moz-appearance:textfield;
+}
+
+input.auth-component-code-input::-webkit-outer-spin-button,
+input.auth-component-code-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}

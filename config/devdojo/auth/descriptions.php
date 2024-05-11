@@ -10,6 +10,7 @@ return [
         'registration_include_name_field' => 'During registration, include the Name field.',
         'registration_require_email_verification' => 'During registration, require users to verify their email.',
         'enable_branding' => 'This will toggle on/off the Auth branding at the bottom of each auth screen. Consider leaving on to support and help grow this project.',
-        'dev_mode' => 'This is for development mode, when set in Dev Mode Assets will be loaded from Vite'
+        'dev_mode' => 'This is for development mode, when set in Dev Mode Assets will be loaded from Vite',
+        'enable_2fa' => 'Enable the ability for users to turn on Two Factor Authentication'
     ]
 ];

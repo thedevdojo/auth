@@ -37,6 +37,8 @@ new class extends Component
 
     public $language = [];
 
+    public $twoFactorEnabled = true;
+
     public function mount(){
         $this->loadConfigs();
     }
@@ -57,14 +59,47 @@ new class extends Component
         
         $this->validate();
 
-        if (!Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
+        $credentials = ['email' => $this->email, 'password' => $this->password];
+        
+
+        if(!\Auth::validate($credentials)){
+            $this->addError('password', trans('auth.failed'));
+            return;
+        }
+        
+        $userAttemptingLogin = User::where('email', $this->email)->first();
+
+        if(!isset($userAttemptingLogin->id)){
             $this->addError('password', trans('auth.failed'));
             return;
         }
 
-        event(new Login(auth()->guard('web'), User::where('email', $this->email)->first(), true));
+        if($this->twoFactorEnabled && !is_null($userAttemptingLogin->two_factor_confirmed_at)){
+            // We want this user to login via 2fa
+            session()->put([
+                'login.id' => $userAttemptingLogin->getKey()
+            ]);
 
-        return redirect()->intended('/');
+            return redirect()->route('auth.two-factor-challenge');
+
+        } else {
+            if (!Auth::attempt($credentials)) {
+                $this->addError('password', trans('auth.failed'));
+                return;
+            }
+            event(new Login(auth()->guard('web'), User::where('email', $this->email)->first(), true));
+
+            return redirect()->intended('/');
+        }
+
+        
+
+        /*$request->session()->put([
+            'login.id' => $user->getKey(),
+            'login.remember' => $request->boolean('remember'),
+        ]);*/
+
+        
     }
 };
 

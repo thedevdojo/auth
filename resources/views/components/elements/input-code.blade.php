@@ -98,7 +98,7 @@
                     type="number"
                     x-on:paste="pasteValue"
                     x-on:keydown="moveCursorNext({{ $x }}, {{ $digits }}, event)"
-                    class="shadow-sm auth-code-input text-center appearance-none font-light text-black dark:text-dark-400 focus:!border-primary-600 w-12 h-12 border border-zinc-200 rounded-md"
+                    class="w-12 h-12 font-light text-center text-black rounded-md border shadow-sm appearance-none auth-component-code-input dark:text-dark-400 border-zinc-200 focus:border-2"
                     maxlength="1"
                 />
             @endfor

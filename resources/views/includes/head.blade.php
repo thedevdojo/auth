@@ -21,7 +21,7 @@
     .auth-component-input{
         color: {{ config('devdojo.auth.appearance.color.input_text') }}
     }
-    .auth-component-input:focus{
+    .auth-component-input:focus, .auth-component-code-input:focus{
         --tw-ring-color: rgb({{ $inputBorderRGBColor }} / var(--tw-ring-opacity));
         border-color: rgb({{ $inputBorderRGBColor }} / var(--tw-border-opacity));
     }

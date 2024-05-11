@@ -3,12 +3,15 @@
 use App\Models\User;
 use function Laravel\Folio\{middleware, name};
 use Illuminate\Support\Facades\Route;
+use Illuminate\Auth\Events\Login;
+use Livewire\Attributes\On;
 use Livewire\Volt\Component;
 use PragmaRX\Google2FA\Google2FA;
 use Devdojo\Auth\Traits\HasConfigs;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 
-//middleware(['guest']);
+middleware(['two-factor-challenged', 'throttle:5,1']);
 name('auth.two-factor-challenge');
 
 new class extends Component
@@ -36,6 +39,32 @@ new class extends Component
             $this->js("setTimeout(function(){ window.dispatchEvent(new CustomEvent('focus-auth-2fa-auth-code', {})); }, 10);");
         }
         return;
+    }
+
+    // TODO - Refactor the submitCode functionality into it's own trait so we can use this functionality here and user/two-factor-authenticaiton.blade.php
+
+     #[On('submitCode')] 
+    public function submitCode($code)
+    {
+        if(empty($code) || strlen($code) < 5){
+            dd('show validation error');
+            return;
+        }
+
+        $google2fa = new Google2FA();
+        $valid = $google2fa->verifyKey($this->secret, $code);
+
+
+        if($valid){
+            $user = User::find(session()->get('login.id'));
+        
+            Auth::login($user);
+            event(new Login(auth()->guard('web'), User::where('email', $this->email)->first(), true));
+            return redirect()->intended('/');
+        } else {
+
+        }
+
     }
 
     public function submit_auth_code()
@@ -92,43 +121,49 @@ new class extends Component
 <x-auth::layouts.app title="{{ config('devdojo.auth.language.twoFactorChallenge.page_title') }}">
     @volt('auth.twofactorchallenge')
         <x-auth::elements.container>
-        
-            @if(!$recovery)
-                <x-auth::elements.heading 
-                    :text="($language->twoFactorChallenge->headline_auth ?? 'No Heading')"
-                    :description="($language->twoFactorChallenge->subheadline_auth ?? 'No Description')"
-                    :show_subheadline="($language->twoFactorChallenge->show_subheadline_auth ?? false)" />
-            @else
-                <x-auth::elements.heading 
-                    :text="($language->twoFactorChallenge->headline_recovery ?? 'No Heading')"
-                    :description="($language->twoFactorChallenge->subheadline_recovery ?? 'No Description')"
-                    :show_subheadline="($language->twoFactorChallenge->show_subheadline_recovery ?? false)" />
-            @endif
-
-            <form wire:submit="submit_auth_code" class="mt-5 space-y-5">
-
+            <div x-data x-on:code-input-complete.window="console.log(event); $dispatch('submitCode', [event.detail.code])" class="relative w-full h-auto">
                 @if(!$recovery)
-                    <div class="relative">
-                        <x-auth::elements.input label="Code" type="text" wire:model="auth_code" autofocus="true" id="auth-2fa-auth-code" required />
-                    </div>
+                    <x-auth::elements.heading 
+                        :text="($language->twoFactorChallenge->headline_auth ?? 'No Heading')"
+                        :description="($language->twoFactorChallenge->subheadline_auth ?? 'No Description')"
+                        :show_subheadline="($language->twoFactorChallenge->show_subheadline_auth ?? false)" />
                 @else
-                    <div class="relative">
-                        <x-auth::elements.input label="Recovery Code" type="text" wire:model="recovery_code" id="auth-2fa-recovery-code" required />
-                    </div>
+                    <x-auth::elements.heading 
+                        :text="($language->twoFactorChallenge->headline_recovery ?? 'No Heading')"
+                        :description="($language->twoFactorChallenge->subheadline_recovery ?? 'No Description')"
+                        :show_subheadline="($language->twoFactorChallenge->show_subheadline_recovery ?? false)" />
                 @endif
 
-                <x-auth::elements.button rounded="md" submit="true">Continue</x-auth::elements.button>
-            </form>
+                <div class="mt-5 space-y-5">
 
-            <div class="mt-5 space-x-0.5 text-sm leading-5 text-left" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
-                <span class="opacity-[47%]">or you can </span>
-                <span class="font-medium underline opacity-60 cursor-pointer" wire:click="switchToRecovery" href="#_">
                     @if(!$recovery)
-                        <span>login using a recovery code</span>
+                        <div class="relative">
+                            <x-auth::elements.input-code wire:model="auth_code" id="auth-input-code" digits="6" eventCallback="code-input-complete" type="text" label="Code" />
+                        </div>
+                        @error('auth_code')
+                            <p>Incorrect Auth Code</p>
+                        @enderror
+                        <x-auth::elements.button rounded="md" submit="true" wire:click="submitCode(document.getElementById('auth-input-code').value)">Continue</x-auth::elements.button>
                     @else
-                        <span>login using an authentication code</span>
+                        <div class="relative">
+                            <x-auth::elements.input label="Recovery Code" type="text" wire:model="recovery_code" id="auth-2fa-recovery-code" required />
+                        </div>
+                        <x-auth::elements.button rounded="md" submit="true" wire:click="submitRecoveryCode">Continue</x-auth::elements.button>
                     @endif
-                </span>
+
+                    
+                </div>
+
+                <div class="mt-5 space-x-0.5 text-sm leading-5 text-left" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
+                    <span class="opacity-[47%]">or you can </span>
+                    <span class="font-medium underline opacity-60 cursor-pointer" wire:click="switchToRecovery" href="#_">
+                        @if(!$recovery)
+                            <span>login using a recovery code</span>
+                        @else
+                            <span>login using an authentication code</span>
+                        @endif
+                    </span>
+                </div>
             </div>
         </x-auth::elements.container>
     @endvolt

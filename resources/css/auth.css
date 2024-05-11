@@ -7,11 +7,11 @@
     border: 1px solid #e1e1e5;
 }
 
-input[type='number'].auth-code-input {
+input[type='number'].auth-component-code-input {
     -moz-appearance:textfield;
 }
 
-input.auth-code-input::-webkit-outer-spin-button,
-input.auth-code-input::-webkit-inner-spin-button {
+input.auth-component-code-input::-webkit-outer-spin-button,
+input.auth-component-code-input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }

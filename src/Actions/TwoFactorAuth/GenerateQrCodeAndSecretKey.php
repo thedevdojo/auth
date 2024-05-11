@@ -25,8 +25,9 @@ class GenerateQrCodeAndSecretKey
         //$secretKeyEncrypted = encrypt($secret_key);
         //echo $google2fa->generateSecretKey();
 
+        // TODO - Make sure config('app.name') works below.
         $g2faUrl = $google2fa->getQRCodeUrl(
-            'Auth',
+            config('app.name'),
             $user->email,
             $secret_key
         );

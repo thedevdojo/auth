@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use PragmaRX\Google2FA\Google2FA;
+use Illuminate\Support\Facades\Route;
+use Devdojo\Auth\Http\Middleware\TwoFactorChallenged;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -18,6 +20,8 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         
+        Route::middlewareGroup('two-factor-challenged', [TwoFactorChallenged::class]);
+
         /*
          * Optional methods to load your package assets
          */

@@ -4,16 +4,16 @@ use function Laravel\Folio\{middleware, name};
 use Livewire\Volt\Component;
 
 name('user.two-factor-authentication');
-//middleware(['auth', 'verified', 'password.confirm']); 
+//middleware(['auth', 'verified', 'password.confirm']);
 middleware(['auth', 'verified']);
 // middleware(['auth'])
 
 new class extends Component
 {
     public $showingConfirmation = false;
-    
+
     public function mount(){
-        
+
     }
 
 }

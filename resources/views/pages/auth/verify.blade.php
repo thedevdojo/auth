@@ -59,7 +59,7 @@ new class extends Component
                 <div class="mt-5 text-sm leading-6 text-gray-700 dark:text-gray-400">
                     <p>Before proceeding, please check your email for a verification link. If you did not receive the email, <a wire:click="resend" class="text-gray-700 underline transition duration-150 ease-in-out cursor-pointer dark:text-gray-300 hover:text-gray-600 focus:outline-none focus:underline">click here to request another</a>.</p>
                 </div>
-            
+
 
 
             <div class="mt-2 space-x-0.5 text-sm leading-5 text-center text-gray-600 translate-y-4 dark:text-gray-400">
@@ -71,7 +71,7 @@ new class extends Component
                     @csrf
                 </form>
             </div>
-            
+
         </x-auth::elements.container>
     @endvolt
 

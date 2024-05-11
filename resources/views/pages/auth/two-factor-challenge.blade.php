@@ -89,47 +89,49 @@ new class extends Component
 
 ?>
 
-<x-auth::layouts.app title="{{ config('devdojo.auth.language.twoFactorChallenge.page_title') }}">
-    @volt('auth.twofactorchallenge')
-        <x-auth::elements.container>
-        
-            @if(!$recovery)
-                <x-auth::elements.heading 
-                    :text="($language->twoFactorChallenge->headline_auth ?? 'No Heading')"
-                    :description="($language->twoFactorChallenge->subheadline_auth ?? 'No Description')"
-                    :show_subheadline="($language->twoFactorChallenge->show_subheadline_auth ?? false)" />
-            @else
-                <x-auth::elements.heading 
-                    :text="($language->twoFactorChallenge->headline_recovery ?? 'No Heading')"
-                    :description="($language->twoFactorChallenge->subheadline_recovery ?? 'No Description')"
-                    :show_subheadline="($language->twoFactorChallenge->show_subheadline_recovery ?? false)" />
-            @endif
-
-            <form wire:submit="submit_auth_code" class="mt-5 space-y-5">
+<div>
+    <x-auth::layouts.app title="{{ config('devdojo.auth.language.twoFactorChallenge.page_title') }}">
+        @volt('auth.twofactorchallenge')
+            <x-auth::elements.container>
 
                 @if(!$recovery)
-                    <div class="relative">
-                        <x-auth::elements.input label="Code" type="text" wire:model="auth_code" autofocus="true" id="auth-2fa-auth-code" required />
-                    </div>
+                    <x-auth::elements.heading 
+                        :text="($language->twoFactorChallenge->headline_auth ?? 'No Heading')"
+                        :description="($language->twoFactorChallenge->subheadline_auth ?? 'No Description')"
+                        :show_subheadline="($language->twoFactorChallenge->show_subheadline_auth ?? false)" />
                 @else
-                    <div class="relative">
-                        <x-auth::elements.input label="Recovery Code" type="text" wire:model="recovery_code" id="auth-2fa-recovery-code" required />
-                    </div>
+                    <x-auth::elements.heading 
+                        :text="($language->twoFactorChallenge->headline_recovery ?? 'No Heading')"
+                        :description="($language->twoFactorChallenge->subheadline_recovery ?? 'No Description')"
+                        :show_subheadline="($language->twoFactorChallenge->show_subheadline_recovery ?? false)" />
                 @endif
 
-                <x-auth::elements.button rounded="md" submit="true">Continue</x-auth::elements.button>
-            </form>
+                <form wire:submit="submit_auth_code" class="mt-5 space-y-5">
 
-            <div class="mt-5 space-x-0.5 text-sm leading-5 text-left" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
-                <span class="opacity-[47%]">or you can </span>
-                <span class="font-medium underline opacity-60 cursor-pointer" wire:click="switchToRecovery" href="#_">
                     @if(!$recovery)
-                        <span>login using a recovery code</span>
+                        <div class="relative">
+                            <x-auth::elements.input label="Code" type="text" wire:model="auth_code" autofocus="true" id="auth-2fa-auth-code" required />
+                        </div>
                     @else
-                        <span>login using an authentication code</span>
+                        <div class="relative">
+                            <x-auth::elements.input label="Recovery Code" type="text" wire:model="recovery_code" id="auth-2fa-recovery-code" required />
+                        </div>
                     @endif
-                </span>
-            </div>
-        </x-auth::elements.container>
-    @endvolt
-</x-auth::layouts.app>
+
+                    <x-auth::elements.button rounded="md" submit="true">Continue</x-auth::elements.button>
+                </form>
+
+                <div class="mt-5 space-x-0.5 text-sm leading-5 text-left" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
+                    <span class="opacity-[47%]">or you can </span>
+                    <span class="font-medium underline opacity-60 cursor-pointer" wire:click="switchToRecovery" href="#_">
+                        @if(!$recovery)
+                            <span>login using a recovery code</span>
+                        @else
+                            <span>login using an authentication code</span>
+                        @endif
+                    </span>
+                </div>
+            </x-auth::elements.container>
+        @endvolt
+    </x-auth::layouts.app>
+</div>

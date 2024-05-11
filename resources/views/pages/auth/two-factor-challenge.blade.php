@@ -75,18 +75,7 @@ new class extends Component
 
     }
 
-    public function submit_auth_code()
-    {
-        $google2fa = new Google2FA();
-        //$this->verify(auth()->user()->two_factor_secret, $this->auth_code, $google2fa);
-        $valid = $google2fa->verifyKey(decrypt(auth()->user()->two_factor_secret), $this->auth_code);
-
-        if ($valid) {
-            dd('Valid!');
-        } else {
-            dd('Failed');
-        }
-    }
+    // TODO - Make sure that submitting the recovery codes work
 
     public function submit_recovery_code(){
         $valid = in_array($this->recovery_code, auth()->user()->two_factor_recovery_codes);
@@ -97,31 +86,6 @@ new class extends Component
             dd('not valid');
         }
     }
-
-    /*private function verify($secret, $code, $google2fa)
-    {
-        $cachedTimestampKey = 'auth.2fa_codes.'.md5($code);
-
-        if (is_int($customWindow = config('fortify-options.two-factor-authentication.window'))) {
-            $google2fa->setWindow($customWindow);
-        }
-
-        $timestamp = $google2fa->verifyKeyNewer(
-            $secret, $code, Cache::get($cachedTimestampKey)
-        );
-
-        if ($timestamp !== false) {
-            if ($timestamp === true) {
-                $timestamp = $google2fa->getTimestamp();
-            }
-
-            optional($cache)->put($cachedTimestampKey, $timestamp, ($google2fa->getWindow() ?: 1) * 60);
-
-            return true;
-        }
-
-        return false;
-    }*/
 }
 
 ?>

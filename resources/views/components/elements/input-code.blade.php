@@ -31,6 +31,8 @@
                                 this.$refs['input' + (index-1)].focus();
                             }
                         }
+                    } else {
+                        this.$refs['input' + index].value = '';
                     }
                 } else {
                     
@@ -98,6 +100,7 @@
                     type="number"
                     x-on:paste="pasteValue"
                     x-on:keydown="moveCursorNext({{ $x }}, {{ $digits }}, event)"
+                    x-on:focus="$el.select()"
                     class="w-12 h-12 font-light text-center text-black rounded-md border shadow-sm appearance-none auth-component-code-input dark:text-dark-400 border-zinc-200 focus:border-2"
                     maxlength="1"
                 />

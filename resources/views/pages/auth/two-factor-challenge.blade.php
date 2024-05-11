@@ -5,6 +5,7 @@ use function Laravel\Folio\{middleware, name};
 use Illuminate\Support\Facades\Route;
 use Illuminate\Auth\Events\Login;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 use PragmaRX\Google2FA\Google2FA;
 use Devdojo\Auth\Traits\HasConfigs;
@@ -21,6 +22,7 @@ new class extends Component
     public $recovery = false;
     public $google2fa;
 
+    #[Validate('required|min:5')] 
     public $auth_code;
     public $recovery_code;
 
@@ -36,6 +38,7 @@ new class extends Component
         if($this->recovery){
             $this->js("setTimeout(function(){ console.log('made'); window.dispatchEvent(new CustomEvent('focus-auth-2fa-recovery-code', {})); }, 10);");
         } else {
+            // TODO - this we need to autofocus the first input of the auth code input
             $this->js("setTimeout(function(){ window.dispatchEvent(new CustomEvent('focus-auth-2fa-auth-code', {})); }, 10);");
         }
         return;
@@ -46,23 +49,28 @@ new class extends Component
      #[On('submitCode')] 
     public function submitCode($code)
     {
+        $this->auth_code = $code;
+
+        $this->validate();
+
         if(empty($code) || strlen($code) < 5){
             dd('show validation error');
             return;
         }
 
-        $google2fa = new Google2FA();
-        $valid = $google2fa->verifyKey($this->secret, $code);
+        $user = User::find(session()->get('login.id'));
 
+        $secret = decrypt($user->two_factor_secret);
+        $google2fa = new Google2FA();
+        $valid = $google2fa->verifyKey($secret, $code);
 
         if($valid){
-            $user = User::find(session()->get('login.id'));
         
             Auth::login($user);
-            event(new Login(auth()->guard('web'), User::where('email', $this->email)->first(), true));
+            event(new Login(auth()->guard('web'), $user, true));
             return redirect()->intended('/');
         } else {
-
+            dd('invalid');
         }
 
     }
@@ -141,7 +149,7 @@ new class extends Component
                             <x-auth::elements.input-code wire:model="auth_code" id="auth-input-code" digits="6" eventCallback="code-input-complete" type="text" label="Code" />
                         </div>
                         @error('auth_code')
-                            <p>Incorrect Auth Code</p>
+                            <p class="my-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                         <x-auth::elements.button rounded="md" submit="true" wire:click="submitCode(document.getElementById('auth-input-code').value)">Continue</x-auth::elements.button>
                     @else

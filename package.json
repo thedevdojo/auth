@@ -18,6 +18,7 @@
         "@invoate/alpine-query-string": "^1.0.0",
         "highlightjs": "^9.16.2",
         "phaser": "^3.80.1",
-        "split.js": "^1.6.5"
+        "split.js": "^1.6.5",
+        "@tailwindcss/container-queries": "^0.1.1"
     }
 }

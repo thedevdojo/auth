@@ -8,24 +8,10 @@ use Illuminate\Http\RedirectResponse;
 
 class LogoutController
 {
-    public function __invoke()
+    public function __invoke(): RedirectResponse
     {
         Auth::logout();
-        $this->redirectUserAfterLogout();
-    }
-
-    public function logout(Request $request)
-    {
-        Auth::logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        $this->redirectUserAfterLogout();
-    }
-
-    private function redirectUserAfterLogout() : RedirectResponse
-    {
         return redirect()->route('home');
     }
+
 }

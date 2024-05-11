@@ -41,6 +41,7 @@ new class extends Component
 
     public function mount(){
         $this->loadConfigs();
+        $this->twoFactorEnabled = $this->settings->enable_2fa;
     }
 
     public function editIdentity(){
@@ -49,6 +50,7 @@ new class extends Component
 
     public function authenticate()
     {
+        
         if(!$this->showPasswordField){
             $this->validateOnly('email');
             $this->showPasswordField = true;

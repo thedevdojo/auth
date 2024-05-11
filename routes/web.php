@@ -25,24 +25,6 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     Route::get('/auth/logout', [LogoutController::class, 'getLogout'])->name('logout.get');
 
-
-    Route::get('g2fa', function(){
-        $QrCodeAndSecret = new GenerateQrCodeAndSecretKey();
-        [$qr, $secret] = $QrCodeAndSecret(auth()->user());
-        echo '<img src="data:image/png;base64, ' . $qr . ' " style="width:400px; height:auto" />';
-        // $secret should be saved to user database as two_factor_secret, but it should be encrypted like `encrypt($secret)`
-
-    });
-
-    Route::get('getr', function(){
-        $generateCodesFor = new GenerateNewRecoveryCodes();
-        $generateCodesFor(auth()->user());
-    });
-
-    Route::get('newr', function(){
-        dd(auth()->user()->hasEnabledTwoFactorAuthentication());
-    });
-
 });
 
 

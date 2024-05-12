@@ -67,6 +67,10 @@ new class extends Component
         if($valid){
         
             Auth::login($user);
+
+            // clear out the session that is used to determine if the user can visit the 2fa challenge page.
+            $this->session()->forget('login.id');
+
             event(new Login(auth()->guard('web'), $user, true));
             return redirect()->intended('/');
         } else {
@@ -91,7 +95,7 @@ new class extends Component
 ?>
 
 <x-auth::layouts.app title="{{ config('devdojo.auth.language.twoFactorChallenge.page_title') }}">
-    @volt('auth.twofactorchallenge')
+    @volt('auth.two-factor-challenge')
         <x-auth::elements.container>
             <div x-data x-on:code-input-complete.window="console.log(event); $dispatch('submitCode', [event.detail.code])" class="relative w-full h-auto">
                 @if(!$recovery)

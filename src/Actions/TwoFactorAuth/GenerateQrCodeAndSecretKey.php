@@ -16,7 +16,7 @@ class GenerateQrCodeAndSecretKey
      * @param  mixed  $user
      * @return void
      */
-    public function __invoke($user)
+    public function __invoke($user) : array
     {
 
         $google2fa = new Google2FA();
@@ -25,10 +25,11 @@ class GenerateQrCodeAndSecretKey
         //$secretKeyEncrypted = encrypt($secret_key);
         //echo $google2fa->generateSecretKey();
 
+        // TODO - Make sure config('app.name') works below.
         $g2faUrl = $google2fa->getQRCodeUrl(
-            'Auth',
+            config('app.name'),
             $user->email,
-            $google2fa->generateSecretKey()
+            $secret_key
         );
         
         $writer = new Writer(

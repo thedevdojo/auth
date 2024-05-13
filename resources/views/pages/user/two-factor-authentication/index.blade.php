@@ -9,7 +9,7 @@ use Devdojo\Auth\Actions\TwoFactorAuth\GenerateNewRecoveryCodes;
 use Devdojo\Auth\Actions\TwoFactorAuth\GenerateQrCodeAndSecretKey;
 
 name('user.two-factor-authentication');
-//middleware(['auth', 'verified', 'password.confirm']); 
+//middleware(['auth', 'verified', 'password.confirm']);
 middleware(['auth', 'verified']);
 // middleware(['auth'])
 

@@ -52,11 +52,15 @@ function something()
 
 use App\Models\User;
 
-function loginAsUser(User $user = null){
-    $user = $user ?? User::factory()->create();
+function loginAsUser(User $user = null, $data = []){
+    $user = $user ?? User::factory()->create($data);
     test()->actingAs($user);
 
     return $user;
+}
+
+function createUser($data){
+    return User::factory()->create($data);
 }
 
 function withANewUser(){

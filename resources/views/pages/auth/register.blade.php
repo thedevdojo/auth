@@ -94,6 +94,7 @@ new class extends Component
 
 ?>
 
+{{-- Needs a root div for all tests to pass correctly --}}
 <div>
     <x-auth::layouts.app title="{{ config('devdojo.auth.language.register.page_title') }}">
 

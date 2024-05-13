@@ -19,7 +19,6 @@
                             <strong>Individual Screen</strong>
                             <span class="text-[0.6rem]">Ask for login and password on the individual screens</span>
                         </button>
-                        {{-- <x-auth::setup.input type="text" label="Heading Text" x-on:keyup="document.getElementById('auth-heading').innerText = $el.value" wire:model="authData.heading" /> --}}
                     </div>
                 </div>
                 <div class="relative divide-y divide-zinc-200">

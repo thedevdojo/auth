@@ -3,6 +3,7 @@
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 beforeEach(function () {
     // Ensure each test starts with a clean slate
@@ -19,41 +20,58 @@ test('Two factor challenge page redirects if user is logged in and they don\'t h
         ->assertRedirect('auth/login');
 });
 
-test('when user logs in and two factor auth is active, they will have the login.id session created', function(){
-    $user = User::factory()->create(['name' => 'Homer Simpson', 'email' => 'homer@springfield.com', 'password' => \Hash::make('DuffBeer123')]);
-    // $this->get('auth/login')
-    //     ->seeInField('email', 'homer@springfield.com')
-    //     ->click('.auth-component-button')
-    //     ->assertSee('Password');
-    // dd($user->two_factor_secret);
-    //dd(\Schema::getColumnListing('users'));
-    //dd(env('DB_CONNECTION'));
-    //dd($user);
-})->todo();
 
-it('user can view two factor challenge page after they login', function(){
-
-    // Livewire::test('auth.register')
-    //     ->set('email', 'user@example.com')
-    //     ->set('password', 'secret1234')
-    //     ->set('name', 'John Doe')
-    //     ->call('register')
-
-    withANewUser()->get('auth/two-factor-challenge')->asertOK();
-    // $user = loginAsUser(null);
-    // Livewire::test('auth.two-factor-challenge');
-        // ->assertSee('When you enabled 2FA');
-})->todo();
-
-test('when authenticated, user can view /user/two-factor-authentication page', function(){
+test('User logs in when two factor disabled, the login.id session should not be created', function(){
+    $user = createUser(['password' => \Hash::make('password123'), 'two_factor_confirmed_at' => now()]);
     
-})->todo();
+    Livewire::test('auth.login')
+        ->set('email', $user->email)
+        ->set('showPasswordField', true)
+        ->set('password', 'password123')
+        ->call('authenticate')
+        ->assertHasNoErrors()
+        ->assertRedirect('/');
 
-test('when authenticated, user can view /user/two-factor-authentication page and they can click enable and add auth code', function(){
-    
-})->todo();
+        $this->assertTrue(!Session::has('login.id'));
+});
 
-// scenarios when 2FA is disabled by application admin
-test('if two factor auth is disabled, user can login with name and password and they will not be redirected to 2fa page, even if they have the correct two_factor table columns filled', function(){
+test('User logs in when two factor enabled, the login.id session should be created', function(){
+    config()->set('devdojo.auth.settings.enable_2fa', true);
+    $user = createUser(['password' => \Hash::make('password123'), 'two_factor_confirmed_at' => now()]);
     
-})->todo();
+    Livewire::test('auth.login')
+        ->set('email', $user->email)
+        ->set('showPasswordField', true)
+        ->set('password', 'password123')
+        ->call('authenticate')
+        ->assertHasNoErrors()
+        ->assertRedirect('auth/two-factor-challenge');
+
+    $this->assertTrue(Session::has('login.id'));
+});
+
+test('User logs in without 2FA, they should not be redirected to auth/two-factor-challenge page', function(){
+    config()->set('devdojo.auth.settings.enable_2fa', true);
+    $user = createUser(['password' => \Hash::make('password123')]);
+    
+    Livewire::test('auth.login')
+        ->set('email', $user->email)
+        ->set('showPasswordField', true)
+        ->set('password', 'password123')
+        ->call('authenticate')
+        ->assertHasNoErrors()
+        ->assertRedirect('/');
+});
+
+it('user cannot view two factor challenge page logging in if it\'s disabled', function(){
+    $user = loginAsUser();
+    $this->get('user/two-factor-authentication')
+        ->assertRedirect('/');
+});
+
+it('user can view two factor challenge page when it\'s enabled', function(){
+    config()->set('devdojo.auth.settings.enable_2fa', true);
+    $user = loginAsUser();
+    $this->get('user/two-factor-authentication')
+        ->assertOk();
+});

@@ -131,6 +131,7 @@
             
             <div class="flex flex-col w-full h-full bg-white rounded-t-md">
                 <div class="flex relative z-50 flex-shrink-0 justify-center items-center w-full h-10 bg-white rounded-t-md border-b border-zinc-200">
+                    <!-- TODO - When we click the contents of the iframe it does not close this menu. When this is open, need to add a transparent layer over the iframe so this will trigger -->
                     <div class="relative" x-on:click.outside="previewMenuDropdown=false">
                         <button x-on:click="previewMenuDropdown=!previewMenuDropdown" class="flex justify-between items-center px-3 w-64 h-7 text-xs rounded-md border cursor-pointer bg-zinc-100 hover:bg-zinc-200/70">
                             <img src="{{ url(config('devdojo.auth.appearance.favicon.light')) }}" class="w-4 h-4 -translate-x-1.5" />

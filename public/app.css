@@ -1,3 +1,11 @@
 #auth-body{
   opacity:80;
 }
+
+#auth-container{
+  border:0px !important;
+}
+
+#auth-heading-container{
+ padding-left:5px; 
+}

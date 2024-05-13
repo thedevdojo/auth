@@ -11,6 +11,7 @@ use Illuminate\Support\ServiceProvider;
 use PragmaRX\Google2FA\Google2FA;
 use Illuminate\Support\Facades\Route;
 use Devdojo\Auth\Http\Middleware\TwoFactorChallenged;
+use Devdojo\Auth\Http\Middleware\TwoFactorEnabled;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         
         Route::middlewareGroup('two-factor-challenged', [TwoFactorChallenged::class]);
+        Route::middlewareGroup('two-factor-enabled', [TwoFactorEnabled::class]);
 
         /*
          * Optional methods to load your package assets

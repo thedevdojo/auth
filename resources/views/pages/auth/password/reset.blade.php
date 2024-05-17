@@ -62,8 +62,8 @@ new class extends Component
                     <x-auth::elements.button type="primary" rounded="md" submit="true">Send password reset link</x-auth::elements.button>
                 </form>
             @endif
-            <div class="mt-3 space-x-0.5 text-sm leading-5 text-center text-gray-400 translate-y-3 dark:text-gray-300">
-                <span>Or</span>
+            <div class="mt-3 space-x-0.5 text-sm leading-5 text-center" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
+                <span class="opacity-[47%]">Or</span>
                 <x-auth::elements.text-link href="{{ route('auth.login') }}">return to login</x-auth::elements.text-link>
             </div>
         </x-auth::elements.container>

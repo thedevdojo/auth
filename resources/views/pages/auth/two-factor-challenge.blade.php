@@ -69,7 +69,7 @@ new class extends Component
             Auth::login($user);
 
             // clear out the session that is used to determine if the user can visit the 2fa challenge page.
-            $this->session()->forget('login.id');
+            session()->forget('login.id');
 
             event(new Login(auth()->guard('web'), $user, true));
             return redirect()->intended('/');

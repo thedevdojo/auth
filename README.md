@@ -29,7 +29,7 @@ To install this package you'll want to first have Laravel Breeze, Jetstream, Gen
 composer require devdojo/auth
 ```
 
-After the package has been installed you'll need to publish the authentication assets with the followign command:
+After the package has been installed you'll need to publish the authentication assets with the following command:
 
 ```
 php artisan vendor:publish --tag=auth:assets

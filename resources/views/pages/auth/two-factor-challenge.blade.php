@@ -12,7 +12,9 @@ use Devdojo\Auth\Traits\HasConfigs;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
 
-middleware(['two-factor-challenged', 'throttle:5,1']);
+if(!isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || !app()->isLocal()){
+    middleware(['two-factor-challenged', 'throttle:5,1']);
+}
 name('auth.two-factor-challenge');
 
 new class extends Component

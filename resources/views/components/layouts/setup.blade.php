@@ -131,7 +131,6 @@
             
             <div class="flex flex-col w-full h-full bg-white rounded-t-md">
                 <div class="flex relative z-50 flex-shrink-0 justify-center items-center w-full h-10 bg-white rounded-t-md border-b border-zinc-200">
-                    <!-- TODO - When we click the contents of the iframe it does not close this menu. When this is open, need to add a transparent layer over the iframe so this will trigger -->
                     <div class="relative" x-on:click.outside="previewMenuDropdown=false">
                         <button x-on:click="previewMenuDropdown=!previewMenuDropdown" class="flex justify-between items-center px-3 w-64 h-7 text-xs rounded-md border cursor-pointer bg-zinc-100 hover:bg-zinc-200/70">
                             <img src="{{ url(config('devdojo.auth.appearance.favicon.light')) }}" class="w-4 h-4 -translate-x-1.5" />
@@ -139,12 +138,13 @@
                             <x-phosphor-caret-down-fill class="ml-2 w-3 h-3" />
                         </button>
                         <div x-show="previewMenuDropdown" x-transition.scale.origin.top.opacity class="[&>button]:px-3 [&>button]:block [&>button]:rounded-md space-y-1 [&>button:hover]:bg-zinc-100 group [&>button]:text-left [&>button]:w-full [&>button]:text-sm [&>button]:py-1.5 absolute left-0 bg-white shadow-xl p-2 w-64 rounded-md top-0 mt-[33px] z-[99]">
-                            <button @click="previewURL='/auth/login'">Login</button>
-                            <button @click="previewURL='/auth/register'">Register</button>
-                            <button @click="previewURL='/auth/verify'">Verify Account</button>
-                            <button @click="previewURL='/auth/password/confirm'">Password Confirmation</button>
-                            <button @click="previewURL='/auth/password/reset'">Password Reset Request</button>
-                            <button @click="previewURL='/auth/password/SomeReallyLongToken'">Password Reset</button>
+                            <button @click="previewURL='/auth/login'; previewMenuDropdown=false;">Login</button>
+                            <button @click="previewURL='/auth/register'; previewMenuDropdown=false;">Register</button>
+                            <button @click="previewURL='/auth/verify'; previewMenuDropdown=false;">Verify Account</button>
+                            <button @click="previewURL='/auth/password/confirm'; previewMenuDropdown=false;">Password Confirmation</button>
+                            <button @click="previewURL='/auth/password/reset'; previewMenuDropdown=false;">Password Reset Request</button>
+                            <button @click="previewURL='/auth/password/SomeReallyLongToken'; previewMenuDropdown=false;">Password Reset</button>
+                            <button @click="previewURL='/auth/two-factor-challenge'; previewMenuDropdown=false;">Two Factor Challenge</button>
                         </div>
                     </div>
                     <div class="flex absolute right-0 items-center h-full">
@@ -168,6 +168,7 @@
                         <svg class="w-5 h-5 animate-spin text-zinc-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                     </div>
                 </div>
+                <div x-show="previewMenuDropdown" class="absolute inset-0 z-40 w-full h-full bg-transparent"></div>
                 <iframe id="preview" :src="previewURL + '?preview=true'" class="hidden overflow-hidden relative z-30 w-full h-full opacity-0 duration-300 ease-out"></iframe>
             </div>
         </div>

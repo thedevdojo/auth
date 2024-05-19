@@ -50,6 +50,11 @@ class AuthServiceProvider extends ServiceProvider
                 __DIR__.'/../public' => public_path('auth'),
             ], 'auth:assets');
 
+            // Publishing CI workflows.
+            $this->publishes([
+                __DIR__.'/../resources/workflows' => base_path('.github/workflows'),
+            ], 'auth:ci');
+
             // Publishing the translation files.
             /*$this->publishes([
                 __DIR__.'/../resources/lang' => resource_path('lang/vendor/auth'),

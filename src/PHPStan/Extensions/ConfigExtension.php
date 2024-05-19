@@ -2,12 +2,11 @@
 
 namespace Devdojo\Auth\PHPStan\Extensions;
 
-use PHPStan\Broker\Broker;
+use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
-use PHPStan\Reflection\MethodReflection;
-use PHPStan\Analyser\Scope;
 
 class ConfigExtension implements DynamicMethodReturnTypeExtension
 {

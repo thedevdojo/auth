@@ -7,12 +7,20 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use PragmaRX\Google2FA\Google2FA;
 
+/**
+ * Class User
+ *
+ * @property string|null $email
+ * @property string|null $two_factor_secret
+ * @property string|null $two_factor_recovery_codes
+ * @property \Illuminate\Support\Carbon|null $two_factor_confirmed_at
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasSocialProviders;
 
     protected $fillable = [
-        'name', 'email', 'password', 'two_factor_secret', 'two_factor_recovery_codes',
+        'name', 'email', 'password', 'two_factor_secret', 'two_factor_recovery_codes', 'two_factor_confirmed_at'
     ];
 
     public function hasVerifiedEmail()

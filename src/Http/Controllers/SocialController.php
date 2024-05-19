@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialController
@@ -18,7 +19,7 @@ class SocialController
 
     }
 
-    public function redirect(Request $request, $driver)
+    public function redirect(Request $request, string $driver): RedirectResponse
     {
         $this->dynamicallySetSocialProviderCredentials($driver);
 

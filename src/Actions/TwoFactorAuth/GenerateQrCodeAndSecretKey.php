@@ -6,29 +6,32 @@ use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
+use Devdojo\Auth\Models\User;
 use PragmaRX\Google2FA\Google2FA;
 
 class GenerateQrCodeAndSecretKey
 {
+    public string $companyName;
     /**
      * Generate new recovery codes for the user.
      *
-     * @param  mixed  $user
-     * @return void
+     * @param  \Devdojo\Auth\Models\User  $user
+     * @return array{string, string}
      */
-    public function __invoke($user): array
+    public function __invoke(User $user): array
     {
 
         $google2fa = new Google2FA();
         $secret_key = $google2fa->generateSecretKey();
 
-        //$secretKeyEncrypted = encrypt($secret_key);
-        //echo $google2fa->generateSecretKey();
+        $this->companyName = 'Auth';
+        if(is_string(config('app.name'))){
+            $this->companyName = config('app.name');
+        }
 
-        // TODO - Make sure config('app.name') works below.
         $g2faUrl = $google2fa->getQRCodeUrl(
-            config('app.name'),
-            $user->email,
+            $this->companyName,
+            (string)$user->email,
             $secret_key
         );
 

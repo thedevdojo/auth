@@ -2,6 +2,8 @@
 
 use function Laravel\Folio\{middleware, name};
 use Livewire\Volt\Component;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use PragmaRX\Google2FA\Google2FA;
 use Devdojo\Auth\Actions\TwoFactorAuth\DisableTwoFactorAuthentication;
@@ -47,8 +49,9 @@ new class extends Component
     }
 
     private function generateCodes(){
-        $generateCodesFor = new GenerateNewRecoveryCodes();
-        return $generateCodesFor(auth()->user());
+        Collection::times(8, function () {
+            return Str::random(10).'-'.Str::random(10);;
+        });
     }
 
     public function cancelTwoFactor(){

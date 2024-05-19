@@ -3,16 +3,17 @@
 namespace Devdojo\Auth\Actions\TwoFactorAuth;
 
 use Devdojo\Auth\Events\TwoFactorAuthenticationDisabled;
+use Devdojo\Auth\Models\User;
 
 class DisableTwoFactorAuthentication
 {
     /**
      * Disable two factor authentication for the user.
      *
-     * @param  mixed  $user
+     * @param  \Devdojo\Auth\Models\User  $user
      * @return void
      */
-    public function __invoke($user)
+    public function __invoke(User $user)
     {
         if (! is_null($user->two_factor_secret) ||
             ! is_null($user->two_factor_recovery_codes) ||

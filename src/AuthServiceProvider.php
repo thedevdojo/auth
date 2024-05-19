@@ -109,7 +109,7 @@ class AuthServiceProvider extends ServiceProvider
 
         // Register the main class to use with the facade
         $this->app->singleton('devdojoauth', function () {
-            return new DevDojoAuth;
+            return new \Devdojo\Auth\Auth;
         });
 
         // Bind a singleton for the Google2FA service

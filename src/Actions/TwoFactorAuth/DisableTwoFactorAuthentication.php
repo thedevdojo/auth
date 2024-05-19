@@ -10,7 +10,6 @@ class DisableTwoFactorAuthentication
     /**
      * Disable two factor authentication for the user.
      *
-     * @param  \Devdojo\Auth\Models\User  $user
      * @return void
      */
     public function __invoke(User $user)

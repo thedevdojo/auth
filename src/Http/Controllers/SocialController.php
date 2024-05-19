@@ -5,11 +5,11 @@ namespace Devdojo\Auth\Http\Controllers;
 use Devdojo\Auth\Models\User;
 use Devdojo\Auth\Models\SocialProvider;
 use Devdojo\Auth\Models\SocialProviderUser;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialController

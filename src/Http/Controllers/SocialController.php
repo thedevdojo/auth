@@ -2,9 +2,9 @@
 
 namespace Devdojo\Auth\Http\Controllers;
 
-use Devdojo\Auth\Models\User;
 use Devdojo\Auth\Models\SocialProvider;
 use Devdojo\Auth\Models\SocialProviderUser;
+use Devdojo\Auth\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;

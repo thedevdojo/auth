@@ -3,7 +3,6 @@
 namespace Devdojo\Auth\Traits;
 
 use Devdojo\Auth\Models\SocialProviderUser;
-use Devdojo\Auth\Models\SocialProvider;
 
 trait HasSocialProviders
 {
@@ -28,7 +27,7 @@ trait HasSocialProviders
     /**
      * Get social provider user data for a specific provider.
      *
-     * @param string $providerSlug The slug of the social provider.
+     * @param  string  $providerSlug  The slug of the social provider.
      * @return SocialProviderUser|null
      */
     public function getSocialProviderUser($providerSlug)
@@ -39,7 +38,7 @@ trait HasSocialProviders
     /**
      * Check if the user is linked to a specific social provider.
      *
-     * @param string $providerSlug The slug of the social provider.
+     * @param  string  $providerSlug  The slug of the social provider.
      * @return bool
      */
     public function hasSocialProvider($providerSlug)
@@ -50,8 +49,8 @@ trait HasSocialProviders
     /**
      * Add or update social provider user information for a given provider.
      *
-     * @param string $providerSlug The slug of the social provider.
-     * @param array $data Data to store/update for the provider.
+     * @param  string  $providerSlug  The slug of the social provider.
+     * @param  array  $data  Data to store/update for the provider.
      * @return SocialProviderUser
      */
     public function addOrUpdateSocialProviderUser($providerSlug, array $data)

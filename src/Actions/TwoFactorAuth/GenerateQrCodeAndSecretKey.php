@@ -2,11 +2,11 @@
 
 namespace Devdojo\Auth\Actions\TwoFactorAuth;
 
-use PragmaRX\Google2FA\Google2FA;
-use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
+use PragmaRX\Google2FA\Google2FA;
 
 class GenerateQrCodeAndSecretKey
 {
@@ -16,7 +16,7 @@ class GenerateQrCodeAndSecretKey
      * @param  mixed  $user
      * @return void
      */
-    public function __invoke($user) : array
+    public function __invoke($user): array
     {
 
         $google2fa = new Google2FA();
@@ -31,16 +31,15 @@ class GenerateQrCodeAndSecretKey
             $user->email,
             $secret_key
         );
-        
+
         $writer = new Writer(
             new ImageRenderer(
                 new RendererStyle(800),
                 new ImagickImageBackEnd()
             )
         );
-        
-        $qrcode_image = base64_encode($writer->writeString($g2faUrl));
 
+        $qrcode_image = base64_encode($writer->writeString($g2faUrl));
 
         return [$qrcode_image, $secret_key];
 

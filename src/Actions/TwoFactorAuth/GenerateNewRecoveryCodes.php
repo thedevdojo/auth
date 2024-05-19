@@ -2,8 +2,8 @@
 
 namespace Devdojo\Auth\Actions\TwoFactorAuth;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class GenerateNewRecoveryCodes
 {
@@ -13,14 +13,15 @@ class GenerateNewRecoveryCodes
      * @param  mixed  $user
      * @return void
      */
-    public function __invoke($user) : Collection
+    public function __invoke($user): Collection
     {
         return Collection::times(8, function () {
-                return $this->generate();
-            });
+            return $this->generate();
+        });
     }
 
-    public function generate(){
+    public function generate()
+    {
         return Str::random(10).'-'.Str::random(10);
     }
 }

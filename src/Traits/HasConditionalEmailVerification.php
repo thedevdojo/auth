@@ -21,7 +21,7 @@ trait HasConditionalEmailVerification
      */
     private static function classImplements($interface)
     {
-        if (!isset(class_implements(static::class)[$interface])) {
+        if (! isset(class_implements(static::class)[$interface])) {
             class_uses_recursive(static::class)[$interface] = $interface;
         }
     }

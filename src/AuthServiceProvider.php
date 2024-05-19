@@ -2,16 +2,15 @@
 
 namespace Devdojo\Auth;
 
-use Livewire\Livewire;
-use Livewire\Volt\Volt;
-use Laravel\Folio\Folio;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
-use PragmaRX\Google2FA\Google2FA;
-use Illuminate\Support\Facades\Route;
 use Devdojo\Auth\Http\Middleware\TwoFactorChallenged;
 use Devdojo\Auth\Http\Middleware\TwoFactorEnabled;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
+use Laravel\Folio\Folio;
+use Livewire\Livewire;
+use Livewire\Volt\Volt;
+use PragmaRX\Google2FA\Google2FA;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -20,7 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        
+
         Route::middlewareGroup('two-factor-challenged', [TwoFactorChallenged::class]);
         Route::middlewareGroup('two-factor-enabled', [TwoFactorEnabled::class]);
 
@@ -75,8 +74,9 @@ class AuthServiceProvider extends ServiceProvider
         //app()->register(\October\Rain\Config\ServiceProvider::class);
     }
 
-    private function registerAuthFolioDirectory(){
-        $pagesDirectory = __DIR__ . '/../resources/views/pages';
+    private function registerAuthFolioDirectory()
+    {
+        $pagesDirectory = __DIR__.'/../resources/views/pages';
         if (File::exists($pagesDirectory)) {
             Folio::path($pagesDirectory)->middleware([
                 '*' => [
@@ -86,9 +86,10 @@ class AuthServiceProvider extends ServiceProvider
         }
     }
 
-    private function registerVoltDirectory(){
+    private function registerVoltDirectory()
+    {
         Volt::mount([
-            __DIR__ . '/../resources/views/pages'
+            __DIR__.'/../resources/views/pages',
         ]);
     }
 

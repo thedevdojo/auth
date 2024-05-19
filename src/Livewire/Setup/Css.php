@@ -3,21 +3,22 @@
 namespace Devdojo\Auth\Livewire\Setup;
 
 use Livewire\Component;
-use Illuminate\Support\Facades\Artisan;
 
 class Css extends Component
 {
     public $css = '';
 
-    public function mount(){
+    public function mount()
+    {
         $css_file = public_path('auth/app.css');
-        if(file_exists($css_file)){
+        if (file_exists($css_file)) {
             $this->css = file_get_contents($css_file);
         }
-        
+
     }
 
-    public function update(){
+    public function update()
+    {
         $css_file = public_path('auth/app.css');
         file_put_contents($css_file, $this->css);
         $this->js('savedMessageOpen()');

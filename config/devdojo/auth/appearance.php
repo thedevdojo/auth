@@ -22,11 +22,11 @@ return [
         'button' => '#09090b',
         'button_text' => '#ffffff',
         'input_text' => '',
-        'input_border' => '#212936'
+        'input_border' => '#212936',
     ],
     'alignment' => [
         'heading' => 'center',
-        'container' => 'center'
+        'container' => 'center',
     ],
     'favicon' => [
         'light' => '/auth/img/favicon.png',

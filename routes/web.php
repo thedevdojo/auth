@@ -1,12 +1,9 @@
 <?php
 
+use Devdojo\Auth\Http\Controllers\LogoutController;
 use Devdojo\Auth\Http\Controllers\SocialController;
 use Devdojo\Auth\Http\Controllers\VerifyEmailController;
-use Devdojo\Auth\Http\Controllers\LogoutController;
 use Illuminate\Support\Facades\Route;
-
-
-
 
 // Create redirect routes for common authentication routes
 
@@ -15,10 +12,10 @@ Route::redirect('register', 'auth/register')->name('register');
 
 // define the logout route
 Route::middleware(['auth', 'web'])->group(function () {
-    
+
     Route::post('/auth/logout', LogoutController::class)
         ->name('logout');
-    
+
     Route::get('/auth/verify-email/{id}/{hash}', VerifyEmailController::class)
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');
@@ -26,7 +23,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/auth/logout', [LogoutController::class, 'getLogout'])->name('logout.get');
 
 });
-
 
 Route::middleware(['web'])->group(function () {
     // Add social routes

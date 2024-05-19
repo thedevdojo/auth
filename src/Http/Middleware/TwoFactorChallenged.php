@@ -15,9 +15,10 @@ class TwoFactorChallenged
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!session()->has('login.id')) {
+        if (! session()->has('login.id')) {
             return redirect()->route('auth.login');
         }
+
         return $next($request);
     }
 }

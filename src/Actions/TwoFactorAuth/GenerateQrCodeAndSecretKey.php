@@ -12,10 +12,10 @@ use PragmaRX\Google2FA\Google2FA;
 class GenerateQrCodeAndSecretKey
 {
     public string $companyName;
+
     /**
      * Generate new recovery codes for the user.
      *
-     * @param  \Devdojo\Auth\Models\User  $user
      * @return array{string, string}
      */
     public function __invoke(User $user): array
@@ -25,13 +25,13 @@ class GenerateQrCodeAndSecretKey
         $secret_key = $google2fa->generateSecretKey();
 
         $this->companyName = 'Auth';
-        if(is_string(config('app.name'))){
+        if (is_string(config('app.name'))) {
             $this->companyName = config('app.name');
         }
 
         $g2faUrl = $google2fa->getQRCodeUrl(
             $this->companyName,
-            (string)$user->email,
+            (string) $user->email,
             $secret_key
         );
 

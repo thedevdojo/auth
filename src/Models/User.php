@@ -20,7 +20,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasSocialProviders;
 
     protected $fillable = [
-        'name', 'email', 'password', 'two_factor_secret', 'two_factor_recovery_codes', 'two_factor_confirmed_at'
+        'name', 'email', 'password', 'two_factor_secret', 'two_factor_recovery_codes', 'two_factor_confirmed_at',
     ];
 
     public function hasVerifiedEmail()

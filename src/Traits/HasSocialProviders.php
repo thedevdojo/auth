@@ -3,15 +3,13 @@
 namespace Devdojo\Auth\Traits;
 
 use Devdojo\Auth\Models\SocialProviderUser;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait HasSocialProviders
 {
     /**
      * Relationship with SocialProviderUser.
-     *
-     * @return HasMany
      */
     public function socialProviders(): HasMany
     {
@@ -20,8 +18,6 @@ trait HasSocialProviders
 
     /**
      * Retrieve a list of social providers linked to the user.
-     *
-     * @return Collection
      */
     public function getLinkedSocialProvidersAttribute(): Collection
     {
@@ -34,7 +30,6 @@ trait HasSocialProviders
      * Get social provider user data for a specific provider.
      *
      * @param  string  $providerSlug  The slug of the social provider.
-     * @return SocialProviderUser|null
      */
     public function getSocialProviderUser(string $providerSlug): ?SocialProviderUser
     {
@@ -45,7 +40,6 @@ trait HasSocialProviders
      * Check if the user is linked to a specific social provider.
      *
      * @param  string  $providerSlug  The slug of the social provider.
-     * @return bool
      */
     public function hasSocialProvider(string $providerSlug): bool
     {
@@ -57,7 +51,6 @@ trait HasSocialProviders
      *
      * @param  string  $providerSlug  The slug of the social provider.
      * @param  array<string, mixed>  $data  Data to store/update for the provider.
-     * @return SocialProviderUser
      */
     public function addOrUpdateSocialProviderUser(string $providerSlug, array $data): SocialProviderUser
     {

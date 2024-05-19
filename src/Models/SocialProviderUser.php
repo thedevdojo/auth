@@ -36,8 +36,6 @@ class SocialProviderUser extends Model
 
     /**
      * Get the user that belongs to this SocialProvderUser
-     *
-     * @return BelongsTo
      */
     public function user(): BelongsTo
     {
@@ -46,8 +44,6 @@ class SocialProviderUser extends Model
 
     /**
      * Get the social provider for the social provider user.
-     *
-     * @return BelongsTo
      */
     public function socialProvider(): BelongsTo
     {

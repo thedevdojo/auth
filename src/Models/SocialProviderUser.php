@@ -4,6 +4,7 @@ namespace Devdojo\Auth\Models;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SocialProviderUser extends Model
 {
@@ -33,14 +34,22 @@ class SocialProviderUser extends Model
         'provider_data' => 'array',
     ];
 
-    // Define a relationship to the User model
-    public function user()
+    /**
+     * Get the user that belongs to this SocialProvderUser
+     *
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // Define a relationship to the SocialProvider model via Sushi
-    public function socialProvider()
+    /**
+     * Get the social provider for the social provider user.
+     *
+     * @return BelongsTo
+     */
+    public function socialProvider(): BelongsTo
     {
         return $this->belongsTo(SocialProvider::class, 'provider_slug', 'slug');
     }

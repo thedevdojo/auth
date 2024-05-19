@@ -14,6 +14,7 @@ use PragmaRX\Google2FA\Google2FA;
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property \Illuminate\Support\Carbon|null $two_factor_confirmed_at
+ * @property \Illuminate\Database\Eloquent\Relations\HasMany $socialProviders
  */
 class User extends Authenticatable implements MustVerifyEmail
 {

@@ -2,7 +2,7 @@
 
 namespace Devdojo\Auth\Http\Controllers;
 
-use App\Models\User;
+use Devdojo\Auth\Models\User;
 use Devdojo\Auth\Models\SocialProvider;
 use Devdojo\Auth\Models\SocialProviderUser;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +35,7 @@ class SocialController
         DB::transaction(function () use ($socialiteUser, $driver) {
             // Attempt to find the user based on the social provider's ID and slug
             $socialProviderUser = SocialProviderUser::where('provider_slug', $driver)
-                ->where('provider_user_id', $socialiteUser->id)
+                ->where('provider_user_id', $socialiteUser->getId())
                 ->first();
 
             if ($socialProviderUser) {
@@ -46,7 +46,7 @@ class SocialController
             }
 
             // Check if the email from the social provider already exists in the User table
-            $user = User::where('email', $socialiteUser->email)->first();
+            $user = User::where('email', $socialiteUser->getEmail())->first();
 
             if ($user) {
                 // Inform the user that an account with this email already exists
@@ -55,8 +55,8 @@ class SocialController
 
             // No user exists, register a new user
             $newUser = User::create([
-                'name' => $socialiteUser->name,
-                'email' => $socialiteUser->email,
+                'name' => $socialiteUser->getName(),
+                'email' => $socialiteUser->getEmail(),
                 // Add other fields as necessary
             ]);
 
@@ -65,11 +65,11 @@ class SocialController
 
             // Now add the social provider info for this new user
             $newUser->addOrUpdateSocialProviderUser($driver, [
-                'provider_user_id' => $socialiteUser->id,
-                'nickname' => $socialiteUser->nickname,
-                'name' => $socialiteUser->name,
-                'email' => $socialiteUser->email,
-                'avatar' => $socialiteUser->avatar,
+                'provider_user_id' => $socialiteUser->getId(),
+                'nickname' => $socialiteUser->getNickname(),
+                'name' => $socialiteUser->getName(),
+                'email' => $socialiteUser->getEmail(),
+                'avatar' => $socialiteUser->getAvatar(),
                 'provider_data' => json_encode($socialiteUser->user),
                 'token' => $socialiteUser->token,
                 'refresh_token' => $socialiteUser->refreshToken,

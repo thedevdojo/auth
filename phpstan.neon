@@ -1,15 +1,10 @@
 includes:
-    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
-
-services:
-    -
-        class: Devdojo\Auth\PHPStan\Extensions\ConfigExtension
-        tags:
-            - phpstan.broker.dynamicMethodReturnTypeExtension
+    - vendor/larastan/larastan/extension.neon
 
 parameters:
-    level: max
     paths:
-        - src
+        - packages/devdojo/auth/src
+        - vendor/devdojo/auth/src
+    level: 1
     excludePaths:
         - /Users/tonylea/Sites/auth/vendor

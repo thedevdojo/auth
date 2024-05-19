@@ -16,8 +16,9 @@ class AuthServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
+     * @return void
      */
-    public function boot()
+    public function boot() : void
     {
 
         Route::middlewareGroup('two-factor-challenged', [TwoFactorChallenged::class]);
@@ -74,7 +75,7 @@ class AuthServiceProvider extends ServiceProvider
         //app()->register(\October\Rain\Config\ServiceProvider::class);
     }
 
-    private function registerAuthFolioDirectory()
+    private function registerAuthFolioDirectory() : void
     {
         $pagesDirectory = __DIR__.'/../resources/views/pages';
         if (File::exists($pagesDirectory)) {
@@ -86,7 +87,7 @@ class AuthServiceProvider extends ServiceProvider
         }
     }
 
-    private function registerVoltDirectory()
+    private function registerVoltDirectory() : void
     {
         Volt::mount([
             __DIR__.'/../resources/views/pages',

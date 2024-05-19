@@ -3,23 +3,29 @@
 namespace Devdojo\Auth\Traits;
 
 use Devdojo\Auth\Models\SocialProviderUser;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Collection;
 
 trait HasSocialProviders
 {
     /**
      * Relationship with SocialProviderUser.
+     *
+     * @return HasMany
      */
-    public function socialProviders()
+    public function socialProviders(): HasMany
     {
         return $this->hasMany(SocialProviderUser::class);
     }
 
     /**
      * Retrieve a list of social providers linked to the user.
+     *
+     * @return Collection
      */
-    public function getLinkedSocialProvidersAttribute()
+    public function getLinkedSocialProvidersAttribute(): Collection
     {
-        return $this->socialProviders->map(function ($providerUser) {
+        return collect($this->socialProviders->get())->map(function (SocialProviderUser $providerUser) {
             return $providerUser->socialProvider;
         });
     }
@@ -30,7 +36,7 @@ trait HasSocialProviders
      * @param  string  $providerSlug  The slug of the social provider.
      * @return SocialProviderUser|null
      */
-    public function getSocialProviderUser($providerSlug)
+    public function getSocialProviderUser(string $providerSlug): ?SocialProviderUser
     {
         return $this->socialProviders->firstWhere('provider_slug', $providerSlug);
     }
@@ -41,7 +47,7 @@ trait HasSocialProviders
      * @param  string  $providerSlug  The slug of the social provider.
      * @return bool
      */
-    public function hasSocialProvider($providerSlug)
+    public function hasSocialProvider(string $providerSlug): bool
     {
         return $this->getSocialProviderUser($providerSlug) !== null;
     }
@@ -50,10 +56,10 @@ trait HasSocialProviders
      * Add or update social provider user information for a given provider.
      *
      * @param  string  $providerSlug  The slug of the social provider.
-     * @param  array  $data  Data to store/update for the provider.
+     * @param  array<string, mixed>  $data  Data to store/update for the provider.
      * @return SocialProviderUser
      */
-    public function addOrUpdateSocialProviderUser($providerSlug, array $data)
+    public function addOrUpdateSocialProviderUser(string $providerSlug, array $data): SocialProviderUser
     {
         $providerUser = $this->getSocialProviderUser($providerSlug);
 

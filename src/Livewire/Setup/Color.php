@@ -2,21 +2,26 @@
 
 namespace Devdojo\Auth\Livewire\Setup;
 
+use Illuminate\Support\Facades\Artisan;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Artisan;
 
 class Color extends Component
 {
     use WithFileUploads;
 
     public $text_color;
+
     public $button_color;
+
     public $button_text_color;
+
     public $input_text_color;
+
     public $input_border_color;
 
-    public function mount(){
+    public function mount()
+    {
         $this->text_color = config('devdojo.auth.appearance.color.text');
         $this->button_color = config('devdojo.auth.appearance.color.button');
         $this->button_text_color = config('devdojo.auth.appearance.color.button_text');
@@ -24,28 +29,34 @@ class Color extends Component
         $this->input_border_color = config('devdojo.auth.appearance.color.input_border');
     }
 
-    public function updatingTextColor($value){
+    public function updatingTextColor($value)
+    {
         $this->updateConfigKeyValue('color.text', $value);
     }
 
-    public function updatingButtonColor($value){
+    public function updatingButtonColor($value)
+    {
         $this->updateConfigKeyValue('color.button', $value);
     }
 
-    public function updatingButtonTextColor($value){
+    public function updatingButtonTextColor($value)
+    {
         $this->updateConfigKeyValue('color.button_text', $value);
     }
 
-    public function updatingInputTextColor($value){
+    public function updatingInputTextColor($value)
+    {
         $this->updateConfigKeyValue('color.input_text', $value);
     }
 
-    public function updatingInputBorderColor($value){
+    public function updatingInputBorderColor($value)
+    {
         $this->updateConfigKeyValue('color.input_border', $value);
     }
 
-    private function updateConfigKeyValue($key, $value){
-        \Config::write('devdojo.auth.appearance.' . $key, $value);
+    private function updateConfigKeyValue($key, $value)
+    {
+        \Config::write('devdojo.auth.appearance.'.$key, $value);
         Artisan::call('config:clear');
         $this->js('savedMessageOpen()');
     }

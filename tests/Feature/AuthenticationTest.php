@@ -2,7 +2,6 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 beforeEach(function () {
     // Ensure each test starts with a clean slate
@@ -64,18 +63,18 @@ it('renders social login buttons if providers are available', function () {
         'google' => [
             'name' => 'Google',
             'active' => true,
-            'label' => 'Google'
+            'label' => 'Google',
         ],
         'facebook' => [
             'name' => 'Facebook',
             'active' => true,
-            'label' => 'Facebook'
+            'label' => 'Facebook',
         ],
         'twitter' => [
             'name' => 'Twitter',
             'active' => false,
-            'label' => 'Twitter'
-        ]
+            'label' => 'Twitter',
+        ],
     ]);
 
     Livewire::test('auth.register')

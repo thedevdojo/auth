@@ -6,5 +6,5 @@ dataset('urls', [
     '/auth/verify',
     '/auth/password/reset',
     '/auth/password/confirm',
-    '/auth/password/SomeReallyLongtoken'
+    '/auth/password/SomeReallyLongtoken',
 ]);

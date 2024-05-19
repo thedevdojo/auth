@@ -2,9 +2,8 @@
 
 namespace Devdojo\Auth\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
 class SocialProviderUser extends Model
 {
@@ -25,13 +24,13 @@ class SocialProviderUser extends Model
         'provider_data',
         'token',
         'refresh_token',
-        'token_expires_at'
+        'token_expires_at',
     ];
 
     // The attributes that should be cast to native types.
     protected $casts = [
         'token_expires_at' => 'datetime',
-        'provider_data' => 'array'
+        'provider_data' => 'array',
     ];
 
     // Define a relationship to the User model

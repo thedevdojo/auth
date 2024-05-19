@@ -2,7 +2,6 @@
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -52,17 +51,20 @@ function something()
 
 use App\Models\User;
 
-function loginAsUser(User $user = null, $data = []){
+function loginAsUser(?User $user = null, $data = [])
+{
     $user = $user ?? User::factory()->create($data);
     test()->actingAs($user);
 
     return $user;
 }
 
-function createUser($data){
+function createUser($data)
+{
     return User::factory()->create($data);
 }
 
-function withANewUser(){
+function withANewUser()
+{
     return test()->actingAs(User::factory()->create());
 }

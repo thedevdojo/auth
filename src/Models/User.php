@@ -2,9 +2,9 @@
 
 namespace Devdojo\Auth\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Devdojo\Auth\Traits\HasSocialProviders;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use PragmaRX\Google2FA\Google2FA;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -17,14 +17,15 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function hasVerifiedEmail()
     {
-        if (!config('devdojo.auth.settings.registration_require_email_verification')) {
+        if (! config('devdojo.auth.settings.registration_require_email_verification')) {
             return true;
         }
 
         return $this->email_verified_at !== null;
     }
 
-    public function twoFactorQrCodeSvg(){
+    public function twoFactorQrCodeSvg()
+    {
         return '';
     }
 

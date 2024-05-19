@@ -8,18 +8,18 @@ return [
         'name' => 'Login',
         'route_name' => 'auth.login',
         'description' => 'Add login description here',
-        'url' => '/auth/login'
+        'url' => '/auth/login',
     ],
     'register' => [
         'name' => 'Register',
         'route_name' => 'auth.register',
         'description' => 'Add registration description here',
-        'url' => '/auth/register'
+        'url' => '/auth/register',
     ],
     'verify' => [
         'name' => 'Verify',
         'route_name' => 'auth.verify',
         'description' => 'Add verify description here',
-        'url' => '/auth/verify'
+        'url' => '/auth/verify',
     ],
 ];

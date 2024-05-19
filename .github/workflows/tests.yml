@@ -110,3 +110,24 @@ jobs:
     - name: Run Tests
       run: ./vendor/bin/pest
       working-directory: ./laravel_app
+
+    # This is where we start the Lighthouse tests
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install Lighthouse CI
+      run: npm install -g @lhci/cli@0.7.x
+
+    - name: Start Laravel server
+      run: php artisan serve --host=0.0.0.0 --port=8080 &
+      working-directory: ./laravel_app
+
+    - name: Wait for server to be up
+      run: sleep 15
+
+    - name: Run Lighthouse CI
+      run: lhci autorun
+      working-directory: ./laravel_app

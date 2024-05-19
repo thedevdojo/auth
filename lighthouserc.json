@@ -1,0 +1,20 @@
+{
+    "ci": {
+      "collect": {
+        "url": [
+          "http://localhost:8080/login",
+          "http://localhost:8080/register"
+        ],
+        "numberOfRuns": 3
+      },
+      "assert": {
+        "assertions": {
+          "categories:accessibility": ["error", {"minScore": 0.9}]
+        }
+      },
+      "upload": {
+        "target": "temporary-public-storage"
+      }
+    }
+  }
+  

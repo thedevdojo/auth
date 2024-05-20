@@ -8,16 +8,15 @@ beforeEach(function () {
     User::query()->delete();
 });
 
-test('Two factor challenge page redirects to login for guest user', function(){
+test('Two factor challenge page redirects to login for guest user', function () {
     $this->get('auth/two-factor-challenge')
         ->assertRedirect('auth/login');
 });
 
-test('Two factor challenge page redirects if user is logged in and they don\'t have the login.id session', function(){
+test('Two factor challenge page redirects if user is logged in and they don\'t have the login.id session', function () {
     withANewUser()->get('auth/two-factor-challenge')
         ->assertRedirect('auth/login');
 });
-
 
 test('User logs in when two factor disabled, the login.id session should not be created', function () {
     $user = createUser(['password' => \Hash::make('password123'), 'two_factor_confirmed_at' => now()]);

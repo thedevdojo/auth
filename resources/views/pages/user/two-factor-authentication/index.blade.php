@@ -10,7 +10,6 @@ use Devdojo\Auth\Actions\TwoFactorAuth\GenerateQrCodeAndSecretKey;
 
 name('user.two-factor-authentication');
 middleware(['auth', 'verified', 'two-factor-enabled']);
-// middleware(['auth'])
 
 new class extends Component
 {

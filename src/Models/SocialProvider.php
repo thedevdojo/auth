@@ -5,6 +5,12 @@ namespace Devdojo\Auth\Models;
 use Illuminate\Database\Eloquent\Model;
 use Sushi\Sushi;
 
+/**
+ * Class User
+ *
+ * @property string|null $client_id
+ * @property string|null $client_secret
+ */
 class SocialProvider extends Model
 {
     use Sushi;

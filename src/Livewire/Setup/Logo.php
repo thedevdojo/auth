@@ -87,8 +87,8 @@ class Logo extends Component
 
         $logo = match ($this->logo_type) {
             'image' => $this->logo_image,
-            'svg' => $this->logo_svg,
-            'text' => $this->logo_text
+            'svg' => $this->logo_svg_string,
+            'text' => $this->logo_image_src
         };
 
         return $logo;

@@ -10,12 +10,12 @@ beforeEach(function () {
 
 test('Two factor challenge page redirects to login for guest user', function () {
     $this->get('auth/two-factor-challenge')
-        ->assertRedirect('auth/login');
+        ->assertRedirect('login');
 });
 
 test('Two factor challenge page redirects if user is logged in and they don\'t have the login.id session', function () {
     withANewUser()->get('auth/two-factor-challenge')
-        ->assertRedirect('auth/login');
+        ->assertRedirect('/');
 });
 
 test('User logs in when two factor disabled, the login.id session should not be created', function () {

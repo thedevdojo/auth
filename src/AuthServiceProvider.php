@@ -17,7 +17,7 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application services.
      */
-    public function boot()
+    public function boot(): void
     {
 
         Route::middlewareGroup('two-factor-challenged', [TwoFactorChallenged::class]);
@@ -74,7 +74,7 @@ class AuthServiceProvider extends ServiceProvider
         //app()->register(\October\Rain\Config\ServiceProvider::class);
     }
 
-    private function registerAuthFolioDirectory()
+    private function registerAuthFolioDirectory(): void
     {
         $pagesDirectory = __DIR__.'/../resources/views/pages';
         if (File::exists($pagesDirectory)) {
@@ -86,7 +86,7 @@ class AuthServiceProvider extends ServiceProvider
         }
     }
 
-    private function registerVoltDirectory()
+    private function registerVoltDirectory(): void
     {
         Volt::mount([
             __DIR__.'/../resources/views/pages',
@@ -109,7 +109,7 @@ class AuthServiceProvider extends ServiceProvider
 
         // Register the main class to use with the facade
         $this->app->singleton('devdojoauth', function () {
-            return new DevDojoAuth;
+            return new \Devdojo\Auth\Auth;
         });
 
         // Bind a singleton for the Google2FA service

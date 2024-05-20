@@ -1,0 +1,10 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - packages/devdojo/auth/src
+        - vendor/devdojo/auth/src
+    level: 1
+    excludePaths:
+        - /Users/tonylea/Sites/auth/vendor

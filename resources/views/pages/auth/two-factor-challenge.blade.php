@@ -1,170 +1,146 @@
 <?php
 
+use App\Models\User;
 use function Laravel\Folio\{middleware, name};
-use Livewire\Volt\Component;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Auth\Events\Login;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Validate;
+use Livewire\Volt\Component;
 use PragmaRX\Google2FA\Google2FA;
-use Devdojo\Auth\Actions\TwoFactorAuth\DisableTwoFactorAuthentication;
-use Devdojo\Auth\Actions\TwoFactorAuth\GenerateNewRecoveryCodes;
-use Devdojo\Auth\Actions\TwoFactorAuth\GenerateQrCodeAndSecretKey;
+use Devdojo\Auth\Traits\HasConfigs;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 
+middleware(['two-factor-challenged', 'throttle:5,1']);
 name('auth.two-factor-challenge');
-middleware(['auth', 'verified', 'two-factor-enabled']);
-// middleware(['auth'])
 
 new class extends Component
 {
-    public $enabled = false;
-
-    // confirmed means that it has been enabled and the user has confirmed a code
-    public $confirmed = false;
-
-    public $showRecoveryCodes = true;
-
-    public $secret = '';
-    public $codes = '';
-    public $qr = '';
+    use HasConfigs;
     
-    public function mount(){
-        if(is_null(auth()->user()->two_factor_confirmed_at)) {
-            app(DisableTwoFactorAuthentication::class)(auth()->user());
+    public $recovery = false;
+    public $google2fa;
+
+    #[Validate('required|min:5')] 
+    public $auth_code;
+    public $recovery_code;
+
+    public function mount()
+    {
+        $this->loadConfigs();
+        $this->recovery = false;
+    }
+
+    public function switchToRecovery()
+    {
+        $this->recovery = !$this->recovery;
+        if($this->recovery){
+            $this->js("setTimeout(function(){ console.log('made'); window.dispatchEvent(new CustomEvent('focus-auth-2fa-recovery-code', {})); }, 10);");
         } else {
-            $this->confirmed = true;
+            // TODO - this we need to autofocus the first input of the auth code input
+            $this->js("setTimeout(function(){ window.dispatchEvent(new CustomEvent('focus-auth-2fa-auth-code', {})); }, 10);");
         }
+        return;
     }
 
-    public function enable(){
+    // TODO - Refactor the submitCode functionality into it's own trait so we can use this functionality here and user/two-factor-authenticaiton.blade.php
 
-        $QrCodeAndSecret = new GenerateQrCodeAndSecretKey();
-        [$this->qr, $this->secret] = $QrCodeAndSecret(auth()->user());
-        
-        auth()->user()->forceFill([
-            'two_factor_secret' => encrypt($this->secret),
-            'two_factor_recovery_codes' => encrypt(json_encode($this->generateCodes()))
-        ])->save();
-
-        $this->enabled = true;
-    }
-
-    private function generateCodes(){
-        Collection::times(8, function () {
-            return Str::random(10).'-'.Str::random(10);;
-        });
-    }
-
-    public function cancelTwoFactor(){
-        auth()->user()->forceFill([
-            'two_factor_secret' => null,
-            'two_factor_recovery_codes' => null
-        ])->save();
-        
-        $this->enabled = false;
-    }
-
-    #[On('submitCode')] 
+     #[On('submitCode')] 
     public function submitCode($code)
     {
-        if(empty($code) || strlen($code) < 6){
-            // TODO - If the code is empty or it's less than 6 characters we want to show the user a message
+        $this->auth_code = $code;
+
+        $this->validate();
+
+        if(empty($code) || strlen($code) < 5){
             dd('show validation error');
             return;
         }
 
-        //dd($this->secret);
+        $user = User::find(session()->get('login.id'));
 
+        $secret = decrypt($user->two_factor_secret);
         $google2fa = new Google2FA();
-        $valid = $google2fa->verifyKey($this->secret, $code);
+        $valid = $google2fa->verifyKey($secret, $code);
 
         if($valid){
-            auth()->user()->forceFill([
-                'two_factor_confirmed_at' => now(),
-            ])->save();
+        
+            Auth::login($user);
 
-            $this->confirmed = true;
+            // clear out the session that is used to determine if the user can visit the 2fa challenge page.
+            session()->forget('login.id');
+
+            event(new Login(auth()->guard('web'), $user, true));
+            return redirect()->intended('/');
         } else {
-            // TODO - implement an invalid message when the user enters an incorrect auth code
-            dd('show invalide code message');
+            dd('invalid');
+        }
+
+    }
+
+    // TODO - Make sure that submitting the recovery codes work
+
+    public function submit_recovery_code(){
+        $valid = in_array($this->recovery_code, auth()->user()->two_factor_recovery_codes);
+
+        if ($valid) {
+            dd('valid yo!');
+        } else {
+            dd('not valid');
         }
     }
-
-    public function disable(){
-        $disable = new DisableTwoFactorAuthentication;
-        $disable(auth()->user());
-
-        $this->enabled = false;
-        $this->confirmed = false;
-        $this->showRecoveryCodes = true;
-    }
-
 }
 
 ?>
 
-<x-auth::layouts.empty title="Two Factor Authentication">
-    @volt('user.two-factor-authentication')
-        <section class="flex @container justify-center items-center w-screen h-screen">
-
-            <div x-data x-on:code-input-complete.window="$dispatch('submitCode', [event.detail.code])" class="flex flex-col mx-auto w-full max-w-sm text-sm">
-                @if($confirmed)
-                    <div class="flex flex-col space-y-5">
-                        <h2 class="text-xl">You have enabled two factor authentication.</h2>
-                        <p>When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone's Google Authenticator application.</p>    
-                        @if($showRecoveryCodes)
-                            <div class="relative">
-                                <p class="font-medium">Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.</p>
-                                <div class="grid gap-1 px-4 py-4 mt-4 max-w-xl font-mono text-sm bg-gray-100 rounded-lg dark:bg-gray-900 dark:text-gray-100">
-                                    
-                                    @foreach (json_decode(decrypt(auth()->user()->two_factor_recovery_codes), true) as $code)
-                                        <div>{{ $code }}</div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-                        <div class="flex items-center space-x-5">
-                            <x-auth::elements.button type="primary" wire:click="regenerateCodes" rounded="md" size="md">Regenerate Codes</x-auto::elements.button>
-                            <x-auth::elements.button type="danger" wire:click="disable" size="md" rounded="md">Disable 2FA</x-auto::elements.button>
-                        </div>
-                    </div>
-                    
+<x-auth::layouts.app title="{{ config('devdojo.auth.language.twoFactorChallenge.page_title') }}">
+    @volt('auth.two-factor-challenge')
+        <x-auth::elements.container>
+            <div x-data x-on:code-input-complete.window="console.log(event); $dispatch('submitCode', [event.detail.code])" class="relative w-full h-auto">
+                @if(!$recovery)
+                    <x-auth::elements.heading 
+                        :text="($language->twoFactorChallenge->headline_auth ?? 'No Heading')"
+                        :description="($language->twoFactorChallenge->subheadline_auth ?? 'No Description')"
+                        :show_subheadline="($language->twoFactorChallenge->show_subheadline_auth ?? false)" />
                 @else
-                    @if(!$enabled)
-                        <div class="flex relative flex-col justify-start items-start space-y-5">
-                            <h2 class="text-lg font-semibold">Two factor authentication disabled.</h2>
-                            <p class="-translate-y-1">When you enabled 2FA, you will be prompted for a secure code during authentication. This code can be retrieved from your phone's Google Authenticator application.</p>
-                            <div class="relative w-auto">
-                                <x-auth::elements.button type="primary" rounded="md" size="md" wire:click="enable" wire:target="enable">Enable</x-auth>
-                            </div>
-                        </div>
-                    @else
-                        <div  class="relative space-y-5 w-full">
-                            <div class="space-y-5">
-                                <h2 class="text-lg font-semibold">Finish enabling two factor authentication.</h2>
-                                <p>Enable two-factor authentication to receive a secure token from your phone's Google Authenticator during login.</p>
-                                <p class="font-bold">To enable two-factor authentication, scan the QR code or enter the setup key using your phone's authenticator app and provide the OTP code.</p>
-                            </div>
-
-                            <div class="overflow-hidden relative mx-auto max-w-full rounded-lg border border-zinc-200">
-                                <img src="data:image/png;base64, {{ $qr }}" style="width:400px; height:auto" />
-                            </div>
-
-                            <p class="font-semibold text-center">
-                                {{ __('Setup Key') }}: {{ $secret }}
-                            </p>
-
-                            <x-auth::elements.input-code id="auth-input-code" digits="6" eventCallback="code-input-complete" type="text" label="Code" />
-                            
-                            <div class="flex items-center space-x-5">
-                                <x-auth::elements.button type="secondary" size="md" rounded="md" wire:click="cancelTwoFactor" wire:target="cancelTwoFactor">Cancel</x-auto::elements.button>
-                                <x-auth::elements.button type="primary" size="md" wire:click="submitCode(document.getElementById('auth-input-code').value)" wire:target="submitCode" rounded="md">Confirm</x-auto::elements.button>
-                            </div>
-
-                        </div>
-                    @endif
+                    <x-auth::elements.heading 
+                        :text="($language->twoFactorChallenge->headline_recovery ?? 'No Heading')"
+                        :description="($language->twoFactorChallenge->subheadline_recovery ?? 'No Description')"
+                        :show_subheadline="($language->twoFactorChallenge->show_subheadline_recovery ?? false)" />
                 @endif
-            </div>
-        </section>
-    @endvolt
 
-</x-auth::layouts.empty>
+                <div class="mt-5 space-y-5">
+
+                    @if(!$recovery)
+                        <div class="relative">
+                            <x-auth::elements.input-code wire:model="auth_code" id="auth-input-code" digits="6" eventCallback="code-input-complete" type="text" label="Code" />
+                        </div>
+                        @error('auth_code')
+                            <p class="my-2 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                        <x-auth::elements.button rounded="md" submit="true" wire:click="submitCode(document.getElementById('auth-input-code').value)">Continue</x-auth::elements.button>
+                    @else
+                        <div class="relative">
+                            <x-auth::elements.input label="Recovery Code" type="text" wire:model="recovery_code" id="auth-2fa-recovery-code" required />
+                        </div>
+                        <x-auth::elements.button rounded="md" submit="true" wire:click="submitRecoveryCode">Continue</x-auth::elements.button>
+                    @endif
+
+                    
+                </div>
+
+                <div class="mt-5 space-x-0.5 text-sm leading-5 text-left" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
+                    <span class="opacity-[47%]">or you can </span>
+                    <span class="font-medium underline opacity-60 cursor-pointer" wire:click="switchToRecovery" href="#_">
+                        @if(!$recovery)
+                            <span>login using a recovery code</span>
+                        @else
+                            <span>login using an authentication code</span>
+                        @endif
+                    </span>
+                </div>
+            </div>
+        </x-auth::elements.container>
+    @endvolt
+</x-auth::layouts.app>

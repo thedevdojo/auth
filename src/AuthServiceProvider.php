@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
          */
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'auth');
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'auth');
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
         $this->registerAuthFolioDirectory();
@@ -54,10 +54,10 @@ class AuthServiceProvider extends ServiceProvider
                 __DIR__.'/../resources/workflows' => base_path('.github/workflows'),
             ], 'auth:ci');
 
-            // Publishing the translation files.
-            /*$this->publishes([
-                __DIR__.'/../resources/lang' => resource_path('lang/vendor/auth'),
-            ], 'lang');*/
+            // Publish the migrations
+            $this->publishes([
+                __DIR__.'/../database/migrations' => database_path('migrations')
+            ], 'auth:migrations');
 
             // Registering package commands.
             // $this->commands([]);

@@ -12,7 +12,7 @@ class DisableTwoFactorAuthentication
      *
      * @return void
      */
-    public function __invoke(User $user)
+    public function __invoke($user)
     {
         if (! is_null($user->two_factor_secret) ||
             ! is_null($user->two_factor_recovery_codes) ||

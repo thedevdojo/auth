@@ -18,7 +18,7 @@ class GenerateQrCodeAndSecretKey
      *
      * @return array{string, string}
      */
-    public function __invoke(User $user): array
+    public function __invoke($user): array
     {
 
         $google2fa = new Google2FA();

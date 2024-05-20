@@ -56,7 +56,7 @@ class AuthServiceProvider extends ServiceProvider
 
             // Publish the migrations
             $this->publishes([
-                __DIR__.'/../database/migrations' => database_path('migrations')
+                __DIR__.'/../database/migrations' => database_path('migrations'),
             ], 'auth:migrations');
 
             // Registering package commands.

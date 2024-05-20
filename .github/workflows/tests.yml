@@ -102,7 +102,7 @@ jobs:
     - name: Install PestPHP and PHPStan
       run: |
         composer require pestphp/pest --dev --with-all-dependencies
-        composer require phpstan/phpstan --dev --with-all-dependencies
+        composer require larastan/larastan:^2.0 --dev --with-all-dependencies
       working-directory: ./laravel_app
 
     - name: Clear all view caches
@@ -118,5 +118,5 @@ jobs:
       working-directory: ./laravel_app
 
     - name: Run PHPStan for DevDojo Auth
-      run: ./vendor/bin/phpstan analyse --memory-limit=1G
+      run: ./vendor/bin/phpstan analyse --memory-limit=1G vendor/devdojo/auth/src
       working-directory: ./laravel_app

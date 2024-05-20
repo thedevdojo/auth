@@ -118,5 +118,5 @@ jobs:
       working-directory: ./laravel_app
 
     - name: Run PHPStan for DevDojo Auth
-      run: ./vendor/bin/phpstan analyse --memory-limit=1G vendor/devdojo/auth/src
+      run: ./vendor/bin/phpstan analyse --memory-limit=1G
       working-directory: ./laravel_app

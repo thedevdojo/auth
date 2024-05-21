@@ -50,6 +50,10 @@ jobs:
     - name: Publish the DevDojo Configs
       run: php artisan vendor:publish --tag=auth:config
       working-directory: ./laravel_app
+    
+    - name: Publish the DevDojo Auth Migrations
+      run: php artisan vendor:publish --tag=auth:migrations
+      working-directory: ./laravel_app
 
     - name: Remove current tests and symlink to DevDojo Auth
       run: |

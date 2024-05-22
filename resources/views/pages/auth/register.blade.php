@@ -88,7 +88,11 @@ new class extends Component
 
         Auth::login($user, true);
 
-        return redirect()->intended('/');
+        if(config('devdojo.auth.settings.registration_require_email_verification')){
+            return redirect()->route('verification.notice');
+        }
+
+        return redirect()->intended(config('devdojo.auth.settings.redirect_after_auth'));
     }
 };
 

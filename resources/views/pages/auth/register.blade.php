@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use Devdojo\Auth\Models\User;
 use Devdojo\Auth\Models\SocialProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;

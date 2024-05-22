@@ -5,6 +5,7 @@ namespace Devdojo\Auth\Models;
 use Devdojo\Auth\Traits\HasSocialProviders;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use PragmaRX\Google2FA\Google2FA;
 
 /**
@@ -18,7 +19,7 @@ use PragmaRX\Google2FA\Google2FA;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasSocialProviders;
+    use HasSocialProviders, Notifiable;
 
     protected $fillable = [
         'name', 'email', 'password', 'two_factor_secret', 'two_factor_recovery_codes', 'two_factor_confirmed_at',

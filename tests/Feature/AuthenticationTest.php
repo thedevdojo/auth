@@ -20,6 +20,7 @@ it('registers a new user and logs in', function () {
     $this->withoutExceptionHandling();
     $this->mock(Registered::class);
     config()->set('devdojo.auth.settings.registration_include_name_field', true);
+    config()->set('devdojo.auth.settings.registration_require_email_verification', false);
 
     Livewire::test('auth.register')
         ->set('email', 'user@example.com')

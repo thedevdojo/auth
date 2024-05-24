@@ -98,55 +98,52 @@ new class extends Component
 
 ?>
 
-{{-- Needs a root div for all tests to pass correctly --}}
-<div>
-    <x-auth::layouts.app title="{{ config('devdojo.auth.language.register.page_title') }}">
+<x-auth::layouts.app title="{{ config('devdojo.auth.language.register.page_title') }}">
 
-        @volt('auth.register')
-            <x-auth::elements.container>
+    @volt('auth.register')
+        <x-auth::elements.container>
 
-                <x-auth::elements.heading 
-                    :text="($language->register->headline ?? 'No Heading')"
-                    :description="($language->register->subheadline ?? 'No Description')"
-                    :show_subheadline="($language->register->show_subheadline ?? false)" />
+            <x-auth::elements.heading 
+                :text="($language->register->headline ?? 'No Heading')"
+                :description="($language->register->subheadline ?? 'No Description')"
+                :show_subheadline="($language->register->show_subheadline ?? false)" />
 
-                <form wire:submit="register" class="mt-5 space-y-5">
+            <form wire:submit="register" class="mt-5 space-y-5">
 
-                    @if($showNameField)
-                        <x-auth::elements.input label="Name" type="text" wire:model="name" autofocus="true" required />
-                    @endif
-
-                    @if($showEmailField)
-                        @php
-                            $autofocusEmail = ($showNameField) ? false : true;
-                        @endphp
-                        <x-auth::elements.input label="Email Address" type="email" wire:model="email" :autofocus="$autofocusEmail" required />
-                    @endif
-
-                    @if($showPasswordField)
-                        <x-auth::elements.input label="Password" type="password" wire:model="password" id="password" required />
-                    @endif
-
-                    <x-auth::elements.button rounded="md" submit="true">Continue</x-auth::elements.button>
-                </form>
-
-                <div class="mt-3 space-x-0.5 text-sm leading-5 text-left" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
-                    <span class="opacity-[47%]">Already have an account?</span>
-                    <x-auth::elements.text-link href="{{ route('auth.login') }}">Sign in</x-auth::elements.text-link>
-                </div>
-
-                @if(count($this->social_providers))
-                    <x-auth::elements.separator class="my-7">or</x-auto::elements.separator>
-                    <div class="relative space-y-2 w-full">
-                        @foreach($this->social_providers as $slug => $provider)
-                            <x-auth::elements.social-button :$slug :$provider />
-                        @endforeach
-                    </div>
+                @if($showNameField)
+                    <x-auth::elements.input label="Name" type="text" wire:model="name" autofocus="true" required />
                 @endif
 
+                @if($showEmailField)
+                    @php
+                        $autofocusEmail = ($showNameField) ? false : true;
+                    @endphp
+                    <x-auth::elements.input label="Email Address" type="email" wire:model="email" :autofocus="$autofocusEmail" required />
+                @endif
 
-            </x-auth::elements.container>
-        @endvolt
+                @if($showPasswordField)
+                    <x-auth::elements.input label="Password" type="password" wire:model="password" id="password" required />
+                @endif
 
-    </x-auth::layouts.app>
-</div>
+                <x-auth::elements.button rounded="md" submit="true">Continue</x-auth::elements.button>
+            </form>
+
+            <div class="mt-3 space-x-0.5 text-sm leading-5 text-left" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
+                <span class="opacity-[47%]">Already have an account?</span>
+                <x-auth::elements.text-link href="{{ route('auth.login') }}">Sign in</x-auth::elements.text-link>
+            </div>
+
+            @if(count($this->social_providers))
+                <x-auth::elements.separator class="my-7">or</x-auto::elements.separator>
+                <div class="relative space-y-2 w-full">
+                    @foreach($this->social_providers as $slug => $provider)
+                        <x-auth::elements.social-button :$slug :$provider />
+                    @endforeach
+                </div>
+            @endif
+
+
+        </x-auth::elements.container>
+    @endvolt
+
+</x-auth::layouts.app>

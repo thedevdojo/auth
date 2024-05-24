@@ -88,44 +88,45 @@ new class extends Component
 
 ?>
 
-{{-- Needs a root div for all tests to pass correctly --}}
-<div>
-    <x-auth::layouts.app title="{{ config('devdojo.auth.language.login.page_title') }}">
+<x-auth::layouts.app title="{{ config('devdojo.auth.language.login.page_title') }}">
+    <div class="relative w-full h-full">
         @volt('auth.login') 
-            <x-auth::elements.container>
-            
-                    <x-auth::elements.heading 
-                        :text="($language->login->headline ?? 'No Heading')"
-                        :description="($language->login->subheadline ?? 'No Description')"
-                        :show_subheadline="($language->login->show_subheadline ?? false)" />
-                    
-                    <form wire:submit="authenticate" class="mt-5 space-y-5">
-
-                        @if($showPasswordField)
-                            <x-auth::elements.input-placeholder value="{{ $email }}">
-                                <button type="button" wire:click="editIdentity" class="font-medium text-blue-500">Edit</button>
-                            </x-auth::elements.input-placeholder>
-                        @else  
-                            <x-auth::elements.input label="Email Address" type="email" wire:model="email" autofocus="true" id="email" required />
-                        @endif
+            <div class="relative w-full">
+                <x-auth::elements.container>
+                
+                        <x-auth::elements.heading 
+                            :text="($language->login->headline ?? 'No Heading')"
+                            :description="($language->login->subheadline ?? 'No Description')"
+                            :show_subheadline="($language->login->show_subheadline ?? false)" />
                         
-                        @if($showPasswordField)
-                            <x-auth::elements.input label="Password" type="password" wire:model="password" id="password" />
-                            <div class="flex justify-between items-center mt-6 text-sm leading-5">
-                                <x-auth::elements.text-link href="{{ route('auth.password.request') }}">Forgot your password?</x-auth::elements.text-link>
-                            </div>
-                        @endif
+                        <form wire:submit="authenticate" class="mt-5 space-y-5">
 
-                        <x-auth::elements.button type="primary" rounded="md" size="md" submit="true">Continue</x-auth::elements.button>
-                    </form>
-                    
-                    
-                    <div class="mt-3 space-x-0.5 text-sm leading-5 text-left" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
-                        <span class="opacity-[47%]">Don't have an account?</span>
-                        <x-auth::elements.text-link href="{{ route('auth.register') }}">Sign up</x-auth::elements.text-link>
-                    </div>
+                            @if($showPasswordField)
+                                <x-auth::elements.input-placeholder value="{{ $email }}">
+                                    <button type="button" wire:click="editIdentity" class="font-medium text-blue-500">Edit</button>
+                                </x-auth::elements.input-placeholder>
+                            @else  
+                                <x-auth::elements.input label="Email Address" type="email" wire:model="email" autofocus="true" id="email" required />
+                            @endif
+                            
+                            @if($showPasswordField)
+                                <x-auth::elements.input label="Password" type="password" wire:model="password" id="password" />
+                                <div class="flex justify-between items-center mt-6 text-sm leading-5">
+                                    <x-auth::elements.text-link href="{{ route('auth.password.request') }}">Forgot your password?</x-auth::elements.text-link>
+                                </div>
+                            @endif
 
-            </x-auth::elements.container>
+                            <x-auth::elements.button type="primary" rounded="md" size="md" submit="true">Continue</x-auth::elements.button>
+                        </form>
+                        
+                        
+                        <div class="mt-3 space-x-0.5 text-sm leading-5 text-left" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
+                            <span class="opacity-[47%]">Don't have an account?</span>
+                            <x-auth::elements.text-link href="{{ route('auth.register') }}">Sign up</x-auth::elements.text-link>
+                        </div>
+
+                </x-auth::elements.container>
+            </div>
         @endvolt
-    </x-auth::layouts.app>
-</div>
+    </div>
+</x-auth::layouts.app>

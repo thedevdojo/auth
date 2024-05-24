@@ -72,7 +72,13 @@ new class extends Component
             session()->forget('login.id');
 
             event(new Login(auth()->guard('web'), $user, true));
-            return redirect()->intended('/');
+            
+            if(session()->get('url.intended') != route('logout.get')){
+                redirect()->intended(config('devdojo.auth.settings.redirect_after_auth'));
+            } else {
+                return redirect(config('devdojo.auth.settings.redirect_after_auth'));
+            }
+
         } else {
             dd('invalid');
         }

@@ -13,4 +13,12 @@ class LogoutController
 
         return redirect()->route('home');
     }
+
+    public function getLogout()
+    {
+        Auth::logout();
+        Session()->flush();
+
+        return redirect('/');
+    }
 }

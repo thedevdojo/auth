@@ -17,7 +17,7 @@ new class extends Component
 
         session()->put('auth.password_confirmed_at', time());
 
-        return redirect()->intended('/');
+        return redirect()->intended(config('devdojo.auth.settings.redirect_after_auth'));
     }
 };
 

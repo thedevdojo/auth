@@ -9,6 +9,6 @@ return [
     'registration_include_name_field' => false,
     'registration_require_email_verification' => false,
     'enable_branding' => true,
-    'dev_mode' => false,
+    'dev_mode' => true,
     'enable_2fa' => false, // Enable or disable 2FA functionality globally
 ];

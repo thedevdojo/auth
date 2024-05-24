@@ -19,6 +19,7 @@ test('Two factor challenge page redirects if user is logged in and they don\'t h
 });
 
 test('User logs in when two factor disabled, the login.id session should not be created', function () {
+    config()->set('devdojo.auth.settings.enable_2fa', false);
     $user = createUser(['password' => \Hash::make('password123'), 'two_factor_confirmed_at' => now()]);
 
     Livewire::test('auth.login')
@@ -61,6 +62,7 @@ test('User logs in without 2FA, they should not be redirected to auth/two-factor
 });
 
 it('user cannot view two factor challenge page logging in if it\'s disabled', function () {
+    config()->set('devdojo.auth.settings.enable_2fa', false);
     $user = loginAsUser();
     $this->get('user/two-factor-authentication')
         ->assertRedirect('/');

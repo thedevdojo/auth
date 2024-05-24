@@ -28,7 +28,7 @@ it('registers a new user and logs in', function () {
         ->set('name', 'John Doe')
         ->call('register')
         ->assertHasNoErrors()
-        ->assertRedirect('/dashboard');
+        ->assertRedirect('/');
 
     $this->assertTrue(Auth::check());
     $this->assertEquals('user@example.com', Auth::user()->email);

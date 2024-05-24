@@ -92,7 +92,11 @@ new class extends Component
             return redirect()->route('verification.notice');
         }
 
-        return redirect()->intended(config('devdojo.auth.settings.redirect_after_auth'));
+        if(session()->get('url.intended') != route('logout.get')){
+            redirect()->intended(config('devdojo.auth.settings.redirect_after_auth'));
+        } else {
+            return redirect(config('devdojo.auth.settings.redirect_after_auth'));
+        }
     }
 };
 

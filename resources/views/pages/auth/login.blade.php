@@ -80,7 +80,11 @@ new class extends Component
             }
             event(new Login(auth()->guard('web'), User::where('email', $this->email)->first(), true));
 
-            return redirect()->intended('/');
+            if(session()->get('url.intended') != route('logout.get')){
+                redirect()->intended(config('devdojo.auth.settings.redirect_after_auth'));
+            } else {
+                return redirect(config('devdojo.auth.settings.redirect_after_auth'));
+            }
         }
         
     }

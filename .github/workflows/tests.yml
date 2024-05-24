@@ -86,10 +86,6 @@ jobs:
       run: php artisan migrate
       working-directory: ./laravel_app
 
-    - name: Run the Auth Migrations
-      run: php artisan migrate --path=vendor/devdojo/auth/database/migrations
-      working-directory: ./laravel_app
-
     # Testing on a mac, this command should be:
     # sed -i '' '/"phpunit\/phpunit"/d' composer.json
     - name: Remove PHPUnit from composer.json

@@ -4,7 +4,7 @@
     @include('auth::includes.head')
 </head>
 <body id="auth-body" class="overflow-hidden relative w-screen h-screen" style="background-color:{{ config('devdojo.auth.appearance.background.color') }}">
-    <div class="relative w-full h-full">
+    <div x-data class="relative w-full h-full" x-cloak>
         @if(config('devdojo.auth.appearance.background.image'))
             <img src="{{ config('devdojo.auth.appearance.background.image') }}" id="auth-background-image" class="object-cover absolute z-10 w-screen h-screen" />
             <div id="auth-background-image-overlay" class="absolute inset-0 z-20 w-screen h-screen" style="background-color:{{ config('devdojo.auth.appearance.background.image_overlay_color') }}; opacity:{{ config('devdojo.auth.appearance.background.image_overlay_opacity') }};"></div>

@@ -22,7 +22,7 @@ new class extends Component
     public $recovery = false;
     public $google2fa;
 
-    #[Validate('required|min:5')] 
+    #[Validate('required|min:6')] 
     public $auth_code;
     public $recovery_code;
 
@@ -43,56 +43,48 @@ new class extends Component
         return;
     }
 
-    // TODO - Refactor the submitCode functionality into it's own trait so we can use this functionality here and user/two-factor-authenticaiton.blade.php
-
      #[On('submitCode')] 
     public function submitCode($code)
     {
         $this->auth_code = $code;
-
         $this->validate();
 
-        if(empty($code) || strlen($code) < 5){
-            dd('show validation error');
-            return;
-        }
-
         $user = User::find(session()->get('login.id'));
-
         $secret = decrypt($user->two_factor_secret);
         $google2fa = new Google2FA();
         $valid = $google2fa->verifyKey($secret, $code);
 
         if($valid){
-        
-            Auth::login($user);
-
-            // clear out the session that is used to determine if the user can visit the 2fa challenge page.
-            session()->forget('login.id');
-
-            event(new Login(auth()->guard('web'), $user, true));
-            
-            if(session()->get('url.intended') != route('logout.get')){
-                redirect()->intended(config('devdojo.auth.settings.redirect_after_auth'));
-            } else {
-                return redirect(config('devdojo.auth.settings.redirect_after_auth'));
-            }
-
+            $this->loginUser($user);
         } else {
-            dd('invalid');
+            $this->addError('auth_code', 'Invalid authentication code. Please try again.');
         }
 
     }
 
-    // TODO - Make sure that submitting the recovery codes work
-
     public function submit_recovery_code(){
-        $valid = in_array($this->recovery_code, auth()->user()->two_factor_recovery_codes);
+        $user = User::find(session()->get('login.id'));
+        $valid = in_array($this->recovery_code, json_decode(decrypt($user->two_factor_recovery_codes)));
 
         if ($valid) {
-            dd('valid yo!');
+            $this->loginUser($user);
         } else {
-            dd('not valid');
+            $this->addError('recovery_code', 'This is an invalid recovery code. Please try again.');
+        }
+    }
+
+    public function loginUser($user){
+        Auth::login($user);
+
+        // clear out the session that is used to determine if the user can visit the 2fa challenge page.
+        session()->forget('login.id');
+
+        event(new Login(auth()->guard('web'), $user, true));
+        
+        if(session()->get('url.intended') != route('logout.get')){
+            return redirect()->intended(config('devdojo.auth.settings.redirect_after_auth'));
+        } else {
+            return redirect(config('devdojo.auth.settings.redirect_after_auth'));
         }
     }
 }
@@ -127,9 +119,9 @@ new class extends Component
                         <x-auth::elements.button rounded="md" submit="true" wire:click="submitCode(document.getElementById('auth-input-code').value)">Continue</x-auth::elements.button>
                     @else
                         <div class="relative">
-                            <x-auth::elements.input label="Recovery Code" type="text" wire:model="recovery_code" id="auth-2fa-recovery-code" required />
+                            <x-auth::elements.input label="Recovery Code" type="text" wire:keydown.enter="submit_recovery_code" wire:model="recovery_code" id="auth-2fa-recovery-code" required />
                         </div>
-                        <x-auth::elements.button rounded="md" submit="true" wire:click="submitRecoveryCode">Continue</x-auth::elements.button>
+                        <x-auth::elements.button rounded="md" submit="true" wire:click="submit_recovery_code">Continue</x-auth::elements.button>
                     @endif
 
                     

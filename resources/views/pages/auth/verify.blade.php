@@ -47,12 +47,12 @@ new class extends Component
 
             
                 @if (session('resent'))
-                    <div class="flex items-center px-4 py-3 mt-5 mb-6 text-sm text-white bg-green-500 rounded shadow" role="alert">
-                        <svg class="mr-3 w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <div class="flex items-start px-4 py-3 mt-5 text-sm text-white bg-green-500 rounded shadow" role="alert">
+                        <svg class="mr-2 w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                         </svg>
 
-                        <p>A fresh verification link has been sent to your email address.</p>
+                        <p>A new link has been sent to your email address.</p>
                     </div>
                 @endif
 

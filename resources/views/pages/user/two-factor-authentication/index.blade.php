@@ -3,6 +3,7 @@
 use function Laravel\Folio\{middleware, name};
 use Livewire\Volt\Component;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Validate;
 use PragmaRX\Google2FA\Google2FA;
 use Devdojo\Auth\Actions\TwoFactorAuth\DisableTwoFactorAuthentication;
 use Devdojo\Auth\Actions\TwoFactorAuth\GenerateNewRecoveryCodes;
@@ -19,6 +20,9 @@ new class extends Component
     public $confirmed = false;
 
     public $showRecoveryCodes = true;
+
+    #[Validate('required|min:6')] 
+    public $auth_code;
 
     public $secret = '';
     public $codes = '';
@@ -62,13 +66,8 @@ new class extends Component
     #[On('submitCode')] 
     public function submitCode($code)
     {
-        if(empty($code) || strlen($code) < 6){
-            // TODO - If the code is empty or it's less than 6 characters we want to show the user a message
-            dd('show validation error');
-            return;
-        }
-
-        //dd($this->secret);
+        $this->auth_code = $code;
+        $this->validate();
 
         $google2fa = new Google2FA();
         $valid = $google2fa->verifyKey($this->secret, $code);
@@ -80,8 +79,7 @@ new class extends Component
 
             $this->confirmed = true;
         } else {
-            // TODO - implement an invalid message when the user enters an incorrect auth code
-            dd('show invalide code message');
+            $this->addError('auth_code', 'Invalid authentication code. Please try again.');
         }
     }
 
@@ -150,6 +148,9 @@ new class extends Component
                             </p>
 
                             <x-auth::elements.input-code id="auth-input-code" digits="6" eventCallback="code-input-complete" type="text" label="Code" />
+                            @error('auth_code')
+                                <p class="my-2 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                             
                             <div class="flex items-center space-x-5">
                                 <x-auth::elements.button type="secondary" size="md" rounded="md" wire:click="cancelTwoFactor" wire:target="cancelTwoFactor">Cancel</x-auto::elements.button>

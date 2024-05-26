@@ -1,8 +1,7 @@
 <div class="left-0 z-50 w-80 h-screen duration-300 ease-out bg-zinc-50" x-cloak>
     <div class="flex justify-between items-center px-5 py-6 w-full">
         <a href="/auth/setup" wire:navigate" class="flex items-center space-x-2 cursor-pointer group">
-            <x-auth::setup.logo class="w-auto h-7 duration-300 ease-out group-hover:scale-[1.03]"></x-auth::setup.logo>
-            <span class="text-base font-bold leading-none">Auth <span class="font-light">Setup</span></span>
+            <span class="text-base font-bold leading-none">Authentication <span class="font-light">Setup</span></span>
         </a>
     </div>
     <div class="hidden px-3 pt-0 pb-2">

@@ -106,10 +106,8 @@
 
         $watch('preview', function(value){
             if(value){
-                console.log('new value');
-                
                 setTimeout(function(){
-                    document.getElementById('preview').src= previewPageActive.url + '?' + Date.now();
+                    document.getElementById('preview').src= previewPageActive.url + '?preview=true&' + Date.now();
                     setTimeout(function(){
                         document.getElementById('preview_loader').classList.add('hidden');
                         document.getElementById('preview').classList.remove('hidden');

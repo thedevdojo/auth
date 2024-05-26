@@ -3,7 +3,7 @@
         <x-auth::setup.sidebar-link-item
             pageLink="auth/setup"
             icon="house"
-            text="Welcome"
+            text="Home"
         ></x-auth::setup.sidebar-link-item>
         <li>
             <div class="px-1 text-xs font-semibold leading-6 text-gray-400">Configure</div>

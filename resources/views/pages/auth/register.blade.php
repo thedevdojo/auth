@@ -11,7 +11,10 @@ use Devdojo\Auth\Helper;
 use Devdojo\Auth\Traits\HasConfigs;
 use function Laravel\Folio\{middleware, name};
 
-middleware(['guest']);
+if(!isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || !app()->isLocal()){
+    middleware(['guest']);
+}
+
 name('auth.register');
 
 new class extends Component

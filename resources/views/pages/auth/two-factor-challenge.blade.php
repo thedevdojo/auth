@@ -36,9 +36,8 @@ new class extends Component
     {
         $this->recovery = !$this->recovery;
         if($this->recovery){
-            $this->js("setTimeout(function(){ console.log('made'); window.dispatchEvent(new CustomEvent('focus-auth-2fa-recovery-code', {})); }, 10);");
+            $this->js("setTimeout(function(){ window.dispatchEvent(new CustomEvent('focus-auth-2fa-recovery-code', {})); }, 10);");
         } else {
-            // TODO - this we need to autofocus the first input of the auth code input
             $this->js("setTimeout(function(){ window.dispatchEvent(new CustomEvent('focus-auth-2fa-auth-code', {})); }, 10);");
         }
         return;

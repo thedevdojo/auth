@@ -87,8 +87,11 @@
         },
     }" 
     x-init="
-        $refs.input1.focus();
+        setTimeout(function(){
+            $refs.input1.focus();
+        }, 100);
     "
+    @focus-auth-2fa-auth-code.window="$refs.input1.focus()"
     class="relative"
 >
     <div class="flex">

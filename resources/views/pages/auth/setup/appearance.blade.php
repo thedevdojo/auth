@@ -1,10 +1,11 @@
 <?php
 
-use function Laravel\Folio\name;
+use function Laravel\Folio\{middleware, name};
 use Livewire\Volt\Component;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Helper;
 
+middleware(['auth', 'view-auth-setup']);
 name('auth.setup.appearance');
 
 new class extends Component

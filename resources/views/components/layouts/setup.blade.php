@@ -77,7 +77,7 @@
                 'url' : '/auth/register'
             },
             {
-                'name' : 'Verify Account',
+                'name' : 'Verify Email',
                 'url' : '/auth/verify'
             },
             {

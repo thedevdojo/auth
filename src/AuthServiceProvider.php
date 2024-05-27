@@ -4,6 +4,7 @@ namespace Devdojo\Auth;
 
 use Devdojo\Auth\Http\Middleware\TwoFactorChallenged;
 use Devdojo\Auth\Http\Middleware\TwoFactorEnabled;
+use Devdojo\Auth\Http\Middleware\ViewAuthSetup;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -22,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Route::middlewareGroup('two-factor-challenged', [TwoFactorChallenged::class]);
         Route::middlewareGroup('two-factor-enabled', [TwoFactorEnabled::class]);
+        Route::middlewareGroup('view-auth-setup', [ViewAuthSetup::class]);
 
         /*
          * Optional methods to load your package assets
@@ -58,6 +60,11 @@ class AuthServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../database/migrations' => database_path('migrations'),
             ], 'auth:migrations');
+
+            // Publish the components
+            $this->publishes([
+                __DIR__.'/../resources/views/components/elements' => resource_path('views/components/app/elements'),
+            ], 'auth:components');
 
             // Registering package commands.
             // $this->commands([]);

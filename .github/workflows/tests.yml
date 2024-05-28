@@ -92,9 +92,23 @@ jobs:
 
     # Testing on a mac, this command should be:
     # sed -i '' '/"phpunit\/phpunit"/d' composer.json
+    - name: Remove PHPUnit from composer.json
+      run: sed -i '/"phpunit\/phpunit"/{N;s/,\n\([[:space:]]*\)}/\n\1}/;}' composer.json
+      working-directory: ./laravel_app
+
+    - name: Show contents of composer.json after removing PHPUnit
+      run: cat composer.json
+      working-directory: ./laravel_app
+
+    - name: Remove composer.lock and re-run composer install
+      run: |
+        rm composer.lock
+        composer install
+      working-directory: ./laravel_app
 
     - name: Install PestPHP and PHPStan
       run: |
+        composer require pestphp/pest --dev --with-all-dependencies
         composer require larastan/larastan:^2.0 --dev --with-all-dependencies
       working-directory: ./laravel_app
 

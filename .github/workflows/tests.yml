@@ -108,7 +108,7 @@ jobs:
 
     - name: Install PestPHP and PHPStan
       run: |
-        composer require pestphp/pest --dev --with-all-dependencies
+        composer require pestphp/pest:^2.3 --dev --with-all-dependencies
         composer require larastan/larastan:^2.0 --dev --with-all-dependencies
       working-directory: ./laravel_app
 

@@ -6,7 +6,7 @@ use Livewire\Attributes\Validate;
 use Devdojo\Auth\Helper;
 use Devdojo\ConfigWriter\ArrayFile;
 
-middleware(['auth', 'view-auth-setup']);
+middleware(['view-auth-setup']);
 name('auth.setup.settings');
 
 new class extends Component

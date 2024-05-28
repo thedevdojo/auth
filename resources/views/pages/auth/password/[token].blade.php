@@ -72,7 +72,7 @@ new class extends Component
             <x-auth::elements.heading text="Reset password" />
             
             <form wire:submit="resetPassword" class="mt-5 space-y-5">
-                <x-auth::elements.input label="Email address" type="email" id="email" name="email" wire:model="email" />
+                <x-auth::elements.input label="Email address" type="email" id="email" name="email" wire:model="email" autofocus="true" />
                 <x-auth::elements.input label="Password" type="password" id="password" name="password" wire:model="password" />
                 <x-auth::elements.input label="Confirm Password" type="password" id="password_confirmation" name="password_confirmation" wire:model="passwordConfirmation" />
                 <x-auth::elements.button type="primary" rounded="md" submit="true">Reset password</x-auth::elements.button>

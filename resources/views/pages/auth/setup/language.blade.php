@@ -5,7 +5,7 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Helper;
 
-middleware(['auth', 'view-auth-setup']);
+middleware(['view-auth-setup']);
 name('auth.setup.language');
 
 new class extends Component

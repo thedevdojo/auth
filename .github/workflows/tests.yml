@@ -86,12 +86,21 @@ jobs:
       run: php artisan migrate
       working-directory: ./laravel_app
 
+    - name: Show contents of composer.json before removing PHPUnit
+      run: cat composer.json
+      working-directory: ./laravel_app
+
     # Testing on a mac, this command should be:
     # sed -i '' '/"phpunit\/phpunit"/d' composer.json
     - name: Remove PHPUnit from composer.json
-      run: sed -i '/"phpunit\/phpunit"/d' composer.json
+      run: |
+        sed -i '/"phpunit\/phpunit"/d' composer.json
+        sed -i '/"nunomaduro\/collision": "\^8.0",/s/,$//' composer.json
       working-directory: ./laravel_app
 
+    - name: Show contents of composer.json after removing PHPUnit
+      run: cat composer.json
+      working-directory: ./laravel_app
 
     - name: Remove composer.lock and re-run composer install
       run: |

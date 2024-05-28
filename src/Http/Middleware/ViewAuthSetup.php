@@ -9,7 +9,7 @@ class ViewAuthSetup
 {
     public function handle($request, Closure $next)
     {
-        if(!app()->isLocal() &&  !Gate::allows('viewAuthSetup')){
+        if (! app()->isLocal() && ! Gate::allows('viewAuthSetup')) {
             return redirect('auth/login');
         }
 

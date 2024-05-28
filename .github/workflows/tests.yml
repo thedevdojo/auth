@@ -93,7 +93,7 @@ jobs:
     # Testing on a mac, this command should be:
     # sed -i '' '/"phpunit\/phpunit"/d' composer.json
     - name: Remove PHPUnit from composer.json
-      run: sed -i '/"phpunit\/phpunit"/d' composer.json
+      run: sed -i '/"phpunit\/phpunit"/{N;s/,\n\([[:space:]]*\)}/\n\1}/;}' composer.json
       working-directory: ./laravel_app
 
     - name: show contents of composer.json

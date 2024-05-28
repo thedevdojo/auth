@@ -86,7 +86,7 @@ jobs:
       run: php artisan migrate
       working-directory: ./laravel_app
 
-    - name: show contents of composer.json before
+    - name: Show contents of composer.json before removing PHPUnit
       run: cat composer.json
       working-directory: ./laravel_app
 
@@ -96,7 +96,7 @@ jobs:
       run: sed -i '/"phpunit\/phpunit"/{N;s/,\n\([[:space:]]*\)}/\n\1}/;}' composer.json
       working-directory: ./laravel_app
 
-    - name: show contents of composer.json
+    - name: Show contents of composer.json after removing PHPUnit
       run: cat composer.json
       working-directory: ./laravel_app
 

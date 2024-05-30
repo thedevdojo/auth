@@ -7,6 +7,7 @@ use Devdojo\Auth\Http\Middleware\TwoFactorEnabled;
 use Devdojo\Auth\Http\Middleware\ViewAuthSetup;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Folio\Folio;
 use Livewire\Livewire;
@@ -78,7 +79,7 @@ class AuthServiceProvider extends ServiceProvider
             Livewire::component('auth.setup.css', \Devdojo\Auth\Livewire\Setup\Css::class);
         }
 
-        //app()->register(\October\Rain\Config\ServiceProvider::class);
+        $this->handleStarterKitFunctionality();
     }
 
     private function registerAuthFolioDirectory(): void
@@ -100,6 +101,23 @@ class AuthServiceProvider extends ServiceProvider
         ]);
     }
 
+    private function handleStarterKitFunctionality(){
+        $this->jetstreamFunctionality();
+    }
+
+    private function jetstreamFunctionality(){
+        // We check if fortify is installed and the user has enabled 2FA, if so we want to enable that feature
+        if (class_exists(\Laravel\Fortify\Features::class) && config('devdojo.auth.settings.enable_2fa')) {
+            Config::set('fortify.features', array_merge(
+                Config::get('fortify.features', []),
+                [
+                    \Laravel\Fortify\Features::twoFactorAuthentication([
+                        'confirmPassword' => true,
+                    ])
+                ]
+            ));
+        }
+    }
     /**
      * Register the application services.
      */

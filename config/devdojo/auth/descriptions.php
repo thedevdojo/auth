@@ -12,6 +12,6 @@ return [
         'enable_branding' => 'This will toggle on/off the Auth branding at the bottom of each auth screen. Consider leaving on to support and help grow this project.',
         'dev_mode' => 'This is for development mode, when set in Dev Mode Assets will be loaded from Vite',
         'enable_2fa' => 'Enable the ability for users to turn on Two Factor Authentication',
-        'login_show_social_providers' => 'Show the social providers login buttons on the login form'
+        'login_show_social_providers' => 'Show the social providers login buttons on the login form',
     ],
 ];

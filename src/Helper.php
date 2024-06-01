@@ -18,7 +18,8 @@ class Helper
         return $activeProviders;
     }
 
-    public static function getProvidersFromArray($array){
+    public static function getProvidersFromArray($array)
+    {
         $providers = config('devdojo.auth.providers');
         $providersInArray = [];
         foreach ($providers as $slug => $provider) {

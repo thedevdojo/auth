@@ -30,7 +30,7 @@ new class extends Component
     public $showPasswordField = false;
 
 
-    public $social_providers = [];
+    
 
     public function rules()
     {
@@ -47,7 +47,6 @@ new class extends Component
     }
 
     public function mount(){
-        $this->social_providers = Helper::activeProviders();
         $this->loadConfigs();
 
         if($this->settings->registration_include_name_field){
@@ -140,14 +139,7 @@ new class extends Component
                 <x-auth::elements.text-link href="{{ route('auth.login') }}">Sign in</x-auth::elements.text-link>
             </div>
 
-            @if(count($this->social_providers))
-                <x-auth::elements.separator class="my-7">or</x-auto::elements.separator>
-                <div class="relative space-y-2 w-full">
-                    @foreach($this->social_providers as $slug => $provider)
-                        <x-auth::elements.social-button :$slug :$provider />
-                    @endforeach
-                </div>
-            @endif
+            <x-auth::elements.social-providers />
 
 
         </x-auth::elements.container>

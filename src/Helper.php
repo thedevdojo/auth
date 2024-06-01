@@ -18,6 +18,19 @@ class Helper
         return $activeProviders;
     }
 
+    public static function getProvidersFromArray($array)
+    {
+        $providers = config('devdojo.auth.providers');
+        $providersInArray = [];
+        foreach ($providers as $slug => $provider) {
+            if ($provider['active'] && in_array($slug, $array)) {
+                $providersInArray[$slug] = (object) $provider;
+            }
+        }
+
+        return $providersInArray;
+    }
+
     public static function convertSlugToTitle($slug)
     {
         $readable = str_replace('_', ' ', str_replace('-', ' ', $slug));

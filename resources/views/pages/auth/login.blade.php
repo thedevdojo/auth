@@ -25,9 +25,14 @@ new class extends Component
 
     public $showPasswordField = false;
 
+    public $showIdentifierInput = true;
+    public $showSocialProviderInfo = false;
+
     public $language = [];
 
     public $twoFactorEnabled = true;
+
+    public $userSocialProviders = [];
 
     public function mount(){
         $this->loadConfigs();
@@ -35,7 +40,13 @@ new class extends Component
     }
 
     public function editIdentity(){
-        $this->showPasswordField = false;
+        if($this->showPasswordField){
+            $this->showPasswordField = false;
+            return;
+        }
+
+        $this->showIdentifierInput = true;
+        $this->showSocialProviderInfo = false;
     }
 
     public function authenticate()
@@ -43,6 +54,19 @@ new class extends Component
         
         if(!$this->showPasswordField){
             $this->validateOnly('email');
+            $userTryingToValidate = \Devdojo\Auth\Models\User::where('email', $this->email)->first();
+            if(!is_null($userTryingToValidate)){
+                if(is_null($userTryingToValidate->password)){
+                    $this->userSocialProviders = [];
+                    // User is attempting to login and password is null. Need to show Social Provider info
+                    foreach($userTryingToValidate->socialProviders->all() as $provider){
+                        array_push($this->userSocialProviders, $provider->provider_slug);
+                    }
+                    $this->showIdentifierInput = false;
+                    $this->showSocialProviderInfo = true;
+                    return;
+                }
+            }
             $this->showPasswordField = true;
             $this->js("setTimeout(function(){ window.dispatchEvent(new CustomEvent('focus-password', {})); }, 10);");
             return;
@@ -110,7 +134,23 @@ new class extends Component
                                     <button type="button" wire:click="editIdentity" class="font-medium text-blue-500">Edit</button>
                                 </x-auth::elements.input-placeholder>
                             @else  
-                                <x-auth::elements.input label="Email Address" type="email" wire:model="email" autofocus="true" id="email" required />
+                                @if($showIdentifierInput)
+                                    <x-auth::elements.input label="Email Address" type="email" wire:model="email" autofocus="true" id="email" required />
+                                @endif
+                            @endif
+                            
+                            @if($showSocialProviderInfo)
+                                <div class="p-4 text-sm rounded-md border bg-zinc-50 border-zinc-200">
+                                    <span>You have been authenticated via {{ implode(', ', $userSocialProviders) }}. Please login to that network below.</span>
+                                    <button wire:click="editIdentity" type="button" class="underline translate-x-1.5">Change Email</button>
+                                </div>
+                                
+                                @if(!config('devdojo.auth.settings.login_show_social_providers'))
+                                    <x-auth::elements.social-providers 
+                                        :socialProviders="\Devdojo\Auth\Helper::getProvidersFromArray($userSocialProviders)"
+                                        :separator="false"
+                                    />
+                                @endif
                             @endif
                             
                             @if($showPasswordField)
@@ -128,6 +168,10 @@ new class extends Component
                             <span class="opacity-[47%]">Don't have an account?</span>
                             <x-auth::elements.text-link href="{{ route('auth.register') }}">Sign up</x-auth::elements.text-link>
                         </div>
+
+                        @if(config('devdojo.auth.settings.login_show_social_providers'))
+                            <x-auth::elements.social-providers />
+                        @endif
 
                 </x-auth::elements.container>
             </div>

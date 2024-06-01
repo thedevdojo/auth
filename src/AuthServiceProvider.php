@@ -114,6 +114,7 @@ class AuthServiceProvider extends ServiceProvider
                 Config::get('fortify.features', []),
                 [
                     \Laravel\Fortify\Features::twoFactorAuthentication([
+                        'confirm' => true,
                         'confirmPassword' => true,
                     ]),
                 ]

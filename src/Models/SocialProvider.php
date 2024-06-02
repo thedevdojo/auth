@@ -20,10 +20,10 @@ class SocialProvider extends Model
     public function getRows()
     {
         // Fetching the social providers from the configuration file
-        $rowsArray = []; 
+        $rowsArray = [];
         $socialProviders = config('devdojo.auth.providers', []);
-        
-        foreach($socialProviders as $key => $provider){
+
+        foreach ($socialProviders as $key => $provider) {
             $provider['slug'] = $key;
             array_push($rowsArray, $provider);
         }

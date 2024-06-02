@@ -30,14 +30,13 @@ Route::middleware(['web'])->group(function () {
     Route::get('auth/{driver}/callback', [SocialController::class, 'callback']);
 });
 
+Route::get('hey', function () {
+    $rowsArray = [];
+    $socialProviders = config('devdojo.auth.providers', []);
 
-Route::get('hey', function(){
-        $rowsArray = []; 
-        $socialProviders = config('devdojo.auth.providers', []);
-        
-        foreach($socialProviders as $key => $provider){
-            $provider['slug'] = $key;
-            array_push($rowsArray, $provider);
-        }
-        dd($rowsArray);
+    foreach ($socialProviders as $key => $provider) {
+        $provider['slug'] = $key;
+        array_push($rowsArray, $provider);
+    }
+    dd($rowsArray);
 });

@@ -5,9 +5,9 @@ namespace Devdojo\Auth;
 use Devdojo\Auth\Http\Middleware\TwoFactorChallenged;
 use Devdojo\Auth\Http\Middleware\TwoFactorEnabled;
 use Devdojo\Auth\Http\Middleware\ViewAuthSetup;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Folio\Folio;
 use Livewire\Livewire;
@@ -101,11 +101,13 @@ class AuthServiceProvider extends ServiceProvider
         ]);
     }
 
-    private function handleStarterKitFunctionality(){
+    private function handleStarterKitFunctionality()
+    {
         $this->jetstreamFunctionality();
     }
 
-    private function jetstreamFunctionality(){
+    private function jetstreamFunctionality()
+    {
         // We check if fortify is installed and the user has enabled 2FA, if so we want to enable that feature
         if (class_exists(\Laravel\Fortify\Features::class) && config('devdojo.auth.settings.enable_2fa')) {
             Config::set('fortify.features', array_merge(
@@ -119,6 +121,7 @@ class AuthServiceProvider extends ServiceProvider
             ));
         }
     }
+
     /**
      * Register the application services.
      */

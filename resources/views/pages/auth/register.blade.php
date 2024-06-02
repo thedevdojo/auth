@@ -128,7 +128,7 @@ new class extends Component
                     @php
                         $autofocusEmail = ($showNameField) ? false : true;
                     @endphp
-                    <x-auth::elements.input label="Email Address" type="email" wire:model="email" :autofocus="$autofocusEmail" required />
+                    <x-auth::elements.input label="Email Address" id="email" type="email" wire:model="email" :autofocus="$autofocusEmail" required />
                 @endif
 
                 @if($showPasswordField)

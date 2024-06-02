@@ -10,7 +10,7 @@
 @endphp
 
 <div @class([
-        'flex flex-col sm:mx-auto sm:w-full sm:max-w-md',
+        'flex flex-col sm:mx-auto sm:w-full mb-5 sm:max-w-md',
         'items-start' => $heading_alignment == 'left',
         'items-center' => $heading_alignment == 'center',
         'items-end' => $heading_alignment == 'right'

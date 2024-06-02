@@ -3,13 +3,20 @@
 use function Laravel\Folio\name;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Validate;
+use Devdojo\Auth\Traits\HasConfigs;
 
 name('password.confirm');
 
 new class extends Component
 {
+    use HasConfigs;
+    
     #[Validate('required|current_password')]
     public $password = '';
+
+    public function mount(){
+        $this->loadConfigs();
+    }
 
     public function confirm()
     {
@@ -27,8 +34,12 @@ new class extends Component
 
     @volt('auth.password.confirm')
         <x-auth::elements.container>
-            <x-auth::elements.heading text="Confirm password" description="Please confirm your password before continuing" />        
-            <form wire:submit="confirm" class="mt-5 space-y-5">
+            <x-auth::elements.heading 
+                :text="($language->passwordConfirm->headline ?? 'No Heading')" 
+                :description="($language->passwordConfirm->subheadline ?? 'No Description')"
+                :show_subheadline="($language->passwordConfirm->show_subheadline ?? false)"   
+            />        
+            <form wire:submit="confirm" class="space-y-5">
                 <x-auth::elements.input label="Password" type="password" id="password" name="password" autofocus="true" wire:model="password" />
                 <x-auth::elements.button type="primary" rounded="md" submit="true">Confirm password</x-auth::elements.button>
             </form>

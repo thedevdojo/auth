@@ -1,4 +1,4 @@
-name: tests
+name: Authenticaiton Tests
 
 on:
     push:

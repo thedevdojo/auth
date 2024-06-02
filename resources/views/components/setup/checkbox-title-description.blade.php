@@ -5,7 +5,7 @@
     </div>
     <span class="relative">
         <span class="block text-sm font-medium leading-tight text-gray-900">{{ $title ?? '' }}</span>
-        @if(($description))
+        @if(($description ?? false))
             <span class="text-sm leading-tight text-gray-400">{{ $description }}</span>
         @endif
     </span>

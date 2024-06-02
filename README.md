@@ -9,17 +9,11 @@
 
 ## About Auth
 
-The DevDojo Auth package is a plug'n play Authentication wrapper for your Laravel application. Easily update and modify your authentication pages, add social providers, and many other auth features.
+The DevDojo Auth package is a plug'n play Authentication package for your Laravel application. Easily update and modify your authentication pages, add social providers, and many other auth features.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<a href="https://devdojo.com/auth" target="_blank"><img src="https://cdn.devdojo.com/images/june2024/auth-screens.jpeg" class="w-full h-full" style="border-radius:10px" /></a>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Be sure to visit the official documentation at [https://devdojo.com/auth/docs](https://devdojo.com/auth/docs)
 
 ## Installation
 

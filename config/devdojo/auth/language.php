@@ -26,19 +26,19 @@ return [
         'page_title' => 'Confirm Your Password',
         'headline' => 'Confirm Password',
         'subheadline' => 'Be sure to confirm your password below',
-        'show_subheadline' => false
+        'show_subheadline' => false,
     ],
     'passwordResetRequest' => [
         'page_title' => 'Request a Password Reset',
         'headline' => 'Reset password',
         'subheadline' => 'Enter your email below to reset your password',
-        'show_subheadline' => false
+        'show_subheadline' => false,
     ],
     'passwordReset' => [
         'page_title' => 'Reset Your Password',
         'headline' => 'Reset Password',
         'subheadline' => 'Reset your password below',
-        'show_subheadline' => false
+        'show_subheadline' => false,
     ],
     'twoFactorChallenge' => [
         'page_title' => 'Two Factor Challenge',
@@ -49,5 +49,5 @@ return [
         'subheadline_recovery' => 'Please confirm access to your account by entering one of your emergency recovery codes.',
         'show_subheadline_recovery' => false,
     ],
-    
+
 ];

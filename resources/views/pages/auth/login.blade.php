@@ -127,7 +127,11 @@ new class extends Component
                             :description="($language->login->subheadline ?? 'No Description')"
                             :show_subheadline="($language->login->show_subheadline ?? false)" />
                         
-                        <form wire:submit="authenticate" class="mt-5 space-y-5">
+                        @if(config('devdojo.auth.settings.login_show_social_providers') && config('devdojo.auth.settings.social_providers_location') == 'top')
+                            <x-auth::elements.social-providers />
+                        @endif
+
+                        <form wire:submit="authenticate" class="space-y-5">
 
                             @if($showPasswordField)
                                 <x-auth::elements.input-placeholder value="{{ $email }}">
@@ -168,8 +172,8 @@ new class extends Component
                             <span class="opacity-[47%]">Don't have an account?</span>
                             <x-auth::elements.text-link href="{{ route('auth.register') }}">Sign up</x-auth::elements.text-link>
                         </div>
-
-                        @if(config('devdojo.auth.settings.login_show_social_providers'))
+                        
+                        @if(config('devdojo.auth.settings.login_show_social_providers') && config('devdojo.auth.settings.social_providers_location') != 'top')
                             <x-auth::elements.social-providers />
                         @endif
 

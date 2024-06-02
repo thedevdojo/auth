@@ -1,4 +1,4 @@
-name: DevDojo Auth Tests
+name: Authentication Tests
 
 on:
     push:

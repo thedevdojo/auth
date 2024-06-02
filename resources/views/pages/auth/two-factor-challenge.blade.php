@@ -110,7 +110,7 @@ new class extends Component
                         :show_subheadline="($language->twoFactorChallenge->show_subheadline_recovery ?? false)" />
                 @endif
 
-                <div class="mt-5 space-y-5">
+                <div class="space-y-5">
 
                     @if(!$recovery)
                         <div class="relative">

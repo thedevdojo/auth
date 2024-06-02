@@ -1,5 +1,6 @@
 <?php
 
+use Devdojo\Auth\Traits\HasConfigs;
 use Illuminate\Support\Facades\Password;
 use function Laravel\Folio\name;
 use Livewire\Volt\Component;
@@ -9,10 +10,15 @@ name('auth.password.request');
 
 new class extends Component
 {
+    use HasConfigs;
+
     #[Validate('required|email')]
     public $email = null;
-
     public $emailSentMessage = false;
+
+    public function mount(){
+        $this->loadConfigs();
+    }
 
     public function sendResetPasswordLink()
     {
@@ -38,7 +44,11 @@ new class extends Component
     @volt('auth.password.reset')
         <x-auth::elements.container>
 
-            <x-auth::elements.heading text="Reset password" />
+            <x-auth::elements.heading 
+                :text="($language->passwordResetRequest->headline ?? 'No Heading')" 
+                :description="($language->passwordResetRequest->subheadline ?? 'No Description')"
+                :show_subheadline="($language->passwordResetRequest->show_subheadline ?? false)"   
+            />
             
             @if ($emailSentMessage)
                 <div class="p-4 mt-5 bg-green-50 rounded-md dark:bg-green-600">
@@ -57,7 +67,7 @@ new class extends Component
                     </div>
                 </div>
             @else
-                <form wire:submit="sendResetPasswordLink" class="mt-5 space-y-5">
+                <form wire:submit="sendResetPasswordLink" class="space-y-5">
                     <x-auth::elements.input label="Email address" type="email" id="email" name="email" wire:model="email" autofocus="true" />
                     <x-auth::elements.button type="primary" rounded="md" submit="true">Send password reset link</x-auth::elements.button>
                 </form>

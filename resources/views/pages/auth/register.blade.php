@@ -114,7 +114,11 @@ new class extends Component
                 :description="($language->register->subheadline ?? 'No Description')"
                 :show_subheadline="($language->register->show_subheadline ?? false)" />
 
-            <form wire:submit="register" class="mt-5 space-y-5">
+            @if(config('devdojo.auth.settings.social_providers_location') == 'top')
+                <x-auth::elements.social-providers />
+            @endif
+
+            <form wire:submit="register" class="space-y-5">
 
                 @if($showNameField)
                     <x-auth::elements.input label="Name" type="text" wire:model="name" autofocus="true" required />
@@ -139,7 +143,9 @@ new class extends Component
                 <x-auth::elements.text-link href="{{ route('auth.login') }}">Sign in</x-auth::elements.text-link>
             </div>
 
-            <x-auth::elements.social-providers />
+            @if(config('devdojo.auth.settings.social_providers_location') != 'top')
+                <x-auth::elements.social-providers />
+            @endif
 
 
         </x-auth::elements.container>

@@ -52,7 +52,7 @@ class AuthServiceProvider extends ServiceProvider
                 __DIR__.'/../public' => public_path('auth'),
             ], 'auth:assets');
 
-            // Publishing CI workflows.
+            // Publishing CI workflow test.
             $this->publishes([
                 __DIR__.'/../resources/workflows' => base_path('.github/workflows'),
             ], 'auth:ci');
@@ -131,7 +131,6 @@ class AuthServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/providers.php', 'devdojo.auth.providers');
 
         $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/descriptions.php', 'devdojo.auth.descriptions');
-        $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/pages.php', 'devdojo.auth.pages');
 
         // Register the main class to use with the facade
         $this->app->singleton('devdojoauth', function () {

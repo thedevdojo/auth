@@ -7,11 +7,11 @@
 <a href="https://packagist.org/packages/devdojo/auth"><img src="https://img.shields.io/packagist/l/devdojo/auth" alt="License"></a>
 </p>
 
-## About Auth
+## About
 
-The DevDojo Auth package is a plug'n play Authentication package for your Laravel application. Easily update and modify your authentication pages, add social providers, and many other auth features.
+Auth is a plug'n play authentication package for any <a href="https://laravel.com" target="_blank">Laravel application</a>.
 
-<a href="https://devdojo.com/auth" target="_blank"><img src="https://cdn.devdojo.com/images/june2024/auth-screens.jpeg" class="w-full h-full" style="border-radius:10px" /></a>
+<a href="https://devdojo.com/auth" target="_blank"><img src="https://cdn.devdojo.com/images/june2024/devdojo-auth-image.png" class="w-full h-full" style="border-radius:10px" /></a>
 
 Be sure to visit the official documentation at [https://devdojo.com/auth/docs](https://devdojo.com/auth/docs)
 

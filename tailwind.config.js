@@ -4,7 +4,8 @@ import forms from '@tailwindcss/forms';
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
-        'resources/views/**/*.blade.php'
+        'resources/views/**/*.blade.php',
+        '../../resources/views/components/auth/**/*.blade.php'
     ],
 
     theme: {},

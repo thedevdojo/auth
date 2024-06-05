@@ -64,7 +64,7 @@ class AuthServiceProvider extends ServiceProvider
 
             // Publish the components
             $this->publishes([
-                __DIR__.'/../resources/views/components/elements' => resource_path('views/components/app/elements'),
+                __DIR__.'/../resources/views/components/elements' => resource_path('views/components/auth/elements'),
             ], 'auth:components');
 
             // Registering package commands.

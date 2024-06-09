@@ -135,11 +135,11 @@ new class extends Component
 
                             @if($showPasswordField)
                                 <x-auth::elements.input-placeholder value="{{ $email }}">
-                                    <button type="button" wire:click="editIdentity" class="font-medium text-blue-500">Edit</button>
+                                    <button type="button" data-auth="edit-email-button" wire:click="editIdentity" class="font-medium text-blue-500">Edit</button>
                                 </x-auth::elements.input-placeholder>
                             @else  
                                 @if($showIdentifierInput)
-                                    <x-auth::elements.input label="Email Address" type="email" wire:model="email" autofocus="true" id="email" required />
+                                    <x-auth::elements.input label="Email Address" type="email" wire:model="email" autofocus="true" data-auth="email-input" id="email" required />
                                 @endif
                             @endif
                             
@@ -158,19 +158,19 @@ new class extends Component
                             @endif
                             
                             @if($showPasswordField)
-                                <x-auth::elements.input label="Password" type="password" wire:model="password" id="password" />
+                                <x-auth::elements.input label="Password" type="password" wire:model="password" id="password" data-auth="password-input" />
                                 <div class="flex justify-between items-center mt-6 text-sm leading-5">
-                                    <x-auth::elements.text-link href="{{ route('auth.password.request') }}">Forgot your password?</x-auth::elements.text-link>
+                                    <x-auth::elements.text-link href="{{ route('auth.password.request') }}" data-auth="forgot-password-link">Forgot your password?</x-auth::elements.text-link>
                                 </div>
                             @endif
 
-                            <x-auth::elements.button type="primary" rounded="md" size="md" submit="true">Continue</x-auth::elements.button>
+                            <x-auth::elements.button type="primary" data-auth="submit-button" rounded="md" size="md" submit="true">Continue</x-auth::elements.button>
                         </form>
                         
                         
                         <div class="mt-3 space-x-0.5 text-sm leading-5 text-left" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
                             <span class="opacity-[47%]">Don't have an account?</span>
-                            <x-auth::elements.text-link href="{{ route('auth.register') }}">Sign up</x-auth::elements.text-link>
+                            <x-auth::elements.text-link data-auth="register-link" href="{{ route('auth.register') }}">Sign up</x-auth::elements.text-link>
                         </div>
                         
                         @if(config('devdojo.auth.settings.login_show_social_providers') && config('devdojo.auth.settings.social_providers_location') != 'top')

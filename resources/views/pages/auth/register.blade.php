@@ -128,19 +128,19 @@ new class extends Component
                     @php
                         $autofocusEmail = ($showNameField) ? false : true;
                     @endphp
-                    <x-auth::elements.input label="Email Address" id="email" type="email" wire:model="email" :autofocus="$autofocusEmail" required />
+                    <x-auth::elements.input label="Email Address" id="email" type="email" wire:model="email" data-auth="email-input" :autofocus="$autofocusEmail" required />
                 @endif
 
                 @if($showPasswordField)
-                    <x-auth::elements.input label="Password" type="password" wire:model="password" id="password" required />
+                    <x-auth::elements.input label="Password" type="password" wire:model="password" id="password" data-auth="password-input" required />
                 @endif
 
-                <x-auth::elements.button rounded="md" submit="true">Continue</x-auth::elements.button>
+                <x-auth::elements.button data-auth="submit-button" rounded="md" submit="true">Continue</x-auth::elements.button>
             </form>
 
             <div class="mt-3 space-x-0.5 text-sm leading-5 text-left" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
                 <span class="opacity-[47%]">Already have an account?</span>
-                <x-auth::elements.text-link href="{{ route('auth.login') }}">Sign in</x-auth::elements.text-link>
+                <x-auth::elements.text-link data-auth="login-link" href="{{ route('auth.login') }}">Sign in</x-auth::elements.text-link>
             </div>
 
             @if(config('devdojo.auth.settings.social_providers_location') != 'top')

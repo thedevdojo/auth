@@ -2,8 +2,8 @@
 
 namespace Devdojo\Auth\Tests\Browser\Pages;
 
-use Laravel\Dusk\Page;
 use Laravel\Dusk\Browser;
+use Laravel\Dusk\Page;
 
 class Login extends Page
 {
@@ -15,7 +15,8 @@ class Login extends Page
         return '/auth/login';
     }
 
-    public function loginAsJohnDoe(Browser $browser){
+    public function loginAsJohnDoe(Browser $browser)
+    {
         $browser
             ->visit('/auth/login')
             ->type('@email-input', 'johndoe@gmail.com')
@@ -28,11 +29,11 @@ class Login extends Page
         return $this;
     }
 
-    public function typeAndSubmit(Browser $browser, $selector, $value){
+    public function typeAndSubmit(Browser $browser, $selector, $value)
+    {
         $browser->type($selector, $value)
             ->click('@submit-button');
-        
+
         return $this;
     }
-
 }

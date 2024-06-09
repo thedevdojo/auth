@@ -6,7 +6,6 @@ use Laravel\Dusk\Browser;
 
 uses(DatabaseMigrations::class);
 
-
 test('Successful Login', function () {
     $this->browse(function (Browser $browser) {
         $browser->visit(new Login)
@@ -14,7 +13,6 @@ test('Successful Login', function () {
             ->loginAsJohnDoe();
     });
 });
-
 
 test('Validation Error for Empty Fields', function () {
     $this->browse(function (Browser $browser) {
@@ -37,7 +35,6 @@ test('Invalid Email', function () {
             ->testValidationErrorOnSubmit('The email field must be a valid email address');
     });
 });
-
 
 test('Incorrect Password', function () {
     $this->browse(function (Browser $browser) {
@@ -66,28 +63,27 @@ test('Can Edit Email Address', function () {
 test('Link to Register Page', function () {
     $this->browse(function (Browser $browser) {
         $browser->visit(new Login)
-                ->click('@register-link')
-                ->waitFor('@auth-register')
-                ->assertPathIs('/auth/register');
-                
+            ->click('@register-link')
+            ->waitFor('@auth-register')
+            ->assertPathIs('/auth/register');
+
     });
 });
 
 test('Link to Forgot Password Page', function () {
     $this->browse(function (Browser $browser) {
         $browser->visit(new Login)
-                ->typeAndSubmit('@email-input', 'testingForgotPassword@gmail.com')
-                ->waitFor('@forgot-password-link')
-                ->click('@forgot-password-link')
-                ->waitFor('@auth-password-reset')
-                ->assertPathIs('/auth/password/reset');
-                
+            ->typeAndSubmit('@email-input', 'testingForgotPassword@gmail.com')
+            ->waitFor('@forgot-password-link')
+            ->click('@forgot-password-link')
+            ->waitFor('@auth-password-reset')
+            ->assertPathIs('/auth/password/reset');
+
     });
 });
 
-
-/* --------------------------------------------------------- 
-* Here are a few more that we'll need to add once 
+/* ---------------------------------------------------------
+* Here are a few more that we'll need to add once
 * we have reveal password functionality and remember me
 ------------------------------------------------------------ */
 
@@ -103,10 +99,9 @@ test('Verify Remember Me Functionality', function () {
     });
 })->todo();
 
-/* --------------------------------------------------------- 
+/* ---------------------------------------------------------
 * Investigate further how we can do an accessiblity check
 ------------------------------------------------------------ */
-
 
 test('Verify Page Accessibility', function () {
     $this->browse(function (Browser $browser) {

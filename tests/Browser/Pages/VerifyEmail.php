@@ -3,7 +3,6 @@
 namespace Devdojo\Auth\Tests\Browser\Pages;
 
 use Laravel\Dusk\Page;
-use Laravel\Dusk\Browser;
 
 class VerifyEmail extends Page
 {
@@ -14,5 +13,4 @@ class VerifyEmail extends Page
     {
         return '/auth/verify';
     }
-
 }

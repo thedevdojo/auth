@@ -1,15 +1,14 @@
 <?php
 
 use Devdojo\Auth\Tests\Browser\Pages\Register;
-use Devdojo\Auth\Tests\Browser\Pages\VerifyEmail;
+use Illuminate\Auth\Notifications\VerifyEmail as VerifyEmailNotification;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Auth\Notifications\VerifyEmail as VerifyEmailNotification;
 use Laravel\Dusk\Browser;
 
 uses(DatabaseMigrations::class);
 
-test('Auth sends email verification on registration', function(){
+test('Auth sends email verification on registration', function () {
     Mail::fake();
     $this->setConfig('devdojo.auth.settings.registration_require_email_verification', true);
     $this->browse(function (Browser $browser) {

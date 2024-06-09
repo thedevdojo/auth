@@ -2,9 +2,8 @@
 
 namespace Devdojo\Auth\Tests\Browser\Pages;
 
-use Laravel\Dusk\Page;
 use Laravel\Dusk\Browser;
-use Illuminate\Support\Facades\Config;
+use Laravel\Dusk\Page;
 
 class Register extends Page
 {
@@ -12,6 +11,7 @@ class Register extends Page
     {
         dd('cool!');
     }
+
     /**
      * Get the URL for the page.
      */
@@ -20,9 +20,10 @@ class Register extends Page
         return '/auth/register';
     }
 
-    public function registerAsJohnDoe(Browser $browser){
+    public function registerAsJohnDoe(Browser $browser)
+    {
         $redirectExpectedToBe = '/';
-        if(class_exists(\Devdojo\Genesis\Genesis::class)){
+        if (class_exists(\Devdojo\Genesis\Genesis::class)) {
             $redirectExpectedToBe = '/dashboard';
         }
         $browser

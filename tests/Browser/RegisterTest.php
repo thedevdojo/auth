@@ -1,22 +1,21 @@
 <?php
 
-use Laravel\Dusk\Browser;
-use Illuminate\Support\Facades\Config;
 use Devdojo\Auth\Tests\Browser\Pages\Register;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
 
 uses(DatabaseMigrations::class);
 
-test('Successful Registration', function(){
-    
+test('Successful Registration', function () {
+
     $this->browse(function (Browser $browser) {
         $browser->visit(new Register)
-                ->registerAsJohnDoe()
-                ->assertRedirectAfterAuthUrlIsCorrect();
+            ->registerAsJohnDoe()
+            ->assertRedirectAfterAuthUrlIsCorrect();
     });
 });
 
-test('Validation Error for Empty Fields', function(){
+test('Validation Error for Empty Fields', function () {
     $this->browse(function (Browser $browser) {
         $browser->visit(new Register)
             ->authAttributeRemove('#email', 'required')
@@ -26,7 +25,7 @@ test('Validation Error for Empty Fields', function(){
     });
 });
 
-test('Invalid Email Address', function(){
+test('Invalid Email Address', function () {
     $this->browse(function (Browser $browser) {
         $browser->visit(new Register)
             ->authAttributeChange('#email', 'type', 'text')
@@ -36,7 +35,7 @@ test('Invalid Email Address', function(){
     });
 });
 
-test('Invalid Password', function(){
+test('Invalid Password', function () {
     $this->browse(function (Browser $browser) {
         $browser->visit(new Register)
             ->type('@email-input', 'johndoe@gmail.com')
@@ -45,7 +44,7 @@ test('Invalid Password', function(){
     });
 });
 
-test('Email already taken', function(){
+test('Email already taken', function () {
     $this->browse(function (Browser $browser) {
         $browser
             ->visit(new Register)
@@ -56,14 +55,13 @@ test('Email already taken', function(){
     });
 });
 
-test('Return to Login', function(){
+test('Return to Login', function () {
     $this->browse(function (Browser $browser) {
         $browser->visit(new Register)
-                ->click('@login-link')
-                ->waitFor('@auth-login')
-                ->assertPathIs('/auth/login');
+            ->click('@login-link')
+            ->waitFor('@auth-login')
+            ->assertPathIs('/auth/login');
     });
 });
-
 
 // Add more tests to test when the Name field is shown on the register page, or if the user keeps the password on a separate screen

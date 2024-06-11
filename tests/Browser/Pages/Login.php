@@ -24,7 +24,7 @@ class Login extends Page
             ->type('@password-input', 'password')
             ->clickAndWaitForReload('@submit-button')
             ->assertRedirectAfterAuthUrlIsCorrect();
-
+        
         return $this;
     }
 

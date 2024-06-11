@@ -36,6 +36,7 @@
         "larastan/larastan": "^2.0",
         "phpstan/phpstan": "^1.11",
         "laravel/dusk": "^8.2",
+        "protonemedia/laravel-dusk-fakes": "^1.6",
         "alebatistella/duskapiconf": "^1.2"
     },
     "autoload": {

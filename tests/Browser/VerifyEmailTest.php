@@ -3,21 +3,55 @@
 use Devdojo\Auth\Tests\Browser\Pages\Register;
 use Devdojo\Auth\Tests\Browser\Pages\VerifyEmail;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Auth\Notifications\VerifyEmail as VerifyEmailNotification;
+
 use Laravel\Dusk\Browser;
 
 uses(DatabaseMigrations::class);
 
-test('Auth sends email verification on registration', function(){
-    Mail::fake();
+test('Email Verification on Registration', function(){
+    // Turn on Require Email Validation before running tests
     $this->setConfig('devdojo.auth.settings.registration_require_email_verification', true);
-    $this->browse(function (Browser $browser) {
+    $browser = $this->browse(function (Browser $browser) {
         $browser
             ->visit(new Register)
+            ->disableFitOnFailure()
+            ->clearLogFile()
             ->registerAsJohnDoe()
-            ->assertPathIs('/auth/verify');
-        // Mail::assertQueued(VerifyEmailNotification::class);
+            ->assertPathIs('/auth/verify')
+            ->getLogFile(function($content) use ($browser) {
+
+                $foundLine = $this->findLineContainingSubstring($content, 'Verify Email Address:');
+                $url = str_replace('Verify Email Address: ', '', $foundLine);
+                $browser
+                    ->visit($url)
+                    ->assertRedirectAfterAuthUrlIsCorrect();
+            });
+
     });
     $this->resetConfig();
+});
+
+test('Resend Email Verification Link', function(){
+    // Turn on Require Email Validation before running tests
+    $this->setConfig('devdojo.auth.settings.registration_require_email_verification', true);
+    $browser = $this->browse(function (Browser $browser) {
+        $browser
+            ->visit(new Register)
+            ->disableFitOnFailure()
+            ->registerAsJohnDoe()
+            ->assertPathIs('/auth/verify')
+            ->clearLogFile()
+            ->click('@verify-email-resend-link')
+            ->waitForText('A new link has been sent to your email address')
+            ->getLogFile(function($content) use ($browser) {
+                $foundLine = $this->findLineContainingSubstring($content, 'Verify Email Address:');
+                $url = str_replace('Verify Email Address: ', '', $foundLine);
+                $browser
+                    ->visit($url)
+                    ->assertRedirectAfterAuthUrlIsCorrect();
+            });
+
+    });
+    $this->resetConfig();
+    
 });

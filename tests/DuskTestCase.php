@@ -14,6 +14,12 @@ abstract class DuskTestCase extends BaseTestCase
 {
     use UsesDuskApiConfig;
 
+    // protected function setUp(): void
+    // {
+    //     // $this->resetConfig();
+    //     parent::setUp();
+    // }
+
     /**
      * Prepare for Dusk test execution.
      */
@@ -23,6 +29,13 @@ abstract class DuskTestCase extends BaseTestCase
         if (! static::runningInSail()) {
             static::startChromeDriver();
         }
+    }
+
+
+    public function findLineContainingSubstring($content, $substring) {
+        $lines = explode("\n", $content);
+        $foundLine = current(array_filter($lines, fn($line) => strpos($line, $substring) === 0));
+        return $foundLine ?: null;
     }
 
     /**

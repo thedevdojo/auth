@@ -54,6 +54,16 @@ class DuskServiceProvider extends ServiceProvider
             $this->assertPathIs($redirectExpectedToBe);
             return $this;
         });
-        Config::set('devdojo.auth.settings.registration_require_email_verification', false);
+
+        Browser::macro('clearLogFile', function(){
+            file_put_contents(storage_path('logs/laravel.log'), '');
+            return $this;
+        });
+
+        Browser::macro('getLogFile', function($callback){
+            $content = file_get_contents(storage_path('logs/laravel.log'));
+            $callback($content);
+            return $this;
+        });
     }
 }

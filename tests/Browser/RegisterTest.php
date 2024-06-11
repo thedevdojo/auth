@@ -16,6 +16,7 @@ test('Successful Registration', function(){
     });
 });
 
+
 test('Validation Error for Empty Fields', function(){
     $this->browse(function (Browser $browser) {
         $browser->visit(new Register)

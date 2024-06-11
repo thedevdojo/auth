@@ -108,6 +108,12 @@ jobs:
         composer install
       working-directory: ./laravel_app
 
+    - name: Install Dusk
+      run: composer require laravel/dusk --dev
+
+    - name: Upgrade Chrome Driver
+      run: php artisan dusk:chrome-driver --detect
+
     - name: Install PestPHP and PHPStan
       run: |
         composer require pestphp/pest --dev --with-all-dependencies
@@ -117,6 +123,9 @@ jobs:
     - name: Clear all view caches
       run: php artisan view:clear
       working-directory: ./laravel_app
+
+    - name: Run Artisan Serve
+      run: php artisan serve --no-reload &
 
     - name: Run Tests
       run: ./vendor/bin/pest

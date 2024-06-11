@@ -15,12 +15,7 @@ test('Successful Registration', function () {
     });
 });
 
-<<<<<<< HEAD
-
-test('Validation Error for Empty Fields', function(){
-=======
 test('Validation Error for Empty Fields', function () {
->>>>>>> 10e398cfa0f4394148ce0a9f065369e012a1f3c3
     $this->browse(function (Browser $browser) {
         $browser->visit(new Register)
             ->authAttributeRemove('#email', 'required')

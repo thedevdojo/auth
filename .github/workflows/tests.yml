@@ -117,6 +117,7 @@ jobs:
 
     - name: Upgrade Chrome Driver
       run: php artisan dusk:chrome-driver --detect
+      working-directory: ./laravel_app
 
     - name: Clear all view caches
       run: php artisan view:clear
@@ -124,6 +125,7 @@ jobs:
 
     - name: Run Artisan Serve
       run: php artisan serve --no-reload &
+      working-directory: ./laravel_app
 
     - name: Run Tests
       run: ./vendor/bin/pest

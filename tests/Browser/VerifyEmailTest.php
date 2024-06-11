@@ -1,13 +1,12 @@
 <?php
 
 use Devdojo\Auth\Tests\Browser\Pages\Register;
-use Illuminate\Auth\Notifications\VerifyEmail as VerifyEmailNotification;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 
 uses(DatabaseMigrations::class);
 
-test('Email Verification on Registration', function(){
+test('Email Verification on Registration', function () {
     // Turn on Require Email Validation before running tests
     $this->setConfig('devdojo.auth.settings.registration_require_email_verification', true);
     $browser = $this->browse(function (Browser $browser) {
@@ -17,7 +16,7 @@ test('Email Verification on Registration', function(){
             ->clearLogFile()
             ->registerAsJohnDoe()
             ->assertPathIs('/auth/verify')
-            ->getLogFile(function($content) use ($browser) {
+            ->getLogFile(function ($content) use ($browser) {
 
                 $foundLine = $this->findLineContainingSubstring($content, 'Verify Email Address:');
                 $url = str_replace('Verify Email Address: ', '', $foundLine);
@@ -30,7 +29,7 @@ test('Email Verification on Registration', function(){
     $this->resetConfig();
 });
 
-test('Resend Email Verification Link', function(){
+test('Resend Email Verification Link', function () {
     // Turn on Require Email Validation before running tests
     $this->setConfig('devdojo.auth.settings.registration_require_email_verification', true);
     $browser = $this->browse(function (Browser $browser) {
@@ -42,7 +41,7 @@ test('Resend Email Verification Link', function(){
             ->clearLogFile()
             ->click('@verify-email-resend-link')
             ->waitForText('A new link has been sent to your email address')
-            ->getLogFile(function($content) use ($browser) {
+            ->getLogFile(function ($content) use ($browser) {
                 $foundLine = $this->findLineContainingSubstring($content, 'Verify Email Address:');
                 $url = str_replace('Verify Email Address: ', '', $foundLine);
                 $browser
@@ -52,5 +51,5 @@ test('Resend Email Verification Link', function(){
 
     });
     $this->resetConfig();
-    
+
 });

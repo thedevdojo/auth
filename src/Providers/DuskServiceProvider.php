@@ -2,7 +2,6 @@
 
 namespace Devdojo\Auth\Providers;
 
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Dusk;
@@ -56,14 +55,16 @@ class DuskServiceProvider extends ServiceProvider
             return $this;
         });
 
-        Browser::macro('clearLogFile', function(){
+        Browser::macro('clearLogFile', function () {
             file_put_contents(storage_path('logs/laravel.log'), '');
+
             return $this;
         });
 
-        Browser::macro('getLogFile', function($callback){
+        Browser::macro('getLogFile', function ($callback) {
             $content = file_get_contents(storage_path('logs/laravel.log'));
             $callback($content);
+
             return $this;
         });
     }

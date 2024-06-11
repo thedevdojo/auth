@@ -30,10 +30,11 @@ abstract class DuskTestCase extends BaseTestCase
         }
     }
 
-
-    public function findLineContainingSubstring($content, $substring) {
+    public function findLineContainingSubstring($content, $substring)
+    {
         $lines = explode("\n", $content);
-        $foundLine = current(array_filter($lines, fn($line) => strpos($line, $substring) === 0));
+        $foundLine = current(array_filter($lines, fn ($line) => strpos($line, $substring) === 0));
+
         return $foundLine ?: null;
     }
 

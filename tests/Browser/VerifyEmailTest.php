@@ -1,9 +1,8 @@
 <?php
 
 use Devdojo\Auth\Tests\Browser\Pages\Register;
-use Devdojo\Auth\Tests\Browser\Pages\VerifyEmail;
+use Illuminate\Auth\Notifications\VerifyEmail as VerifyEmailNotification;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-
 use Laravel\Dusk\Browser;
 
 uses(DatabaseMigrations::class);

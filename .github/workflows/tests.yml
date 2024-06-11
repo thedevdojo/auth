@@ -132,6 +132,10 @@ jobs:
       run: ./vendor/bin/pest
       working-directory: ./laravel_app
 
+    - name: Run Dusk Tests
+      run: php artisan dusk
+      working-directory: ./laravel_app
+
     - name: Move the PHP config file to the root directory
       run: cp vendor/devdojo/auth/phpstan.neon phpstan.neon
       working-directory: ./laravel_app

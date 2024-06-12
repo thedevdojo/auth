@@ -64,14 +64,6 @@ jobs:
     - name: Create sqlite file
       run: touch database/database.sqlite
       working-directory: ./laravel_app
-    
-    # - name: Create Dusk sqlite file
-    #   run: touch database/dusk.sqlite
-    #   working-directory: ./laravel_app
-
-    # - name: Move dusk .env.dusk.ci file to laravel root
-    #   run: cp vendor/devdojo/auth/.env.dusk.ci .env.dusk.ci
-    #   working-directory: ./laravel_app
 
     - name: List out .env
       run: cat .env
@@ -151,9 +143,12 @@ jobs:
       working-directory: ./laravel_app
 
     - name: Run Dusk Tests
-      run: export APP_URL=http://127.0.0.1:8000 ; export APP_ENV=testing; php artisan dusk -vvv
+      env:
+        APP_URL: http://127.0.0.1:8000
+        APP_ENV: testing
+      run: php artisan dusk -vvv
       working-directory: ./laravel_app
-    
+
     - name: Upload Screenshots
       if: failure()
       uses: actions/upload-artifact@v2

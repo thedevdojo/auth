@@ -70,8 +70,8 @@ abstract class DuskTestCase extends BaseTestCase
     protected function captureFailuresFor($browsers)
     {
         $browsers->each(function (Browser $browser, $key) {
-          $body = $browser->driver->findElement(WebDriverBy::tagName('body'));
-            if (!empty($body)) {
+            $body = $browser->driver->findElement(WebDriverBy::tagName('body'));
+            if (! empty($body)) {
                 $currentSize = $body->getSize();
                 $size = new WebDriverDimension($currentSize->getWidth(), $currentSize->getHeight());
                 $browser->driver->manage()->window()->setSize($size);

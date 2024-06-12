@@ -15,7 +15,7 @@ test('Redirected to login if not authenticated', function () {
 });
 
 test('Successfully View 2FA Setup Page', function () {
-
+    $this->setConfig('devdojo.auth.settings.enable_2fa', true);
     $this->browse(function (Browser $browser) {
         $browser
             ->createJohnDoe()
@@ -26,4 +26,5 @@ test('Successfully View 2FA Setup Page', function () {
             ->waitForText('Finish enabling two factor authentication')
             ->assertSee('Finish enabling two factor authentication');
     });
+    $this->resetConfig();
 });

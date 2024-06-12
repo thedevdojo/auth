@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
-
-use function Laravel\Folio\name;
-
+use function Laravel\Folio\{middleware, name};
 use Livewire\Volt\Component;
 use Livewire\Attributes\Validate;
 
@@ -78,10 +76,10 @@ new class extends Component
             />
             
             <form wire:submit="resetPassword" class="space-y-5">
-                <x-auth::elements.input label="Email address" type="email" id="email" name="email" wire:model="email" autofocus="true" />
-                <x-auth::elements.input label="Password" type="password" id="password" name="password" wire:model="password" />
-                <x-auth::elements.input label="Confirm Password" type="password" id="password_confirmation" name="password_confirmation" wire:model="passwordConfirmation" />
-                <x-auth::elements.button type="primary" rounded="md" submit="true">Reset password</x-auth::elements.button>
+                <x-auth::elements.input label="Email address" type="email" id="email" name="email" data-auth="email-input" wire:model="email" autofocus="true" />
+                <x-auth::elements.input label="Password" type="password" id="password" name="password" data-auth="password-input" wire:model="password" />
+                <x-auth::elements.input label="Confirm Password" type="password" id="password_confirmation" name="password_confirmation" data-auth="password-confirm-input" wire:model="passwordConfirmation" />
+                <x-auth::elements.button type="primary" data-auth="submit-button" rounded="md" submit="true">Reset password</x-auth::elements.button>
             </form>
         </x-auth::elements.container>
     @endvolt

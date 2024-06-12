@@ -128,7 +128,7 @@ new class extends Component
                             <h2 class="text-lg font-semibold">Two factor authentication disabled.</h2>
                             <p class="-translate-y-1">When you enabled 2FA, you will be prompted for a secure code during authentication. This code can be retrieved from your phone's Google Authenticator application.</p>
                             <div class="relative w-auto">
-                                <x-auth::elements.button type="primary" rounded="md" size="md" wire:click="enable" wire:target="enable">Enable</x-auth>
+                                <x-auth::elements.button type="primary" data-auth="enable-button" rounded="md" size="md" wire:click="enable" wire:target="enable">Enable</x-auth>
                             </div>
                         </div>
                     @else

@@ -45,6 +45,20 @@ class DuskServiceProvider extends ServiceProvider
             return $this;
         });
 
+        Browser::macro('loginAsJohnDoe', function () {
+            $this->loginAs(\Devdojo\Auth\Models\User::where('email', 'johndoe@gmail.com')->first());
+
+            return $this;
+        });
+
+        Browser::macro('enable2FAforJohnDoe', function () {
+            $johnDoe = \Devdojo\Auth\Models\User::where('email', 'johndoe@gmail.com')->first();
+            $johnDoe->two_factor_confirmed_at = now();
+            $johnDoe->save();
+
+            return $this;
+        });
+
         Browser::macro('assertRedirectAfterAuthUrlIsCorrect', function () {
             $redirectExpectedToBe = '/';
             if (class_exists(\Devdojo\Genesis\Genesis::class)) {
@@ -67,5 +81,19 @@ class DuskServiceProvider extends ServiceProvider
 
             return $this;
         });
+
+        Browser::macro('typeAndSubmit', function (?string $selector, string $value) {
+            $this->type($selector, $value)
+                ->click('@submit-button');
+
+            return $this;
+        });
+
+        Browser::macro('visitPasswordConfirmTestPage', function () {
+            $this->visit('/auth/password_confirmation_test');
+
+            return $this;
+        });
+
     }
 }

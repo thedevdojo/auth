@@ -1,9 +1,13 @@
 <?php
 
-use function Laravel\Folio\name;
+use function Laravel\Folio\{middleware, name};
 use Livewire\Volt\Component;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Traits\HasConfigs;
+
+if(!isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || !app()->isLocal()){
+    middleware('auth');
+}
 
 name('password.confirm');
 
@@ -40,8 +44,8 @@ new class extends Component
                 :show_subheadline="($language->passwordConfirm->show_subheadline ?? false)"   
             />        
             <form wire:submit="confirm" class="space-y-5">
-                <x-auth::elements.input label="Password" type="password" id="password" name="password" autofocus="true" wire:model="password" />
-                <x-auth::elements.button type="primary" rounded="md" submit="true">Confirm password</x-auth::elements.button>
+                <x-auth::elements.input label="Password" type="password" id="password" name="password" data-auth="password-input" autofocus="true" wire:model="password" />
+                <x-auth::elements.button type="primary" rounded="md" data-auth="submit-button" submit="true">Confirm password</x-auth::elements.button>
             </form>
         </x-auth::elements.container>
     @endvolt

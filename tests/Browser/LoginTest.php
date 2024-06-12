@@ -10,7 +10,8 @@ test('Successful Login', function () {
     $this->browse(function (Browser $browser) {
         $browser->visit(new Login)
             ->createJohnDoe()
-            ->loginAsJohnDoe();
+            ->formLoginAsJohnDoe()
+            ->assertRedirectAfterAuthUrlIsCorrect();
     });
 });
 

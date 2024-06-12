@@ -15,7 +15,7 @@ class Login extends Page
         return '/auth/login';
     }
 
-    public function loginAsJohnDoe(Browser $browser)
+    public function formLoginAsJohnDoe(Browser $browser)
     {
         $browser
             ->visit('/auth/login')
@@ -23,17 +23,9 @@ class Login extends Page
             ->click('@submit-button')
             ->waitFor('@password-input')
             ->type('@password-input', 'password')
-            ->clickAndWaitForReload('@submit-button')
-            ->assertRedirectAfterAuthUrlIsCorrect();
+            ->clickAndWaitForReload('@submit-button');
 
         return $this;
     }
 
-    public function typeAndSubmit(Browser $browser, $selector, $value)
-    {
-        $browser->type($selector, $value)
-            ->click('@submit-button');
-
-        return $this;
-    }
 }

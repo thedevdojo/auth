@@ -80,6 +80,7 @@ class AuthServiceProvider extends ServiceProvider
         }
 
         $this->handleStarterKitFunctionality();
+        $this->loadDynamicRoutesForTesting();
     }
 
     private function registerAuthFolioDirectory(): void
@@ -148,6 +149,15 @@ class AuthServiceProvider extends ServiceProvider
         // Register the DuskServiceProvider
         if (($this->app->environment('local') || $this->app->environment('testing')) && class_exists(\Laravel\Dusk\DuskServiceProvider::class)) {
             $this->app->register(\Devdojo\Auth\Providers\DuskServiceProvider::class);
+        }
+    }
+
+    private function loadDynamicRoutesForTesting()
+    {
+        if (app()->environment('testing') || app()->environment('local')) {
+            Route::get('/auth/password_confirmation_test', function () {
+                return 'Test Confirmed';
+            })->middleware('web', 'auth', 'password.confirm');
         }
     }
 }

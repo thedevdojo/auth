@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * This is for the /auth/login page
+ */
+
 use Devdojo\Auth\Tests\Browser\Pages\Login;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;

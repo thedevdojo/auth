@@ -8,6 +8,7 @@ use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use PHPUnit\Framework\Attributes\BeforeClass;
+use Laravel\Dusk\Browser;
 
 abstract class DuskTestCase extends BaseTestCase
 {
@@ -64,5 +65,19 @@ abstract class DuskTestCase extends BaseTestCase
                 ChromeOptions::CAPABILITY, $options
             )
         );
+    }
+
+    /**
+     * Create a new browser instance.
+     *
+     * @param \Closure(Browser $browser) $callback
+     * @return void
+     */
+    public function browse($callback)
+    {
+        parent::browse(function ($browser) use ($callback) {
+            $browser->disableFitOnFailure();
+            $callback($browser);
+        });
     }
 }

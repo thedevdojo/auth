@@ -29,11 +29,4 @@ class Login extends Page
         return $this;
     }
 
-    public function typeAndSubmit(Browser $browser, $selector, $value)
-    {
-        $browser->type($selector, $value)
-            ->click('@submit-button');
-
-        return $this;
-    }
 }

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * This is for the /auth/verify page
+ */
+
 use Devdojo\Auth\Tests\Browser\Pages\Register;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
@@ -12,7 +16,6 @@ test('Email Verification on Registration', function () {
     $browser = $this->browse(function (Browser $browser) {
         $browser
             ->visit(new Register)
-            ->disableFitOnFailure()
             ->clearLogFile()
             ->registerAsJohnDoe()
             ->assertPathIs('/auth/verify')
@@ -35,7 +38,6 @@ test('Resend Email Verification Link', function () {
     $browser = $this->browse(function (Browser $browser) {
         $browser
             ->visit(new Register)
-            ->disableFitOnFailure()
             ->registerAsJohnDoe()
             ->assertPathIs('/auth/verify')
             ->clearLogFile()

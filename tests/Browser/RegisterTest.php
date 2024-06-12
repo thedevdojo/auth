@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * This is for the /auth/register page
+ */
+
 use Devdojo\Auth\Tests\Browser\Pages\Register;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;

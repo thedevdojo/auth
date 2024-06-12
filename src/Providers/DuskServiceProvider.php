@@ -67,5 +67,12 @@ class DuskServiceProvider extends ServiceProvider
 
             return $this;
         });
+
+        Browser::macro('typeAndSubmit', function (?string $selector, string $value) {
+            $this->type($selector, $value)
+                ->click('@submit-button');
+
+            return $this;
+        });
     }
 }

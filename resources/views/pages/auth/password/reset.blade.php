@@ -68,8 +68,8 @@ new class extends Component
                 </div>
             @else
                 <form wire:submit="sendResetPasswordLink" class="space-y-5">
-                    <x-auth::elements.input label="Email address" type="email" id="email" name="email" wire:model="email" autofocus="true" />
-                    <x-auth::elements.button type="primary" rounded="md" submit="true">Send password reset link</x-auth::elements.button>
+                    <x-auth::elements.input label="Email address" type="email" id="email" name="email" data-auth="email-input" wire:model="email" autofocus="true" />
+                    <x-auth::elements.button data-auth="submit-button" type="primary" rounded="md" submit="true">Send password reset link</x-auth::elements.button>
                 </form>
             @endif
             <div class="mt-3 space-x-0.5 text-sm leading-5 text-center" style="color:{{ config('devdojo.auth.appearance.color.text') }}">

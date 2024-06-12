@@ -143,6 +143,19 @@ jobs:
     - name: Run Dusk Tests
       run: php artisan dusk
       working-directory: ./laravel_app
+    
+    - name: Upload Screenshots
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: screenshots
+        path: tests/Browser/screenshots
+    - name: Upload Console Logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: console
+        path: tests/Browser/console
 
     - name: Move the PHP config file to the root directory
       run: cp vendor/devdojo/auth/phpstan.neon phpstan.neon

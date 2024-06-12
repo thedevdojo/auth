@@ -69,8 +69,8 @@ jobs:
       run: touch database/dusk.sqlite
       working-directory: ./laravel_app
 
-    - name: Move dusk .env.dusk.local file to laravel root
-      run: cp vendor/devdojo/auth/.env.dusk.local .env.dusk.local
+    - name: Move dusk .env.dusk.ci file to laravel root
+      run: cp vendor/devdojo/auth/.env.dusk.ci .env.dusk.ci
       working-directory: ./laravel_app
 
     - name: List out .env
@@ -151,7 +151,7 @@ jobs:
       working-directory: ./laravel_app
 
     - name: Run Dusk Tests
-      run: php artisan dusk  -vvv --env=dusk.local
+      run: php artisan dusk -vvv --env=dusk.ci
       working-directory: ./laravel_app
     
     - name: Upload Screenshots

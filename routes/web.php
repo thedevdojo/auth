@@ -30,4 +30,3 @@ Route::middleware(['web'])->group(function () {
     Route::get('auth/{driver}/callback', [SocialController::class, 'callback']);
 
 });
-

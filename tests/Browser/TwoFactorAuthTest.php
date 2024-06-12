@@ -27,4 +27,3 @@ test('Successfully View 2FA Setup Page', function () {
             ->assertSee('Finish enabling two factor authentication');
     });
 });
-

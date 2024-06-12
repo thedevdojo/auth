@@ -151,7 +151,7 @@ jobs:
       working-directory: ./laravel_app
 
     - name: Run Dusk Tests
-      run: export APP_URL=http://127.0.0.1:8000 ; php artisan dusk -vvv
+      run: export APP_URL=http://127.0.0.1:8000 ; export APP_ENV=testing; php artisan dusk -vvv
       working-directory: ./laravel_app
     
     - name: Upload Screenshots

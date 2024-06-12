@@ -49,7 +49,6 @@ abstract class DuskTestCase extends BaseTestCase
             '--no-sandbox',
             '--disable-dev-shm-usage',
             '--disable-software-rasterizer',
-            '--headless',
         ];
 
         if (env('APP_ENV') != 'local') {

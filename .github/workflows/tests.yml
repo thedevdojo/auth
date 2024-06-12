@@ -122,6 +122,7 @@ jobs:
         composer require larastan/larastan:^2.0 --dev --with-all-dependencies
         composer require laravel/dusk --dev --with-all-dependencies
         composer require alebatistella/duskapiconf --dev --with-all-dependencies
+        composer require protonemedia/laravel-dusk-fakes:^1.6 --dev --with-all-dependencies
       working-directory: ./laravel_app
 
     - name: Upgrade Chrome Driver

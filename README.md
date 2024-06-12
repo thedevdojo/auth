@@ -17,7 +17,7 @@ Be sure to visit the official documentation at <a href="https://devdojo.com/auth
 
 ## Installation
 
-To install this package you'll want to first have Laravel Breeze, Jetstream, Genesis, or any other Laravel starter kit installed. Then you'll need to install the package:
+You can install this package into any new Laravel application, or any of the available <a href="https://devdojo.com/auth/docs/install" target="_blank">Laravel Starter Kits</a>.
 
 ```
 composer require devdojo/auth

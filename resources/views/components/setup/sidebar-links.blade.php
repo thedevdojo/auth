@@ -43,7 +43,7 @@
                 ></x-auth::setup.sidebar-link-item>
                 <x-auth::setup.sidebar-link-item
                     newTab="true"
-                    pageLink="https://devdojo.com/platform/auth/docs"
+                    pageLink="https://devdojo.com/auth/docs"
                     icon="notebook"
                     text="Documentation"
                 ></x-auth::setup.sidebar-link-item>

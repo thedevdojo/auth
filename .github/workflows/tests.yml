@@ -108,19 +108,59 @@ jobs:
         composer install
       working-directory: ./laravel_app
 
-    - name: Install PestPHP and PHPStan
+    - name: Install PestPHP, PHPStan, Dusk, and Dusk API Conf
       run: |
         composer require pestphp/pest --dev --with-all-dependencies
         composer require larastan/larastan:^2.0 --dev --with-all-dependencies
+        composer require laravel/dusk --dev --with-all-dependencies
+        composer require alebatistella/duskapiconf --dev --with-all-dependencies
+        composer require protonemedia/laravel-dusk-fakes:^1.6 --dev --with-all-dependencies
       working-directory: ./laravel_app
+
+    - name: Upgrade Chrome Driver
+      run: php artisan dusk:chrome-driver --detect
+      working-directory: ./laravel_app
+
+    - name: Start Chrome Driver
+      run: ./vendor/laravel/dusk/bin/chromedriver-linux &
+      working-directory: ./laravel_app
+
+    - name: Check Chrome & ChromeDriver Versions
+      run: |
+        google-chrome --version
+        chromedriver --version
 
     - name: Clear all view caches
       run: php artisan view:clear
       working-directory: ./laravel_app
 
+    - name: Run Artisan Serve
+      run: php artisan serve --no-reload &
+      working-directory: ./laravel_app
+
     - name: Run Tests
       run: ./vendor/bin/pest
       working-directory: ./laravel_app
+
+    - name: Run Dusk Tests
+      env:
+        APP_URL: http://127.0.0.1:8000
+        APP_ENV: testing
+      run: php artisan dusk -vvv
+      working-directory: ./laravel_app
+
+    - name: Upload Screenshots
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: screenshots
+        path: tests/Browser/screenshots
+    - name: Upload Console Logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: console
+        path: tests/Browser/console
 
     - name: Move the PHP config file to the root directory
       run: cp vendor/devdojo/auth/phpstan.neon phpstan.neon

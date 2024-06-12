@@ -144,5 +144,10 @@ class AuthServiceProvider extends ServiceProvider
         $this->app->singleton(Google2FA::class, function ($app) {
             return new Google2FA();
         });
+
+        // Register the DuskServiceProvider
+        if (($this->app->environment('local') || $this->app->environment('testing')) && class_exists(\Laravel\Dusk\DuskServiceProvider::class)) {
+            $this->app->register(\Devdojo\Auth\Providers\DuskServiceProvider::class);
+        }
     }
 }

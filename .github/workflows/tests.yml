@@ -151,7 +151,7 @@ jobs:
       working-directory: ./laravel_app
 
     - name: Run Dusk Tests
-      run: php artisan dusk --env=dusk.local -vvv
+      run: php artisan dusk  -vvv --env=dusk.local
       working-directory: ./laravel_app
     
     - name: Upload Screenshots

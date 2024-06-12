@@ -141,7 +141,7 @@ jobs:
       working-directory: ./laravel_app
 
     - name: Run Dusk Tests
-      run: pwd
+      run: php artisan dusk
       working-directory: ./laravel_app
 
     - name: Move the PHP config file to the root directory

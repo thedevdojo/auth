@@ -10,7 +10,7 @@ use Laravel\Dusk\Browser;
 
 uses(DatabaseMigrations::class);
 
-test('Guest redirect to login page', function(){
+test('Guest redirect to login page', function () {
     $browser = $this->browse(function (Browser $browser) {
         $browser
             ->visit(new ConfirmPassword)
@@ -23,17 +23,17 @@ test('Password Confirm Protected Page Redirects', function () {
         $browser
             ->visitPasswordConfirmTestPage()
             ->assertPathIs('/auth/login')
-            ->createJohnDoe()    
+            ->createJohnDoe()
             ->loginAsJohnDoe()
             ->visitPasswordConfirmTestPage()
             ->assertPathIs('/auth/password/confirm');
     });
 });
 
-test('Password Confirm Works', function(){
+test('Password Confirm Works', function () {
     $browser = $this->browse(function (Browser $browser) {
         $browser
-            ->createJohnDoe()    
+            ->createJohnDoe()
             ->loginAsJohnDoe()
             ->visit(new ConfirmPassword)
             ->type('@password-input', 'password')
@@ -42,10 +42,10 @@ test('Password Confirm Works', function(){
     });
 });
 
-test('Password Confirm Works and redirect to password protected page', function(){
+test('Password Confirm Works and redirect to password protected page', function () {
     $browser = $this->browse(function (Browser $browser) {
         $browser
-            ->createJohnDoe()    
+            ->createJohnDoe()
             ->loginAsJohnDoe()
             ->visitPasswordConfirmTestPage()
             ->type('@password-input', 'password')

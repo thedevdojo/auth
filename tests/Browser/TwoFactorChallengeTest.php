@@ -23,7 +23,7 @@ test('User logs in with 2fa enabled and redirected to challenge', function () {
             ->enable2FAforJohnDoe()
             ->formLoginAsJohnDoe()
             ->assertPathIs('/auth/two-factor-challenge');
-            
+
         $browser->pause(2000);
     });
 });

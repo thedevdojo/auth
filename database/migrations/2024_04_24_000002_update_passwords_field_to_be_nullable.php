@@ -24,7 +24,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('password')->nullable(false)->change();
-            $table->string('name')->nullable(false)->change();
+            // $table->string('name')->nullable(false)->change();
         });
     }
 };

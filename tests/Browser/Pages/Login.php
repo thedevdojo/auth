@@ -23,7 +23,9 @@ class Login extends Page
             ->click('@submit-button')
             ->waitFor('@password-input')
             ->type('@password-input', 'password')
+            ->screenshot('before-submit')
             ->clickAndWaitForReload('@submit-button')
+            ->screenshot('after-submit')
             ->assertRedirectAfterAuthUrlIsCorrect();
 
         return $this;

@@ -132,6 +132,11 @@ jobs:
       run: ./vendor/laravel/dusk/bin/chromedriver-linux &
       working-directory: ./laravel_app
 
+    - name: Check Chrome & ChromeDriver Versions
+      run: |
+        google-chrome --version
+        chromedriver --version
+
     - name: Clear all view caches
       run: php artisan view:clear
       working-directory: ./laravel_app

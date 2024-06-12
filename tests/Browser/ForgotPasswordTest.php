@@ -40,7 +40,7 @@ test('Email Does Not Exist', function () {
 
 test('Email reset functionality', function () {
     $browser = $this->browse(function (Browser $browser) {
-        
+
         $browser
             ->visit(new PasswordResetRequest)
             ->createJohnDoe()
@@ -57,14 +57,14 @@ test('Email reset functionality', function () {
                     ->assertSeeIn('#auth-heading-title', 'Reset Password');
             });
 
-            //->waitForText('We have emailed your password reset link');
-            // ->assertPathIs('/auth/verify')
-            
+        //->waitForText('We have emailed your password reset link');
+        // ->assertPathIs('/auth/verify')
+
     });
 });
 
 test('Link to Login Page', function () {
     $browser = $this->browse(function (Browser $browser) {
-        
+
     });
 })->todo();

@@ -28,5 +28,4 @@ class Login extends Page
 
         return $this;
     }
-
 }

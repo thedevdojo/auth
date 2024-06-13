@@ -38,10 +38,12 @@ Next, run the migrations:
 php artisan migrate
 ```
 
-Finally extend the `DevDojo\User
+Finally extend the Devdojo User Model:
 
 ```
-class User extends Devdojo\Auth\Models\User
+use Devdojo\Auth\Models\User as AuthUser;
+
+class User extends AuthUser
 ```
 
 in your `App\Models\User` model. 
@@ -54,6 +56,15 @@ Now, you're ready to rock! Auth has just been isntalled and you'll be able to vi
  - Password Reset (project.test/auth/password/reset)
  - Password Reset Token (project.test/auth/password/ReAlLyLoNgPaSsWoRdReSeTtOkEn)
  - Password Confirmation (project.test/auth/password/confirm)
+ - Two-Factor Challenge (project.test/auth/two-factor-challenge)
+  
+You'll also have access to the Two Factor Setup page
+
+ - Two-Factor Setup (project.test/user/two-factor-authentication)
+
+When you need to logout, you can visit the Logout route
+
+- Logout Route (project.test/auth/logout)
 
 ## (Optional) Adding the HasSocialProviders Trait.
 

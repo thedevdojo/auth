@@ -40,7 +40,7 @@ jobs:
       id: extract_branch
 
     - name: Install DevDojo Auth from current branch
-      run: composer require devdojo/auth:dev-${{ env.branch }} --with-all-dependencies
+      run: composer require ${{ github.event.pull_request.head.repo.full_name }}:dev-${{ env.branch }} --with-all-dependencies
       working-directory: ./laravel_app
 
     - name: Publish the DevDojo Auth Assets

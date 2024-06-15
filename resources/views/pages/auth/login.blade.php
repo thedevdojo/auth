@@ -119,7 +119,7 @@ new class extends Component
 <x-auth::layouts.app title="{{ config('devdojo.auth.language.login.page_title') }}">
     <div class="relative w-full h-full">
         @volt('auth.login') 
-            <div class="relative w-full">
+            <div class="relative w-full h-full">
                 <x-auth::elements.container>
                 
                         <x-auth::elements.heading 

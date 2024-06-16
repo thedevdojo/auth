@@ -40,7 +40,7 @@ test('Resend Email Verification Link', function () {
             ->assertPathIs('/auth/verify')
             ->clearLogFile()
             ->click('@verify-email-resend-link')
-            ->waitForText('A new link has been sent to your email address')
+            ->waitForText(config('devdojo.auth.language.verify.new_link_sent'))
             ->getLogFile(function ($content) use ($browser) {
                 $foundLine = $this->findLineContainingSubstring($content, 'Verify Email Address:');
                 $url = str_replace('Verify Email Address: ', '', $foundLine);

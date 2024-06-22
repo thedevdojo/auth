@@ -46,7 +46,7 @@ new class extends Component
             $this->showPasswordField = false;
             return;
         }
-
+        
         $this->showIdentifierInput = true;
         $this->showSocialProviderInfo = false;
     }
@@ -78,6 +78,7 @@ new class extends Component
         $this->validate();
 
         $credentials = ['email' => $this->email, 'password' => $this->password];
+
         if(!\Auth::validate($credentials)){
             $this->addError('password', trans('auth.failed'));
             return;

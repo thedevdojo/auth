@@ -38,6 +38,7 @@ new class extends Component
     public function mount(){
         $this->loadConfigs();
         $this->twoFactorEnabled = $this->settings->enable_2fa;
+        $this->userModel = app(config('auth.providers.users.model'));
     }
 
     public function editIdentity(){

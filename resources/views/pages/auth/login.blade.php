@@ -145,8 +145,8 @@ new class extends Component
 
                         @if($showSocialProviderInfo)
                             <div class="p-4 text-sm rounded-md border bg-zinc-50 border-zinc-200">
-                                <span>You have been authenticated via {{ implode(', ', $userSocialProviders) }}. Please login to that network below.</span>
-                                <button wire:click="editIdentity" type="button" class="underline translate-x-1.5">Change Email</button>
+                                <span>{{ str_replace('__social_providers_list__', implode(', ', $userSocialProviders), config('devdojo.auth.language.login.social_auth_authenticated_message')) }}</span>
+                                <button wire:click="editIdentity" type="button" class="underline translate-x-0.5">{{ config('devdojo.auth.language.login.change_email') }}</button>
                             </div>
 
                             @if(!config('devdojo.auth.settings.login_show_social_providers'))

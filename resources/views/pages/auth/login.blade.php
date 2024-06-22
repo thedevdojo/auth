@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Auth\Events\Login;
 use function Laravel\Folio\{middleware, name};
 use Livewire\Attributes\Validate;
@@ -34,9 +33,12 @@ new class extends Component
 
     public $userSocialProviders = [];
 
+    public $userModel = null;
+
     public function mount(){
         $this->loadConfigs();
         $this->twoFactorEnabled = $this->settings->enable_2fa;
+        $this->userModel = app(config('auth.providers.users.model'));
     }
 
     public function editIdentity(){
@@ -44,7 +46,7 @@ new class extends Component
             $this->showPasswordField = false;
             return;
         }
-
+        
         $this->showIdentifierInput = true;
         $this->showSocialProviderInfo = false;
     }
@@ -54,7 +56,7 @@ new class extends Component
 
         if(!$this->showPasswordField){
             $this->validateOnly('email');
-            $userTryingToValidate = \Devdojo\Auth\Models\User::where('email', $this->email)->first();
+            $userTryingToValidate = $this->userModel->where('email', $this->email)->first();
             if(!is_null($userTryingToValidate)){
                 if(is_null($userTryingToValidate->password)){
                     $this->userSocialProviders = [];
@@ -82,7 +84,7 @@ new class extends Component
             return;
         }
 
-        $userAttemptingLogin = User::where('email', $this->email)->first();
+        $userAttemptingLogin = $this->userModel->where('email', $this->email)->first();
 
         if(!isset($userAttemptingLogin->id)){
             $this->addError('password', trans('auth.failed'));
@@ -102,7 +104,8 @@ new class extends Component
                 $this->addError('password', trans('auth.failed'));
                 return;
             }
-            event(new Login(auth()->guard('web'), User::where('email', $this->email)->first(), true));
+            
+            event(new Login(auth()->guard('web'), $this->userModel->where('email', $this->email)->first(), true));
 
             if(session()->get('url.intended') != route('logout.get')){
                 redirect()->intended(config('devdojo.auth.settings.redirect_after_auth'));

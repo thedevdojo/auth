@@ -16,7 +16,7 @@ name('auth.login');
 new class extends Component
 {
     use HasConfigs;
-    
+
     #[Validate('required|email')]
     public $email = '';
 
@@ -51,7 +51,7 @@ new class extends Component
 
     public function authenticate()
     {
-        
+
         if(!$this->showPasswordField){
             $this->validateOnly('email');
             $userTryingToValidate = \Devdojo\Auth\Models\User::where('email', $this->email)->first();
@@ -71,17 +71,17 @@ new class extends Component
             $this->js("setTimeout(function(){ window.dispatchEvent(new CustomEvent('focus-password', {})); }, 10);");
             return;
         }
-        
-        
+
+
         $this->validate();
 
         $credentials = ['email' => $this->email, 'password' => $this->password];
-        
+
         if(!\Auth::validate($credentials)){
             $this->addError('password', trans('auth.failed'));
             return;
         }
-        
+
         $userAttemptingLogin = User::where('email', $this->email)->first();
 
         if(!isset($userAttemptingLogin->id)){
@@ -110,7 +110,7 @@ new class extends Component
                 return redirect(config('devdojo.auth.settings.redirect_after_auth'));
             }
         }
-        
+
     }
 };
 
@@ -123,9 +123,9 @@ new class extends Component
             <x-auth::elements.container>
 
                 <x-auth::elements.heading
-                        :text="($language->login->headline ?? 'No Heading')"
-                        :description="($language->login->subheadline ?? 'No Description')"
-                        :show_subheadline="($language->login->show_subheadline ?? false)" />
+                    :text="($language->login->headline ?? 'No Heading')"
+                    :description="($language->login->subheadline ?? 'No Description')"
+                    :show_subheadline="($language->login->show_subheadline ?? false)" />
 
                 @if(config('devdojo.auth.settings.login_show_social_providers') && config('devdojo.auth.settings.social_providers_location') == 'top')
                     <x-auth::elements.social-providers />
@@ -135,7 +135,7 @@ new class extends Component
 
                     @if($showPasswordField)
                         <x-auth::elements.input-placeholder value="{{ $email }}">
-                            <button type="button" data-auth="edit-email-button" wire:click="editIdentity" class="font-medium text-blue-500">Edit</button>
+                            <button type="button" data-auth="edit-email-button" wire:click="editIdentity" class="font-medium text-blue-500">{{ config('devdojo.auth.language.login.edit') }}</button>
                         </x-auth::elements.input-placeholder>
                     @else
                         @if($showIdentifierInput)
@@ -151,16 +151,16 @@ new class extends Component
 
                         @if(!config('devdojo.auth.settings.login_show_social_providers'))
                             <x-auth::elements.social-providers
-                                    :socialProviders="\Devdojo\Auth\Helper::getProvidersFromArray($userSocialProviders)"
-                                    :separator="false"
+                                :socialProviders="\Devdojo\Auth\Helper::getProvidersFromArray($userSocialProviders)"
+                                :separator="false"
                             />
                         @endif
                     @endif
 
                     @if($showPasswordField)
-                        <x-auth::elements.input label="Password" type="password" wire:model="password" id="password" data-auth="password-input" />
+                        <x-auth::elements.input :label="config('devdojo.auth.language.login.password')" type="password" wire:model="password" id="password" data-auth="password-input" />
                         <div class="flex justify-between items-center mt-6 text-sm leading-5">
-                            <x-auth::elements.text-link href="{{ route('auth.password.request') }}" data-auth="forgot-password-link">Forgot your password?</x-auth::elements.text-link>
+                            <x-auth::elements.text-link href="{{ route('auth.password.request') }}" data-auth="forgot-password-link">{{ config('devdojo.auth.language.login.forget_password') }}</x-auth::elements.text-link>
                         </div>
                     @endif
 

@@ -30,7 +30,7 @@ new class extends Component
     public $showPasswordField = false;
 
 
-    
+
 
     public function rules()
     {
@@ -65,7 +65,7 @@ new class extends Component
                 $this->validateOnly('name');
             }
             $this->validateOnly('email');
-            
+
             $this->showPasswordField = true;
             $this->showNameField = false;
             $this->showEmailField = false;
@@ -110,9 +110,9 @@ new class extends Component
     <x-auth::elements.container>
 
         <x-auth::elements.heading
-                :text="($language->register->headline ?? 'No Heading')"
-                :description="($language->register->subheadline ?? 'No Description')"
-                :show_subheadline="($language->register->show_subheadline ?? false)" />
+            :text="($language->register->headline ?? 'No Heading')"
+            :description="($language->register->subheadline ?? 'No Description')"
+            :show_subheadline="($language->register->show_subheadline ?? false)" />
 
         @if(config('devdojo.auth.settings.social_providers_location') == 'top')
             <x-auth::elements.social-providers />
@@ -139,7 +139,7 @@ new class extends Component
         </form>
 
         <div class="mt-3 space-x-0.5 text-sm leading-5 text-left" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
-            <span class="opacity-[47%]">{{config('devdojo.auth.language.register.already_have_an_account?')}}</span>
+            <span class="opacity-[47%]">{{config('devdojo.auth.language.register.already_have_an_account')}}</span>
             <x-auth::elements.text-link data-auth="login-link" href="{{ route('auth.login') }}">{{config('devdojo.auth.language.register.sign_in')}}</x-auth::elements.text-link>
         </div>
 

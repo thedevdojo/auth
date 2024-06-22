@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class SocialProviderUser extends Model
 {
     protected $table = 'social_provider_user';
-    
+
     // Prevents the "returning id" default behaviour
     protected $primaryKey = ['user_id', 'provider_slug'];
+
     // Prevents the auto-increment default behaviour
     public $incrementing = false;
 

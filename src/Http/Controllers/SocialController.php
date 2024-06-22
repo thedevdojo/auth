@@ -14,10 +14,7 @@ use Laravel\Socialite\Facades\Socialite;
 
 class SocialController
 {
-    public function __construct()
-    {
-
-    }
+    public function __construct() {}
 
     public function redirect(Request $request, string $driver): RedirectResponse
     {

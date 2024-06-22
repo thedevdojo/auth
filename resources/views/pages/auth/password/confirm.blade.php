@@ -14,7 +14,7 @@ name('password.confirm');
 new class extends Component
 {
     use HasConfigs;
-    
+
     #[Validate('required|current_password')]
     public $password = '';
 
@@ -38,14 +38,14 @@ new class extends Component
 
     @volt('auth.password.confirm')
         <x-auth::elements.container>
-            <x-auth::elements.heading 
-                :text="($language->passwordConfirm->headline ?? 'No Heading')" 
+            <x-auth::elements.heading
+                :text="($language->passwordConfirm->headline ?? 'No Heading')"
                 :description="($language->passwordConfirm->subheadline ?? 'No Description')"
-                :show_subheadline="($language->passwordConfirm->show_subheadline ?? false)"   
-            />        
+                :show_subheadline="($language->passwordConfirm->show_subheadline ?? false)"
+            />
             <form wire:submit="confirm" class="space-y-5">
-                <x-auth::elements.input label="Password" type="password" id="password" name="password" data-auth="password-input" autofocus="true" wire:model="password" />
-                <x-auth::elements.button type="primary" rounded="md" data-auth="submit-button" submit="true">Confirm password</x-auth::elements.button>
+                <x-auth::elements.input :label="config('devdojo.auth.language.passwordConfirm.password')" type="password" id="password" name="password" data-auth="password-input" autofocus="true" wire:model="password" />
+                <x-auth::elements.button type="primary" rounded="md" data-auth="submit-button" submit="true">{{config('devdojo.auth.language.passwordConfirm.button')}}</x-auth::elements.button>
             </form>
         </x-auth::elements.container>
     @endvolt

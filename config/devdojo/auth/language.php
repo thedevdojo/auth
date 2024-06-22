@@ -17,7 +17,7 @@ return [
         'dont_have_an_account' => "Don't have an account?",
         'sign_up' => 'Sign up',
         'social_auth_authenticated_message' => 'You have been authenticated via __social_providers_list__. Please login to that network below.',
-        'change_email' => 'Change Email'
+        'change_email' => 'Change Email',
     ],
     'register' => [
         'page_title' => 'Sign up',

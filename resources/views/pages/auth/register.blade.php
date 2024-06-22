@@ -1,6 +1,5 @@
 <?php
 
-use Devdojo\Auth\Models\User;
 use Devdojo\Auth\Models\SocialProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -84,7 +83,7 @@ new class extends Component
             $userData['name'] = $this->name;
         }
 
-        $user = User::create($userData);
+        $user = app(config('auth.providers.users.model'))->create($userData);
 
         event(new Registered($user));
 

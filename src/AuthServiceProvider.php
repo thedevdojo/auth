@@ -97,9 +97,9 @@ class AuthServiceProvider extends ServiceProvider
 
     private function registerVoltDirectory(): void
     {
-        Volt::mount([
-            __DIR__.'/../resources/views/pages',
-        ]);
+        $this->app->booted(function() {
+            Volt::mount( __DIR__.'/../resources/views/livewire' );
+        });
     }
 
     private function handleStarterKitFunctionality()

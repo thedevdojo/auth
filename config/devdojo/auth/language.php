@@ -27,6 +27,7 @@ return [
         'name' => 'Name',
         'email_address' => 'Email Address',
         'password' => 'Password',
+        'password_confirmation' => 'Confirm Password',
         'already_have_an_account' => 'Already have an account?',
         'sign_in' => 'Sign in',
         'button' => 'Continue',

@@ -59,6 +59,44 @@ it('checks for required fields and validation errors', function () {
         ->assertHasErrors(['password' => 'min']);
 });
 
+it('validates password confirmation field', function () {
+    config()->set('devdojo.auth.settings.registration_include_password_confirmation_field', true);
+
+    Livewire::test('auth.register')
+        ->set('password', 'secret1234')
+        ->set('password_confirmation', 'differentpassword')
+        ->call('register')
+        ->assertHasErrors(['password' => 'confirmed']);
+});
+
+it('conditionally displays password confirmation field based on configuration', function () {
+    config()->set('devdojo.auth.settings.registration_include_password_confirmation_field', true);
+    config()->set('devdojo.auth.settings.registration_show_password_same_screen', true);
+
+    Livewire::test('auth.register')
+        ->assertSet('showPasswordField', true)
+        ->assertSet('showPasswordConfirmationField', true)
+        ->assertSeeHtml('wire:model="password_confirmation"');
+});
+
+it('registers a new user with password confirmation and logs in', function () {
+    $this->withoutExceptionHandling();
+    $this->mock(Registered::class);
+    config()->set('devdojo.auth.settings.registration_include_password_confirmation_field', true);
+    config()->set('devdojo.auth.settings.registration_require_email_verification', false);
+
+    Livewire::test('auth.register')
+        ->set('email', 'user@example.com')
+        ->set('password', 'secret1234')
+        ->set('password_confirmation', 'secret1234')
+        ->call('register')
+        ->assertHasNoErrors()
+        ->assertRedirect('/');
+
+    $this->assertTrue(Auth::check());
+    $this->assertEquals('user@example.com', Auth::user()->email);
+});
+
 it('renders social login buttons if providers are available', function () {
     config()->set('devdojo.auth.providers', [
         'google' => [

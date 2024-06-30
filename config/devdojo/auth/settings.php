@@ -13,5 +13,6 @@ return [
     'dev_mode' => false,
     'enable_2fa' => false, // Enable or disable 2FA functionality globally
     'login_show_social_providers' => true,
+    'center_align_social_provider_button_content' => false,
     'social_providers_location' => 'bottom',
 ];

@@ -14,6 +14,7 @@ return [
         'dev_mode' => 'This is for development mode, when set in Dev Mode Assets will be loaded from Vite',
         'enable_2fa' => 'Enable the ability for users to turn on Two Factor Authentication',
         'login_show_social_providers' => 'Show the social providers login buttons on the login form',
+        'center_align_social_provider_button_content' => 'Center align the content in the social provider button?',
         'social_providers_location' => 'The location of the social provider buttons (top or bottom)',
     ],
 ];

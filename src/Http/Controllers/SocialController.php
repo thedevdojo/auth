@@ -83,11 +83,23 @@ class SocialController
 
     private function dynamicallySetSocialProviderCredentials($provider)
     {
-        $socialProvider = SocialProvider::where('slug', $provider)->first();
-
+        $socialProvider = $this->getProviderCredentialsWithOverrides($provider);
+        
         Config::set('services.'.$provider.'.client_id', $socialProvider->client_id);
         Config::set('services.'.$provider.'.client_secret', $socialProvider->client_secret);
         Config::set('services.'.$provider.'.redirect', '/auth/'.$provider.'/callback');
 
+    }
+    private function getProviderCredentialsWithOverrides($provider)
+    {
+        $socialProvider = SocialProvider::where('slug', $provider)->first();
+
+        switch ($provider) {
+            case 'Facebook':
+                $socialProvider->client_id = sprintf("%d", $socialProvider->client_id);
+                break;
+        }
+
+        return $socialProvider;
     }
 }

@@ -123,6 +123,7 @@ new class extends Component
     <x-auth::elements.container>
 
         <x-auth::elements.heading :text="($language->register->headline ?? 'No Heading')" :description="($language->register->subheadline ?? 'No Description')" :show_subheadline="($language->register->show_subheadline ?? false)" />
+        <x-auth::elements.session-message />
 
         @if(config('devdojo.auth.settings.social_providers_location') == 'top')
         <x-auth::elements.social-providers />

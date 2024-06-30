@@ -23,71 +23,98 @@ class SocialController
         return Socialite::driver($driver)->redirect();
     }
 
-    public function callback(Request $request, $driver)
-    {
-        $this->dynamicallySetSocialProviderCredentials($driver);
-
-        $socialiteUser = Socialite::driver($driver)->user();
-
-        DB::transaction(function () use ($socialiteUser, $driver) {
-            // Attempt to find the user based on the social provider's ID and slug
-            $socialProviderUser = SocialProviderUser::where('provider_slug', $driver)
-                ->where('provider_user_id', $socialiteUser->getId())
-                ->first();
-
-            if ($socialProviderUser) {
-                // Log the user in and redirect to the home page
-                Auth::login($socialProviderUser->user);
-
-                return redirect()->to(config('devdojo.auth.settings.redirect_after_auth'));
-            }
-
-            // Check if the email from the social provider already exists in the User table
-            $user = User::where('email', $socialiteUser->getEmail())->first();
-
-            if ($user) {
-                // Inform the user that an account with this email already exists
-                throw new \Exception('An account with the provided email already exists. Please log in.');
-            }
-
-            // No user exists, register a new user
-            $newUser = User::create([
-                'name' => $socialiteUser->getName(),
-                'email' => $socialiteUser->getEmail(),
-                // Add other fields as necessary
-            ]);
-
-            $newUser->email_verified_at = now();
-            $newUser->save();
-
-            // Now add the social provider info for this new user
-            $newUser->addOrUpdateSocialProviderUser($driver, [
-                'provider_user_id' => $socialiteUser->getId(),
-                'nickname' => $socialiteUser->getNickname(),
-                'name' => $socialiteUser->getName(),
-                'email' => $socialiteUser->getEmail(),
-                'avatar' => $socialiteUser->getAvatar(),
-                'provider_data' => json_encode($socialiteUser->user),
-                'token' => $socialiteUser->token,
-                'refresh_token' => $socialiteUser->refreshToken,
-                'token_expires_at' => now()->addSeconds($socialiteUser->expiresIn),
-            ]);
-
-            // Log in the newly created user
-            Auth::login($newUser);
-        });
-
-        // Redirect to a specific page after successful registration and login
-        return redirect()->to(config('devdojo.auth.settings.redirect_after_auth')); // Adjust according to your needs
-    }
-
     private function dynamicallySetSocialProviderCredentials($provider)
     {
-        $socialProvider = SocialProvider::where('slug', $provider)->first();
+        $socialProvider = $this->getProviderCredentialsWithOverrides($provider);
 
         Config::set('services.'.$provider.'.client_id', $socialProvider->client_id);
         Config::set('services.'.$provider.'.client_secret', $socialProvider->client_secret);
         Config::set('services.'.$provider.'.redirect', '/auth/'.$provider.'/callback');
 
+    }
+
+    private function getProviderCredentialsWithOverrides($provider)
+    {
+        $socialProvider = SocialProvider::where('slug', $provider)->first();
+
+        switch ($provider) {
+            case 'facebook':
+                $socialProvider->client_id = sprintf('%d', $socialProvider->client_id);
+                break;
+        }
+
+        return $socialProvider;
+    }
+
+    public function callback(Request $request, $driver)
+    {
+        $this->dynamicallySetSocialProviderCredentials($driver);
+
+        try {
+            $socialiteUser = Socialite::driver($driver)->user();
+            $providerUser = $this->findOrCreateProviderUser($socialiteUser, $driver);
+
+            if ($providerUser instanceof RedirectResponse) {
+                return $providerUser; // This is an error redirect
+            }
+
+            Auth::login($providerUser->user);
+
+            return redirect()->to(config('devdojo.auth.settings.redirect_after_auth'));
+        } catch (\Exception $e) {
+            return redirect()->route('auth.login')->with('error', 'An error occurred during authentication. Please try again.');
+        }
+    }
+
+    private function findOrCreateProviderUser($socialiteUser, $driver)
+    {
+        $providerUser = SocialProviderUser::where('provider_slug', $driver)
+            ->where('provider_user_id', $socialiteUser->getId())
+            ->first();
+
+        if ($providerUser) {
+            return $providerUser;
+        }
+
+        $user = User::where('email', $socialiteUser->getEmail())->first();
+
+        if ($user) {
+            $existingProvider = $user->socialProviders()->first();
+            if ($existingProvider) {
+                return redirect()->route('auth.login')->with('error',
+                    "This email is already associated with a {$existingProvider->provider_slug} account. Please login using that provider.");
+            }
+        }
+
+        return DB::transaction(function () use ($socialiteUser, $driver, $user) {
+            $user = $user ?? $this->createUser($socialiteUser);
+
+            return $this->createSocialProviderUser($user, $socialiteUser, $driver);
+        });
+    }
+
+    private function createUser($socialiteUser)
+    {
+        return User::create([
+            'name' => $socialiteUser->getName(),
+            'email' => $socialiteUser->getEmail(),
+            'email_verified_at' => now(),
+        ]);
+    }
+
+    private function createSocialProviderUser($user, $socialiteUser, $driver)
+    {
+        return $user->socialProviders()->create([
+            'provider_slug' => $driver,
+            'provider_user_id' => $socialiteUser->getId(),
+            'nickname' => $socialiteUser->getNickname(),
+            'name' => $socialiteUser->getName(),
+            'email' => $socialiteUser->getEmail(),
+            'avatar' => $socialiteUser->getAvatar(),
+            'provider_data' => json_encode($socialiteUser->user),
+            'token' => $socialiteUser->token,
+            'refresh_token' => $socialiteUser->refreshToken,
+            'token_expires_at' => $socialiteUser->expiresIn ? now()->addSeconds($socialiteUser->expiresIn) : null,
+        ]);
     }
 }

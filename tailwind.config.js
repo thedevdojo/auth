@@ -5,7 +5,8 @@ import forms from '@tailwindcss/forms';
 export default {
     content: [
         'resources/views/**/*.blade.php',
-        '../../resources/views/components/auth/**/*.blade.php'
+        '../../resources/views/components/auth/**/*.blade.php',
+        'resources/views/components/**/*.blade.php'
     ],
 
     theme: {},

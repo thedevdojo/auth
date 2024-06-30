@@ -130,6 +130,8 @@ new class extends Component
                         :description="($language->login->subheadline ?? 'No Description')"
                         :show_subheadline="($language->login->show_subheadline ?? false)" />
 
+                    <x-auth::elements.session-message />
+
                     @if(config('devdojo.auth.settings.login_show_social_providers') && config('devdojo.auth.settings.social_providers_location') == 'top')
                         <x-auth::elements.social-providers />
                     @endif

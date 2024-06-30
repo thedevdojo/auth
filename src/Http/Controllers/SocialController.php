@@ -38,7 +38,7 @@ class SocialController
         $socialProvider = SocialProvider::where('slug', $provider)->first();
 
         switch ($provider) {
-            case 'Facebook':
+            case 'facebook':
                 $socialProvider->client_id = sprintf('%d', $socialProvider->client_id);
                 break;
         }

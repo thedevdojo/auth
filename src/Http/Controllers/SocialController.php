@@ -81,13 +81,14 @@ class SocialController
         if ($user) {
             $existingProvider = $user->socialProviders()->first();
             if ($existingProvider) {
-                return redirect()->route('auth.login')->with('error', 
+                return redirect()->route('auth.login')->with('error',
                     "This email is already associated with a {$existingProvider->provider_slug} account. Please login using that provider.");
             }
         }
 
         return DB::transaction(function () use ($socialiteUser, $driver, $user) {
             $user = $user ?? $this->createUser($socialiteUser);
+
             return $this->createSocialProviderUser($user, $socialiteUser, $driver);
         });
     }

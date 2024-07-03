@@ -5,9 +5,11 @@ namespace Devdojo\Auth\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Thiagoprz\CompositeKey\HasCompositeKey;
 
 class SocialProviderUser extends Model
 {
+    use HasCompositeKey;
     protected $table = 'social_provider_user';
 
     // Prevents the "returning id" default behaviour

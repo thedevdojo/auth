@@ -26,7 +26,8 @@
         "laravel/socialite": "^5.0",
         "calebporzio/sushi": "^2.5",
         "pragmarx/google2fa": "^8.0",
-        "bacon/bacon-qr-code": "^3.0"
+        "bacon/bacon-qr-code": "^3.0",
+        "thiagoprz/eloquent-composite-key": "^1.0"
     },
     "require-dev": {
         "laravel/pint": "^1.15",

@@ -48,7 +48,7 @@ class User extends AuthUser
 
 in your `App\Models\User` model. 
 
-Now, you're ready to rock! Auth has just been isntalled and you'll be able to visit the following authentication routes:
+Now, you're ready to rock! Auth has just been installed and you'll be able to visit the following authentication routes:
 
  - Login (project.test/auth/login)
  - Register (project.test/auth/register)

@@ -108,8 +108,10 @@ new class extends Component
             event(new Login(auth()->guard('web'), $this->userModel->where('email', $this->email)->first(), true));
 
             if(session()->get('url.intended') != route('logout.get')){
+                session()->regenerate();
                 redirect()->intended(config('devdojo.auth.settings.redirect_after_auth'));
             } else {
+                session()->regenerate();
                 return redirect(config('devdojo.auth.settings.redirect_after_auth'));
             }
         }

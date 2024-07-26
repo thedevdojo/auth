@@ -22,6 +22,9 @@ new class extends Component
     #[Validate('required')]
     public $password = '';
 
+    #[Validate('bool')]
+    public $rememberMe = false;
+
     public $showPasswordField = false;
 
     public $showIdentifierInput = true;
@@ -46,7 +49,7 @@ new class extends Component
             $this->showPasswordField = false;
             return;
         }
-        
+
         $this->showIdentifierInput = true;
         $this->showSocialProviderInfo = false;
     }
@@ -100,11 +103,11 @@ new class extends Component
             return redirect()->route('auth.two-factor-challenge');
 
         } else {
-            if (!Auth::attempt($credentials)) {
+            if (!Auth::attempt($credentials, $this->rememberMe)) {
                 $this->addError('password', trans('auth.failed'));
                 return;
             }
-            
+
             event(new Login(auth()->guard('web'), $this->userModel->where('email', $this->email)->first(), true));
 
             if(session()->get('url.intended') != route('logout.get')){
@@ -165,7 +168,8 @@ new class extends Component
 
                 @if($showPasswordField)
                     <x-auth::elements.input :label="config('devdojo.auth.language.login.password')" type="password" wire:model="password" id="password" data-auth="password-input" />
-                    <div class="flex justify-between items-center mt-6 text-sm leading-5">
+					<x-auth::elements.checkbox :label="config('devdojo.auth.language.login.remember_me')" wire:model="rememberMe" id="remember-me" data-auth="remember-me-input" />                                   
+					<div class="flex justify-between items-center mt-6 text-sm leading-5">
                         <x-auth::elements.text-link href="{{ route('auth.password.request') }}" data-auth="forgot-password-link">{{ config('devdojo.auth.language.login.forget_password') }}</x-auth::elements.text-link>
                     </div>
                 @endif

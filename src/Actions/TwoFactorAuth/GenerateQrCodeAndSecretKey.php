@@ -21,7 +21,7 @@ class GenerateQrCodeAndSecretKey
     public function __invoke($user): array
     {
 
-        $google2fa = new Google2FA();
+        $google2fa = new Google2FA;
         $secret_key = $google2fa->generateSecretKey();
 
         $this->companyName = 'Auth';
@@ -38,7 +38,7 @@ class GenerateQrCodeAndSecretKey
         $writer = new Writer(
             new ImageRenderer(
                 new RendererStyle(800),
-                new ImagickImageBackEnd()
+                new ImagickImageBackEnd
             )
         );
 

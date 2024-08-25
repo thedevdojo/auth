@@ -46,7 +46,7 @@ new class extends Component
             $this->showPasswordField = false;
             return;
         }
-        
+
         $this->showIdentifierInput = true;
         $this->showSocialProviderInfo = false;
     }
@@ -69,6 +69,13 @@ new class extends Component
                     return;
                 }
             }
+
+            if(config('devdojo.auth.settings.check_account_exists_before_login') && is_null($userTryingToValidate)){
+                $this->js("setTimeout(function(){ window.dispatchEvent(new CustomEvent('focus-email', {})); }, 10);");
+                $this->addError('email', trans(config('devdojo.auth.language.login.couldnt_find_your_account')));
+                return;
+            }
+
             $this->showPasswordField = true;
             $this->js("setTimeout(function(){ window.dispatchEvent(new CustomEvent('focus-password', {})); }, 10);");
             return;
@@ -104,7 +111,7 @@ new class extends Component
                 $this->addError('password', trans('auth.failed'));
                 return;
             }
-            
+
             event(new Login(auth()->guard('web'), $this->userModel->where('email', $this->email)->first(), true));
 
             if(session()->get('url.intended') != route('logout.get')){
@@ -122,7 +129,7 @@ new class extends Component
 ?>
 
 <x-auth::layouts.app title="{{ config('devdojo.auth.language.login.page_title') }}">
-    
+
     @volt('auth.login')
         <x-auth::elements.container>
 
@@ -138,7 +145,6 @@ new class extends Component
             @endif
 
             <form wire:submit="authenticate" class="space-y-5">
-
                 @if($showPasswordField)
                     <x-auth::elements.input-placeholder value="{{ $email }}">
                         <button type="button" data-auth="edit-email-button" wire:click="editIdentity" class="font-medium text-blue-500">{{ config('devdojo.auth.language.login.edit') }}</button>
@@ -187,5 +193,5 @@ new class extends Component
 
         </x-auth::elements.container>
     @endvolt
-    
+
 </x-auth::layouts.app>

@@ -18,6 +18,7 @@ return [
         'sign_up' => 'Sign up',
         'social_auth_authenticated_message' => 'You have been authenticated via __social_providers_list__. Please login to that network below.',
         'change_email' => 'Change Email',
+        'couldnt_find_your_account' => "Couldn’t find your Account",
     ],
     'register' => [
         'page_title' => 'Sign up',

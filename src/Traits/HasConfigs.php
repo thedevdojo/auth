@@ -30,7 +30,7 @@ trait HasConfigs
             return $array;
         }
 
-        $object = new \stdClass();
+        $object = new \stdClass;
         foreach ($array as $key => $value) {
             $object->$key = $this->arrayToObject($value);
         }

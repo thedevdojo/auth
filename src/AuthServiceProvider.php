@@ -144,7 +144,7 @@ class AuthServiceProvider extends ServiceProvider
 
         // Bind a singleton for the Google2FA service
         $this->app->singleton(Google2FA::class, function ($app) {
-            return new Google2FA();
+            return new Google2FA;
         });
 
         // Register the DuskServiceProvider

@@ -13,12 +13,6 @@ abstract class DuskTestCase extends BaseTestCase
 {
     use UsesDuskApiConfig;
 
-    // protected function setUp(): void
-    // {
-    //     // $this->resetConfig();
-    //     parent::setUp();
-    // }
-
     /**
      * Prepare for Dusk test execution.
      */
@@ -26,7 +20,7 @@ abstract class DuskTestCase extends BaseTestCase
     public static function prepare(): void
     {
         if (! static::runningInSail()) {
-            static::startChromeDriver();
+            static::startChromeDriver(['--port=9515']);
         }
     }
 

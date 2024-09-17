@@ -31,8 +31,6 @@ new class extends Component
     public $showPasswordConfirmationField = false;
 
 
-
-
     public function rules()
     {
         $nameValidationRules = [];

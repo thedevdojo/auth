@@ -117,8 +117,8 @@ new class extends Component
                             </div>
                         @endif
                         <div class="flex items-center space-x-5">
-                            <x-auth::elements.button type="primary" wire:click="regenerateCodes" rounded="md" size="md">Regenerate Codes</x-auto::elements.button>
-                            <x-auth::elements.button type="danger" wire:click="disable" size="md" rounded="md">Disable 2FA</x-auto::elements.button>
+                            <x-auth::elements.button type="primary" wire:click="regenerateCodes" rounded="md" size="md">Regenerate Codes</x-auth::elements.button>
+                            <x-auth::elements.button type="danger" wire:click="disable" size="md" rounded="md">Disable 2FA</x-auth::elements.button>
                         </div>
                     </div>
                     
@@ -153,8 +153,8 @@ new class extends Component
                             @enderror
                             
                             <div class="flex items-center space-x-5">
-                                <x-auth::elements.button type="secondary" size="md" rounded="md" wire:click="cancelTwoFactor" wire:target="cancelTwoFactor">Cancel</x-auto::elements.button>
-                                <x-auth::elements.button type="primary" size="md" wire:click="submitCode(document.getElementById('auth-input-code').value)" wire:target="submitCode" rounded="md">Confirm</x-auto::elements.button>
+                                <x-auth::elements.button type="secondary" size="md" rounded="md" wire:click="cancelTwoFactor" wire:target="cancelTwoFactor">Cancel</x-auth::elements.button>
+                                <x-auth::elements.button type="primary" size="md" wire:click="submitCode(document.getElementById('auth-input-code').value)" wire:target="submitCode" rounded="md">Confirm</x-auth::elements.button>
                             </div>
 
                         </div>

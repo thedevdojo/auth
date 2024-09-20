@@ -5,7 +5,7 @@
 ])
 @if(count($socialProviders))
     @if($separator && config('devdojo.auth.settings.social_providers_location') != 'top')
-        <x-auth::elements.separator class="my-6">{{ $separator_text }}</x-auto::elements.separator>
+        <x-auth::elements.separator class="my-6">{{ $separator_text }}</x-auth::elements.separator>
     @endif
     <div class="relative space-y-2 w-full">
         @foreach($socialProviders as $slug => $provider)
@@ -13,6 +13,6 @@
         @endforeach
     </div>
     @if($separator && config('devdojo.auth.settings.social_providers_location') == 'top')
-        <x-auth::elements.separator class="my-6">{{ $separator_text }}</x-auto::elements.separator>
+        <x-auth::elements.separator class="my-6">{{ $separator_text }}</x-auth::elements.separator>
     @endif
 @endif

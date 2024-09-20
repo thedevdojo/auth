@@ -1,6 +1,5 @@
 <?php
 
-
 use Devdojo\Auth\Tests\Browser\Pages\Login;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;

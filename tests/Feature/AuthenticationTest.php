@@ -89,6 +89,7 @@ it('registers a new user with password confirmation and logs in', function () {
         ->set('email', 'user@example.com')
         ->set('password', 'secret1234')
         ->set('password_confirmation', 'secret1234')
+        ->set('name', 'John Doe')
         ->call('register')
         ->assertHasNoErrors()
         ->assertRedirect('/');

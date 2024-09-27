@@ -16,5 +16,6 @@ return [
         'login_show_social_providers' => 'Show the social providers login buttons on the login form',
         'center_align_social_provider_button_content' => 'Center align the content in the social provider button?',
         'social_providers_location' => 'The location of the social provider buttons (top or bottom)',
+        'check_account_exists_before_login' => 'Determines if the system checks for account existence before login',
     ],
 ];

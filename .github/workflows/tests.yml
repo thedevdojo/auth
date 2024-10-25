@@ -82,9 +82,13 @@ jobs:
         sed -i 's/,\(\s*\}\)/\1/' composer.json
       working-directory: ./laravel_app
 
+    - name: Show composer.json contents
+      run: cat composer.json
+      working-directory: ./laravel_app
+
     - name: Validate composer.json format
       run: |
-        php -r 'json_decode(file_get_contents("composer.json")) ?: exit(1);'
+        php -r 'if (!json_decode(file_get_contents("composer.json"))) { echo "JSON error: " . json_last_error_msg(); exit(1); }'
       working-directory: ./laravel_app
 
     - name: Remove composer.lock and re-run composer install

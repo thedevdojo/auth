@@ -83,7 +83,8 @@ jobs:
       working-directory: ./laravel_app
 
     - name: Validate composer.json format
-      run: php -r 'json_decode(file_get_contents("composer.json")) ?: exit(1);'
+      run: |
+        php -r 'json_decode(file_get_contents("composer.json")) ?: exit(1);'
       working-directory: ./laravel_app
 
     - name: Remove composer.lock and re-run composer install

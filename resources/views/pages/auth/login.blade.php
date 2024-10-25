@@ -36,7 +36,6 @@ new class extends Component
 
     public $userSocialProviders = [];
 
-
     public $userModel = null;
 
     public function mount(){

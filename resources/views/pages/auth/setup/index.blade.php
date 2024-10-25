@@ -22,7 +22,6 @@ new class extends Component
                     <x-auth::setup.config-notification />
                 @endif
                 <div class="mb-10">
-                
                     <h2 class="mb-2 text-2xl font-bold text-left">Authentication Setup</h2>
                     <p class="text-sm text-left text-gray-600">Welcome to your authentication setup. Below you will find sections to help you configure and customize the auth in your application.</p>
                 </div>

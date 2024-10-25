@@ -36,7 +36,7 @@ jobs:
       id: extract_branch
 
     - name: Install DevDojo Auth from current branch
-      run: composer require devdojo/auth:dev-${{ env.branch }} --with-all-dependencies
+      run: "composer require devdojo/auth:dev-${{ env.branch }} --with-all-dependencies"
       working-directory: ./laravel_app
 
     - name: Publish the DevDojo Auth Assets
@@ -78,12 +78,9 @@ jobs:
     - name: Clean up composer.json - Remove PHPUnit & trailing commas
       run: |
         sed -i '/"phpunit\/phpunit"/d' composer.json
-        sed -i '/"nunomaduro\/collision": "\^8.0",/s/,$//' composer.json
-        sed -i 's/,\(\s*\}\)/\1/' composer.json
-      working-directory: ./laravel_app
-
-    - name: Show composer.json contents
-      run: cat composer.json
+        sed -i '/"nunomaduro\/collision": "\^8.1",/s/,$//' composer.json
+        # Remove any trailing commas before a closing bracket in require-dev
+        sed -i 's/,\s*}/}/' composer.json
       working-directory: ./laravel_app
 
     - name: Validate composer.json format

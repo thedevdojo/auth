@@ -30,10 +30,6 @@ jobs:
     - name: Setup Laravel Application
       run: composer create-project --prefer-dist laravel/laravel laravel_app --no-interaction
 
-    - name: Set Working Directory
-      run: cd laravel_app
-      shell: bash
-
     - name: Extract branch name
       shell: bash
       run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_ENV

@@ -102,6 +102,10 @@ jobs:
       run: cat composer.json
       working-directory: ./laravel_app
 
+    - name: Remove trailing comma from composer.json
+      run: sed -i '/"phpunit\/phpunit": "\^9.5",/d; s/,\(\s*\}\)/\1/' composer.json
+      working-directory: ./laravel_app
+      
     - name: Remove composer.lock and re-run composer install
       run: |
         rm composer.lock

@@ -36,6 +36,7 @@ new class extends Component
 
     public $userSocialProviders = [];
 
+
     public $userModel = null;
 
     public function mount(){
@@ -153,7 +154,7 @@ new class extends Component
                 @endif
 
                 @if($showSocialProviderInfo)
-                    <div class="p-4 text-sm rounded-md border bg-zinc-50 border-zinc-200">
+                    <div class="p-4 text-sm border rounded-md bg-zinc-50 border-zinc-200">
                         <span>{{ str_replace('__social_providers_list__', implode(', ', $userSocialProviders), config('devdojo.auth.language.login.social_auth_authenticated_message')) }}</span>
                         <button wire:click="editIdentity" type="button" class="underline translate-x-0.5">{{ config('devdojo.auth.language.login.change_email') }}</button>
                     </div>
@@ -169,7 +170,7 @@ new class extends Component
                 @if($showPasswordField)
                     <x-auth::elements.input :label="config('devdojo.auth.language.login.password')" type="password" wire:model="password" id="password" data-auth="password-input" />
 					<x-auth::elements.checkbox :label="config('devdojo.auth.language.login.remember_me')" wire:model="rememberMe" id="remember-me" data-auth="remember-me-input" />                                   
-					<div class="flex justify-between items-center mt-6 text-sm leading-5">
+					<div class="flex items-center justify-between mt-6 text-sm leading-5">
                         <x-auth::elements.text-link href="{{ route('auth.password.request') }}" data-auth="forgot-password-link">{{ config('devdojo.auth.language.login.forget_password') }}</x-auth::elements.text-link>
                     </div>
                 @endif

@@ -11,7 +11,7 @@ class SocialProviderUser extends Model
     protected $table = 'social_provider_user';
 
     // Prevents the "returning id" default behaviour
-    protected $primaryKey = ['user_id', 'provider_slug'];
+    protected $primaryKey = 'user_id';
 
     // Prevents the auto-increment default behaviour
     public $incrementing = false;

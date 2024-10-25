@@ -79,15 +79,15 @@ jobs:
       run: php artisan migrate
       working-directory: ./laravel_app
 
-    - name: Show contents of composer.json before removing PHPUnit
-      run: cat composer.json
-      working-directory: ./laravel_app
-
-    - name: Remove PHPUnit from composer.json and clean up commas
+    - name: Clean up composer.json - Remove PHPUnit & trailing commas
       run: |
         sed -i '/"phpunit\/phpunit"/d' composer.json
         sed -i '/"nunomaduro\/collision": "\^8.0",/s/,$//' composer.json
         sed -i 's/,\(\s*\}\)/\1/' composer.json
+      working-directory: ./laravel_app
+
+    - name: Validate composer.json format
+      run: php -r "json_decode(file_get_contents('composer.json')) ?: exit(1);"
       working-directory: ./laravel_app
 
     - name: Remove composer.lock and re-run composer install

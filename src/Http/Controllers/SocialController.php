@@ -4,7 +4,6 @@ namespace Devdojo\Auth\Http\Controllers;
 
 use Devdojo\Auth\Models\SocialProvider;
 use Devdojo\Auth\Models\SocialProviderUser;
-use Devdojo\Auth\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -76,7 +75,7 @@ class SocialController
             return $providerUser;
         }
 
-        $user = User::where('email', $socialiteUser->getEmail())->first();
+        $user = app(config('auth.providers.users.model'))->where('email', $socialiteUser->getEmail())->first();
 
         if ($user) {
             $existingProvider = $user->socialProviders()->first();
@@ -95,7 +94,7 @@ class SocialController
 
     private function createUser($socialiteUser)
     {
-        return User::create([
+        return app(config('auth.providers.users.model'))->create([
             'name' => $socialiteUser->getName(),
             'email' => $socialiteUser->getEmail(),
             'email_verified_at' => now(),

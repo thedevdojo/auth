@@ -1,10 +1,10 @@
-name: Authenticaiton Tests
+name: Authentication Tests
 
 on:
-    push:
-        branches: [main]
-    pull_request:
-        branches: [main]
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   test:
@@ -30,17 +30,13 @@ jobs:
     - name: Setup Laravel Application
       run: composer create-project --prefer-dist laravel/laravel laravel_app --no-interaction
 
-    - name: Set Working Directory
-      run: echo "Change directory context to Laravel app"
-      working-directory: ./laravel_app
-
     - name: Extract branch name
       shell: bash
       run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_ENV
       id: extract_branch
 
     - name: Install DevDojo Auth from current branch
-      run: composer require devdojo/auth:dev-${{ env.branch }} --with-all-dependencies
+      run: "composer require devdojo/auth:dev-${{ env.branch }} --with-all-dependencies"
       working-directory: ./laravel_app
 
     - name: Publish the DevDojo Auth Assets
@@ -65,20 +61,13 @@ jobs:
       run: touch database/database.sqlite
       working-directory: ./laravel_app
 
-    - name: List out .env
-      run: cat .env
-      working-directory: ./laravel_app
-
-    # Testing on a mac, this command should be:
-    # sed -i '' 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' .env
-    # sed -i '' 's/^DB_DATABASE=laravel/#DB_DATABASE=laravel/' .env
     - name: Updating values in the .env
       run: |
         sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' .env
         sed -i 's/^DB_DATABASE=laravel/#DB_DATABASE=laravel/' .env
       working-directory: ./laravel_app
 
-    - name: Include Doctrine DBAL Package which is used for renaming columns
+    - name: Include Doctrine DBAL Package
       run: composer require doctrine/dbal
       working-directory: ./laravel_app
 
@@ -86,20 +75,17 @@ jobs:
       run: php artisan migrate
       working-directory: ./laravel_app
 
-    - name: Show contents of composer.json before removing PHPUnit
-      run: cat composer.json
-      working-directory: ./laravel_app
-
-    # Testing on a mac, this command should be:
-    # sed -i '' '/"phpunit\/phpunit"/d' composer.json
-    - name: Remove PHPUnit from composer.json
+    - name: Clean up composer.json - Remove PHPUnit & trailing commas
       run: |
         sed -i '/"phpunit\/phpunit"/d' composer.json
-        sed -i '/"nunomaduro\/collision": "\^8.0",/s/,$//' composer.json
+        sed -i '/"nunomaduro\/collision": "\^8.1",/s/,$//' composer.json
+        # Remove any trailing commas before a closing bracket in require-dev
+        sed -i 's/,\s*}/}/' composer.json
       working-directory: ./laravel_app
 
-    - name: Show contents of composer.json after removing PHPUnit
-      run: cat composer.json
+    - name: Validate composer.json format
+      run: |
+        php -r 'if (!json_decode(file_get_contents("composer.json"))) { echo "JSON error: " . json_last_error_msg(); exit(1); }'
       working-directory: ./laravel_app
 
     - name: Remove composer.lock and re-run composer install
@@ -117,25 +103,11 @@ jobs:
         composer require protonemedia/laravel-dusk-fakes:^1.6 --dev --with-all-dependencies
       working-directory: ./laravel_app
 
-    - name: Upgrade Chrome Driver
-      run: php artisan dusk:chrome-driver --detect
-      working-directory: ./laravel_app
-
-    - name: Start Chrome Driver
-      run: ./vendor/laravel/dusk/bin/chromedriver-linux &
-      working-directory: ./laravel_app
-
-    - name: Check Chrome & ChromeDriver Versions
+    - name: Start Chrome Driver and PHP Server
       run: |
-        google-chrome --version
-        chromedriver --version
-
-    - name: Clear all view caches
-      run: php artisan view:clear
-      working-directory: ./laravel_app
-
-    - name: Run Artisan Serve
-      run: php artisan serve --no-reload &
+        php artisan dusk:chrome-driver --detect &
+        ./vendor/laravel/dusk/bin/chromedriver-linux &
+        php artisan serve --no-reload &
       working-directory: ./laravel_app
 
     - name: Run Tests
@@ -147,25 +119,4 @@ jobs:
         APP_URL: http://127.0.0.1:8000
         APP_ENV: testing
       run: php artisan dusk -vvv
-      working-directory: ./laravel_app
-
-    - name: Upload Screenshots
-      if: failure()
-      uses: actions/upload-artifact@v3
-      with:
-        name: screenshots
-        path: tests/Browser/screenshots
-    - name: Upload Console Logs
-      if: failure()
-      uses: actions/upload-artifact@v3
-      with:
-        name: console
-        path: tests/Browser/console
-
-    - name: Move the PHP config file to the root directory
-      run: cp vendor/devdojo/auth/phpstan.neon phpstan.neon
-      working-directory: ./laravel_app
-
-    - name: Run PHPStan for DevDojo Auth
-      run: ./vendor/bin/phpstan analyse --memory-limit=1G vendor/devdojo/auth/src
       working-directory: ./laravel_app

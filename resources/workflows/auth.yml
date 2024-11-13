@@ -39,7 +39,7 @@ jobs:
       run: touch database/database.sqlite
 
     - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
         
     - name: List out .env
       run: cat .env

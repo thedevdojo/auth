@@ -28,7 +28,7 @@ test('User logs in when two factor disabled, the login.id session should not be 
         ->set('password', 'password123')
         ->call('authenticate')
         ->assertHasNoErrors()
-        ->assertRedirect('/');
+        ->assertRedirect(config('devdojo.auth.settings.redirect_after_auth'));
 
     $this->assertTrue(! Session::has('login.id'));
 });
@@ -58,7 +58,7 @@ test('User logs in without 2FA, they should not be redirected to auth/two-factor
         ->set('password', 'password123')
         ->call('authenticate')
         ->assertHasNoErrors()
-        ->assertRedirect('/');
+        ->assertRedirect(config('devdojo.auth.settings.redirect_after_auth'));
 });
 
 it('user cannot view two factor challenge page logging in if it\'s disabled', function () {

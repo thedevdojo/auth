@@ -6,6 +6,7 @@
 return [
     'settings' => [
         'redirect_after_auth' => 'Where should the user be redirected to after they are authenticated?',
+        'registration_enabled' => 'Enable or disable registration functionality. If disabled, users will not be able to register for an account.',
         'registration_show_password_same_screen' => 'During registrations, show the password on the same screen or show it on an individual screen.',
         'registration_include_name_field' => 'During registration, include the Name field.',
         'registration_include_password_confirmation_field' => 'During registration, include the Password Confirmation field.',

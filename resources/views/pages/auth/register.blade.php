@@ -53,6 +53,12 @@ new class extends Component
     {
         $this->loadConfigs();
 
+        if (!$this->settings->registration_enabled) {
+            session()->flash('error', config('devdojo.auth.language.register.registrations_disabled', 'Registrations are currently disabled.'));
+            redirect()->route('auth.login');
+            return;
+        }
+
         if ($this->settings->registration_include_name_field) {
             $this->showNameField = true;
         }
@@ -68,6 +74,11 @@ new class extends Component
 
     public function register()
     {
+        if (!$this->settings->registration_enabled) {
+            session()->flash('error', config('devdojo.auth.language.register.registrations_disabled', 'Registrations are currently disabled.'));
+            return redirect()->route('auth.login');
+        }
+
         if (!$this->showPasswordField) {
             if ($this->settings->registration_include_name_field) {
                 $this->validateOnly('name');

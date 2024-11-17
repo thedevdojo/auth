@@ -47,7 +47,7 @@ class Background extends Component
             $filename = $value->getFileName();
             $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
-            $value->storeAs('public/auth', 'background.'.$extension);
+            $value->storeAs('auth', 'background.'.$extension, 'public');
             $this->image = '/storage/auth/background.'.$extension;
 
             $this->updateConfigKeyValue('background.image', '/storage/auth/background.'.$extension);

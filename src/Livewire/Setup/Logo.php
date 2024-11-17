@@ -57,7 +57,7 @@ class Logo extends Component
             $filename = $value->getFileName();
             $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
-            $value->storeAs('public/auth', 'logo.'.$extension);
+            $value->storeAs('auth', 'logo.'.$extension, 'public');
             $this->logo_image_src = '/storage/auth/logo.'.$extension;
 
             $this->updateConfigKeyValue('logo.image_src', '/storage/auth/logo.'.$extension);

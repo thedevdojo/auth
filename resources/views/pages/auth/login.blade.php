@@ -156,7 +156,7 @@ new class extends Component
                     </x-auth::elements.input-placeholder>
                 @else
                     @if($showIdentifierInput)
-                        <x-auth::elements.input :label="config('devdojo.auth.language.login.email_address')" type="email" wire:model="email" autofocus="true" data-auth="email-input" id="email" required />
+                        <x-auth::elements.input :label="config('devdojo.auth.language.login.email_address')" type="email" wire:model="email" autofocus="true" data-auth="email-input" id="email" name="email" autocomplete="email" required />
                     @endif
                 @endif
 
@@ -174,13 +174,17 @@ new class extends Component
                     @endif
                 @endif
 
-                @if($showPasswordField)
-                    <x-auth::elements.input :label="config('devdojo.auth.language.login.password')" type="password" wire:model="password" id="password" data-auth="password-input" />
-					<x-auth::elements.checkbox :label="config('devdojo.auth.language.login.remember_me')" wire:model="rememberMe" id="remember-me" data-auth="remember-me-input" />
-					<div class="flex items-center justify-between mt-6 text-sm leading-5">
+                @php
+                    $passwordFieldClasses = $showPasswordField ? 'flex flex-col gap-6' : 'hidden';
+                @endphp
+
+                <div class="{{ $passwordFieldClasses }}">
+                    <x-auth::elements.input :label="config('devdojo.auth.language.login.password')" type="password" wire:model="password" data-auth="password-input" id="password" name="password" autocomplete="current-password" />
+                    <x-auth::elements.checkbox :label="config('devdojo.auth.language.login.remember_me')" wire:model="rememberMe" id="remember-me" data-auth="remember-me-input" />
+                    <div class="flex items-center justify-between text-sm leading-5">
                         <x-auth::elements.text-link href="{{ route('auth.password.request') }}" data-auth="forgot-password-link">{{ config('devdojo.auth.language.login.forget_password') }}</x-auth::elements.text-link>
                     </div>
-                @endif
+                </div>
 
                 <x-auth::elements.button type="primary" data-auth="submit-button" rounded="md" size="md" submit="true">
                     {{ config('devdojo.auth.language.login.button') }}

@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.2'
+        php-version: '8.3'
         extensions: mbstring, xml, ctype, iconv, mysql
 
     - name: Cache Composer Packages
@@ -38,6 +38,9 @@ jobs:
     - name: Create sqlite file
       run: touch database/database.sqlite
 
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+        
     - name: List out .env
       run: cat .env
 
@@ -52,8 +55,8 @@ jobs:
     - name: Run the Auth Migrations
       run: php artisan migrate --path=vendor/devdojo/auth/database/migrations 
 
-    - name: Install PestPHP
-      run: composer require pestphp/pest --dev --with-all-dependencies
+    - name: Install PestPHP and Laravel Dusk
+      run: composer require pestphp/pest laravel/dusk alebatistella/duskapiconf --dev --with-all-dependencies
 
     - name: Run Tests
       run: ./vendor/bin/pest

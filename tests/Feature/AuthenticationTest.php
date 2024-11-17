@@ -28,7 +28,7 @@ it('registers a new user and logs in', function () {
         ->set('name', 'John Doe')
         ->call('register')
         ->assertHasNoErrors()
-        ->assertRedirect('/');
+        ->assertRedirect(config('devdojo.auth.settings.redirect_after_auth'));
 
     $this->assertTrue(Auth::check());
     $this->assertEquals('user@example.com', Auth::user()->email);
@@ -92,7 +92,7 @@ it('registers a new user with password confirmation and logs in', function () {
         ->set('name', 'John Doe')
         ->call('register')
         ->assertHasNoErrors()
-        ->assertRedirect('/');
+        ->assertRedirect(config('devdojo.auth.settings.redirect_after_auth'));
 
     $this->assertTrue(Auth::check());
     $this->assertEquals('user@example.com', Auth::user()->email);

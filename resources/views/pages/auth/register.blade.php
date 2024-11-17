@@ -139,15 +139,15 @@ new class extends Component
             @php
             $autofocusEmail = ($showNameField) ? false : true;
             @endphp
-            <x-auth::elements.input :label="config('devdojo.auth.language.register.email_address')" id="email" type="email" wire:model="email" data-auth="email-input" :autofocus="$autofocusEmail" required />
+            <x-auth::elements.input :label="config('devdojo.auth.language.register.email_address')" id="email" name="email" type="email" wire:model="email" data-auth="email-input" :autofocus="$autofocusEmail" autocomplete="email" required />
             @endif
 
             @if($showPasswordField)
-            <x-auth::elements.input :label="config('devdojo.auth.language.register.password')" type="password" wire:model="password" id="password" data-auth="password-input" required />
+            <x-auth::elements.input :label="config('devdojo.auth.language.register.password')" type="password" wire:model="password" id="password" name="password" data-auth="password-input" autocomplete="new-password" required />
             @endif
 
             @if($showPasswordConfirmationField)
-            <x-auth::elements.input :label="config('devdojo.auth.language.register.password_confirmation')" type="password" wire:model="password_confirmation" id="password_confirmation" data-auth="password-confirmation-input" required />
+            <x-auth::elements.input :label="config('devdojo.auth.language.register.password_confirmation')" type="password" wire:model="password_confirmation" id="password_confirmation" name="password_confirmation" data-auth="password-confirmation-input" autocomplete="new-password" required />
             @endif
 
             <x-auth::elements.button data-auth="submit-button" rounded="md" submit="true">{{config('devdojo.auth.language.register.button')}}</x-auth::elements.button>

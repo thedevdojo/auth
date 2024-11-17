@@ -67,7 +67,7 @@ new class extends Component
             </div>
         @else
             <form wire:submit="sendResetPasswordLink" class="space-y-5">
-                <x-auth::elements.input :label="config('devdojo.auth.language.passwordResetRequest.email')" type="email" id="email" name="email" data-auth="email-input" wire:model="email" autofocus="true" />
+                <x-auth::elements.input :label="config('devdojo.auth.language.passwordResetRequest.email')" type="email" id="email" name="email" data-auth="email-input" wire:model="email" autofocus="true" autocomplete="email" />
                 <x-auth::elements.button type="primary" data-auth="submit-button" rounded="md" submit="true">{{config('devdojo.auth.language.passwordResetRequest.button')}}</x-auth::elements.button>
             </form>
         @endif

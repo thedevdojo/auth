@@ -29,10 +29,14 @@ new class extends Component
     public $showEmailField = true;
     public $showPasswordField = false;
     public $showPasswordConfirmationField = false;
-
+    public $showEmailRegistration = true;
 
     public function rules()
     {
+        if (!$this->settings->enable_email_registration) {
+            return [];
+        }
+
         $nameValidationRules = [];
         if (config('devdojo.auth.settings.registration_include_name_field')) {
             $nameValidationRules = ['name' => 'required'];
@@ -59,6 +63,15 @@ new class extends Component
             return;
         }
 
+        if (!$this->settings->enable_email_registration) {
+            $this->showEmailRegistration = false;
+            $this->showNameField = false;
+            $this->showEmailField = false;
+            $this->showPasswordField = false;
+            $this->showPasswordConfirmationField = false;
+            return;
+        }
+
         if ($this->settings->registration_include_name_field) {
             $this->showNameField = true;
         }
@@ -77,6 +90,11 @@ new class extends Component
         if (!$this->settings->registration_enabled) {
             session()->flash('error', config('devdojo.auth.language.register.registrations_disabled', 'Registrations are currently disabled.'));
             return redirect()->route('auth.login');
+        }
+
+        if (!$this->settings->enable_email_registration) {
+            session()->flash('error', config('devdojo.auth.language.register.email_registration_disabled', 'Email registration is currently disabled. Please use social login.'));
+            return;
         }
 
         if (!$this->showPasswordField) {
@@ -140,6 +158,7 @@ new class extends Component
         <x-auth::elements.social-providers />
         @endif
 
+        @if($showEmailRegistration)
         <form wire:submit="register" class="space-y-5">
 
             @if($showNameField)
@@ -163,6 +182,7 @@ new class extends Component
 
             <x-auth::elements.button data-auth="submit-button" rounded="md" submit="true">{{config('devdojo.auth.language.register.button')}}</x-auth::elements.button>
         </form>
+        @endif
 
         <div class="mt-3 space-x-0.5 text-sm leading-5 text-left" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
             <span class="opacity-[47%]">{{config('devdojo.auth.language.register.already_have_an_account')}}</span>

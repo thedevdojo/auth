@@ -188,7 +188,7 @@ new class extends Component
             </form>
 
 
-            @if(config('devdojo.auth.settings.registration_enabled'))
+            @if(config('devdojo.auth.settings.registration_enabled', true))
                 <div class="mt-3 space-x-0.5 text-sm leading-5 text-left" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
                     <span class="opacity-[47%]"> {{ config('devdojo.auth.language.login.dont_have_an_account') }} </span>
                     <x-auth::elements.text-link data-auth="register-link" href="{{ route('auth.register') }}">{{ config('devdojo.auth.language.login.sign_up') }}</x-auth::elements.text-link>

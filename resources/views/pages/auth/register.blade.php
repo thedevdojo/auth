@@ -94,7 +94,7 @@ new class extends Component
 
         if (!$this->settings->enable_email_registration) {
             session()->flash('error', config('devdojo.auth.language.register.email_registration_disabled', 'Email registration is currently disabled. Please use social login.'));
-            return;
+            return redirect()->route('auth.register');
         }
 
         if (!$this->showPasswordField) {

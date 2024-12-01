@@ -90,6 +90,11 @@ it('validates empty rules when email registration is disabled', function () {
 it('preserves social login functionality when email registration is disabled', function () {
     config()->set('devdojo.auth.settings.enable_email_registration', false);
 
+    config()->set('devdojo.auth.providers', [
+        'google' => ['name' => 'Google', 'active' => true],
+        'facebook' => ['name' => 'Facebook', 'active' => false],
+    ]);
+
     Livewire::test('auth.register')
-        ->assertSee('social-providers');
+        ->assertSee('Google');
 });

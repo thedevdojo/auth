@@ -33,6 +33,7 @@ return [
         'already_have_an_account' => 'Already have an account?',
         'sign_in' => 'Sign in',
         'button' => 'Continue',
+        'email_registration_disabled' => 'Email registration is currently disabled. Please use social login.',
     ],
     'verify' => [
         'page_title' => 'Verify Your Account',

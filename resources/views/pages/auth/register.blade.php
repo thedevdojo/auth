@@ -155,7 +155,7 @@ new class extends Component
         <x-auth::elements.session-message />
 
         @if(config('devdojo.auth.settings.social_providers_location') == 'top')
-        <x-auth::elements.social-providers />
+            <x-auth::elements.social-providers :separator="$showEmailRegistration" />
         @endif
 
         @if($showEmailRegistration)
@@ -190,7 +190,7 @@ new class extends Component
         </div>
 
         @if(config('devdojo.auth.settings.social_providers_location') != 'top')
-        <x-auth::elements.social-providers />
+            <x-auth::elements.social-providers :separator="$showEmailRegistration" />
         @endif
 
 

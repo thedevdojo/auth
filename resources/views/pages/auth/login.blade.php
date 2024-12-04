@@ -189,7 +189,7 @@ new class extends Component
 
 
             @if(config('devdojo.auth.settings.registration_enabled', true))
-                <div class="mt-3 space-x-0.5 text-sm leading-5 text-left" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
+                <div class="mt-3 space-x-0.5 text-sm leading-5 @if(config('devdojo.auth.settings.center_align_text')){{ 'text-center' }}@else{{ 'text-left' }}@endif" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
                     <span class="opacity-[47%]"> {{ config('devdojo.auth.language.login.dont_have_an_account') }} </span>
                     <x-auth::elements.text-link data-auth="register-link" href="{{ route('auth.register') }}">{{ config('devdojo.auth.language.login.sign_up') }}</x-auth::elements.text-link>
                 </div>

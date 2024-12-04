@@ -13,7 +13,7 @@
 @endphp
 
 <div id="auth-container-parent" class="relative w-full sm:max-w-md {{ $containerParentClasses }}">
-    <div id="auth-container" class="flex relative top-0 z-20 flex-col justify-center @if(config('devdojo.auth.settings.center_align_container_text'){{ 'items-center' }}@else{{ 'items-stretch' }}@endif px-10 py-8 w-full h-screen bg-white border-gray-200 sm:top-auto sm:h-full {{ $containerClasses }}">
+    <div id="auth-container" class="flex relative top-0 z-20 flex-col justify-center @if(config('devdojo.auth.settings.center_align_container_text')){{ 'items-center' }}@else{{ 'items-stretch' }}@endif px-10 py-8 w-full h-screen bg-white border-gray-200 sm:top-auto sm:h-full {{ $containerClasses }}">
         {{ $slot }}
     </div>
 </div>

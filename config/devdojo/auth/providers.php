@@ -23,7 +23,7 @@ return [
         'client_id' => env('TWITTER_CLIENT_ID'),
         'client_secret' => env('TWITTER_CLIENT_SECRET'),
     ],
-    'linkedin' => [
+    'linkedin-openid' => [
         'name' => 'LinkedIn',
         'scopes' => null,
         'parameters' => null,

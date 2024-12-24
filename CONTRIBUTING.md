@@ -8,7 +8,7 @@ To get a local version working of DevDojo Auth.
 
 - Create a new Laravel application
 - Create a new folder at the root called `packages`
-- Inisde the packages folder will be `devdojo/auth` where auth will be the contents of this repo
+- Inside the packages folder will be `devdojo/auth` where auth will be the contents of this repo
 - Update your composer.json to include `devdojo/auth` inside the `repositories` key, and include the package inside the `require` key. 
 
 > You'll also need to set the stability to `dev` in the composer.json

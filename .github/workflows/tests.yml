@@ -131,11 +131,21 @@ jobs:
         composer require protonemedia/laravel-dusk-fakes:^1.6 --dev --with-all-dependencies
       working-directory: ./laravel_app_${{ matrix.php-version }}
 
+    - name: Set port number based on PHP version
+      run: |
+        if [[ "${{ matrix.php-version }}" == "8.2" ]]; then
+          echo "SERVER_PORT=8000" >> $GITHUB_ENV
+        elif [[ "${{ matrix.php-version }}" == "8.3" ]]; then
+          echo "SERVER_PORT=8001" >> $GITHUB_ENV
+        else
+          echo "SERVER_PORT=8002" >> $GITHUB_ENV
+        fi
+
     - name: Start Chrome Driver and PHP Server
       run: |
         php artisan dusk:chrome-driver --detect &
         ./vendor/laravel/dusk/bin/chromedriver-linux &
-        php artisan serve --port=$((8000 + ${{ matrix.php-version == '8.2' && 0 || matrix.php-version == '8.3' && 1 || 2 }})) --no-reload &
+        php artisan serve --port=${{ env.SERVER_PORT }} --no-reload &
       working-directory: ./laravel_app_${{ matrix.php-version }}
 
     - name: Run Tests
@@ -144,7 +154,7 @@ jobs:
 
     - name: Run Dusk Tests
       env:
-        APP_URL: http://127.0.0.1:$((8000 + ${{ matrix.php-version == '8.2' && 0 || matrix.php-version == '8.3' && 1 || 2 }}))
+        APP_URL: "http://127.0.0.1:${{ env.SERVER_PORT }}"
         APP_ENV: testing
       run: php artisan dusk -vvv
       working-directory: ./laravel_app_${{ matrix.php-version }}

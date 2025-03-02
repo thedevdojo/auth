@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         php-version: ['8.2', '8.3', '8.4']
+      max-parallel: 1
 
     steps:
     - uses: actions/checkout@v2
@@ -26,12 +27,12 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/.composer/cache
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}-${{ matrix.php-version }}
         restore-keys: |
-          ${{ runner.os }}-composer-git
+          ${{ runner.os }}-composer-git-${{ matrix.php-version }}
 
     - name: Setup Laravel Application
-      run: composer create-project --prefer-dist laravel/laravel laravel_app --no-interaction
+      run: composer create-project --prefer-dist laravel/laravel laravel_app_${{ matrix.php-version }} --no-interaction
 
     - name: Extract branch name
       shell: bash
@@ -40,43 +41,43 @@ jobs:
 
     - name: Install DevDojo Auth from current branch
       run: "composer require devdojo/auth:dev-${{ env.branch }} --with-all-dependencies"
-      working-directory: ./laravel_app
+      working-directory: ./laravel_app_${{ matrix.php-version }}
 
     - name: Publish the DevDojo Auth Assets
       run: php artisan vendor:publish --tag=auth:assets
-      working-directory: ./laravel_app
+      working-directory: ./laravel_app_${{ matrix.php-version }}
 
     - name: Publish the DevDojo Configs
       run: php artisan vendor:publish --tag=auth:config
-      working-directory: ./laravel_app
+      working-directory: ./laravel_app_${{ matrix.php-version }}
 
     - name: Publish the DevDojo Auth Migrations
       run: php artisan vendor:publish --tag=auth:migrations
-      working-directory: ./laravel_app
+      working-directory: ./laravel_app_${{ matrix.php-version }}
 
     - name: Remove current tests and symlink to DevDojo Auth
       run: |
         rm -rf tests
         ln -s vendor/devdojo/auth/tests tests
-      working-directory: ./laravel_app
+      working-directory: ./laravel_app_${{ matrix.php-version }}
 
     - name: Create sqlite file
-      run: touch database/database.sqlite
-      working-directory: ./laravel_app
+      run: touch database/database_${{ matrix.php-version }}.sqlite
+      working-directory: ./laravel_app_${{ matrix.php-version }}
 
     - name: Updating values in the .env
       run: |
         sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' .env
-        sed -i 's/^DB_DATABASE=laravel/#DB_DATABASE=laravel/' .env
-      working-directory: ./laravel_app
+        sed -i 's/^DB_DATABASE=laravel/DB_DATABASE=database\/database_${{ matrix.php-version }}.sqlite/' .env
+      working-directory: ./laravel_app_${{ matrix.php-version }}
 
     - name: Include Doctrine DBAL Package
       run: composer require doctrine/dbal
-      working-directory: ./laravel_app
+      working-directory: ./laravel_app_${{ matrix.php-version }}
 
     - name: Run the migrations
       run: php artisan migrate
-      working-directory: ./laravel_app
+      working-directory: ./laravel_app_${{ matrix.php-version }}
 
     - name: Clean up composer.json - Remove PHPUnit & trailing commas
       run: |
@@ -84,18 +85,18 @@ jobs:
         sed -i '/"nunomaduro\/collision": "\^8.1",/s/,$//' composer.json
         # Remove any trailing commas before a closing bracket in require-dev
         sed -i 's/,\s*}/}/' composer.json
-      working-directory: ./laravel_app
+      working-directory: ./laravel_app_${{ matrix.php-version }}
 
     - name: Validate composer.json format
       run: |
         php -r 'if (!json_decode(file_get_contents("composer.json"))) { echo "JSON error: " . json_last_error_msg(); exit(1); }'
-      working-directory: ./laravel_app
+      working-directory: ./laravel_app_${{ matrix.php-version }}
 
     - name: Remove composer.lock and re-run composer install
       run: |
         rm composer.lock
         composer install
-      working-directory: ./laravel_app
+      working-directory: ./laravel_app_${{ matrix.php-version }}
 
     - name: Install PestPHP, PHPStan, Dusk, and Dusk API Conf
       run: |
@@ -104,22 +105,22 @@ jobs:
         composer require laravel/dusk --dev --with-all-dependencies
         composer require alebatistella/duskapiconf --dev --with-all-dependencies
         composer require protonemedia/laravel-dusk-fakes:^1.6 --dev --with-all-dependencies
-      working-directory: ./laravel_app
+      working-directory: ./laravel_app_${{ matrix.php-version }}
 
     - name: Start Chrome Driver and PHP Server
       run: |
         php artisan dusk:chrome-driver --detect &
         ./vendor/laravel/dusk/bin/chromedriver-linux &
-        php artisan serve --no-reload &
-      working-directory: ./laravel_app
+        php artisan serve --port=$((8000 + ${{ matrix.php-version == '8.2' && 0 || matrix.php-version == '8.3' && 1 || 2 }})) --no-reload &
+      working-directory: ./laravel_app_${{ matrix.php-version }}
 
     - name: Run Tests
       run: ./vendor/bin/pest
-      working-directory: ./laravel_app
+      working-directory: ./laravel_app_${{ matrix.php-version }}
 
     - name: Run Dusk Tests
       env:
-        APP_URL: http://127.0.0.1:8000
+        APP_URL: http://127.0.0.1:$((8000 + ${{ matrix.php-version == '8.2' && 0 || matrix.php-version == '8.3' && 1 || 2 }}))
         APP_ENV: testing
       run: php artisan dusk -vvv
-      working-directory: ./laravel_app
+      working-directory: ./laravel_app_${{ matrix.php-version }}

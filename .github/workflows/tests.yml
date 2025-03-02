@@ -79,12 +79,36 @@ jobs:
       run: php artisan migrate
       working-directory: ./laravel_app_${{ matrix.php-version }}
 
-    - name: Clean up composer.json - Remove PHPUnit & trailing commas
+    - name: Clean up composer.json - Remove PHPUnit & fix JSON format
       run: |
-        sed -i '/"phpunit\/phpunit"/d' composer.json
-        sed -i '/"nunomaduro\/collision": "\^8.1",/s/,$//' composer.json
-        # Remove any trailing commas before a closing bracket in require-dev
-        sed -i 's/,\s*}/}/' composer.json
+        # Create a backup
+        cp composer.json composer.json.bak
+
+        # Use PHP to properly parse, modify and re-encode the JSON
+        php -r '
+          // Read and decode the composer.json
+          $composerJson = json_decode(file_get_contents("composer.json"), true);
+          if (!$composerJson) {
+              echo "Failed to decode composer.json: " . json_last_error_msg() . "\n";
+              exit(1);
+          }
+
+          // Remove phpunit if it exists in require-dev
+          if (isset($composerJson["require-dev"]["phpunit/phpunit"])) {
+              unset($composerJson["require-dev"]["phpunit/phpunit"]);
+          }
+
+          // Write back with proper JSON formatting
+          file_put_contents(
+              "composer.json",
+              json_encode($composerJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+          );
+
+          echo "composer.json cleaned and reformatted successfully\n";
+        '
+
+        # Verify the JSON is valid
+        php -r 'echo json_decode(file_get_contents("composer.json")) ? "JSON is valid\n" : "JSON is invalid: " . json_last_error_msg() . "\n";'
       working-directory: ./laravel_app_${{ matrix.php-version }}
 
     - name: Validate composer.json format

@@ -16,11 +16,11 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0|^8.1|^8.2",
-        "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+        "php": "^7.4|^8.0|^8.1|^8.2|^8.3|^8.4",
+        "illuminate/support": "^8.0|^9.0|^10.0|^11.0|^12.0",
         "laravel/folio": "^1.0",
         "livewire/livewire": "^3.0",
-        "livewire/volt": "^1.0",
+        "livewire/volt": "^1.6.7",
         "codeat3/blade-phosphor-icons": "^2.0",
         "devdojo/config-writer": "^0.0.7",
         "laravel/socialite": "^5.0",
@@ -31,8 +31,8 @@
     "require-dev": {
         "laravel/pint": "^1.15",
         "orchestra/testbench": "^9.0",
-        "pestphp/pest": "^2.34",
-        "pestphp/pest-plugin-laravel": "^2.4",
+        "pestphp/pest": "^3.7",
+        "pestphp/pest-plugin-laravel": "^3.1",
         "larastan/larastan": "^2.0",
         "phpstan/phpstan": "^1.11",
         "laravel/dusk": "^8.2",

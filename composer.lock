@@ -1566,16 +1566,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.44.0",
+            "version": "v11.44.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "e9a33da34815ac1ed46c7e4c477a775f4592f0a7"
+                "reference": "f85216c82cbd38b66d67ebd20ea762cb3751a4b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/e9a33da34815ac1ed46c7e4c477a775f4592f0a7",
-                "reference": "e9a33da34815ac1ed46c7e4c477a775f4592f0a7",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/f85216c82cbd38b66d67ebd20ea762cb3751a4b4",
+                "reference": "f85216c82cbd38b66d67ebd20ea762cb3751a4b4",
                 "shasum": ""
             },
             "require": {
@@ -1683,7 +1683,7 @@
                 "league/flysystem-read-only": "^3.25.1",
                 "league/flysystem-sftp-v3": "^3.25.1",
                 "mockery/mockery": "^1.6.10",
-                "orchestra/testbench-core": "^9.9.4",
+                "orchestra/testbench-core": "^9.11.2",
                 "pda/pheanstalk": "^5.0.6",
                 "php-http/discovery": "^1.15",
                 "phpstan/phpstan": "^2.0",
@@ -1777,7 +1777,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-02-24T13:08:54+00:00"
+            "time": "2025-03-12T14:34:30+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -2600,16 +2600,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v3.6.0",
+            "version": "v3.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "4c66b569cb729ba9b2f4a3c4e79f50fd8f2b71d1"
+                "reference": "8f8914731f5eb43b6bb145d87c8d5a9edfc89313"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/4c66b569cb729ba9b2f4a3c4e79f50fd8f2b71d1",
-                "reference": "4c66b569cb729ba9b2f4a3c4e79f50fd8f2b71d1",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/8f8914731f5eb43b6bb145d87c8d5a9edfc89313",
+                "reference": "8f8914731f5eb43b6bb145d87c8d5a9edfc89313",
                 "shasum": ""
             },
             "require": {
@@ -2664,7 +2664,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v3.6.0"
+                "source": "https://github.com/livewire/livewire/tree/v3.6.2"
             },
             "funding": [
                 {
@@ -2672,25 +2672,25 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-02-26T00:57:32+00:00"
+            "time": "2025-03-12T20:24:15+00:00"
         },
         {
             "name": "livewire/volt",
-            "version": "v1.6.7",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/volt.git",
-                "reference": "cc162e749a33e14cd437234ed78b0e7ad47c252a"
+                "reference": "94091094aa745c8636f9c7bed1e2da2d2a3f32b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/volt/zipball/cc162e749a33e14cd437234ed78b0e7ad47c252a",
-                "reference": "cc162e749a33e14cd437234ed78b0e7ad47c252a",
+                "url": "https://api.github.com/repos/livewire/volt/zipball/94091094aa745c8636f9c7bed1e2da2d2a3f32b3",
+                "reference": "94091094aa745c8636f9c7bed1e2da2d2a3f32b3",
                 "shasum": ""
             },
             "require": {
                 "laravel/framework": "^10.38.2|^11.0|^12.0",
-                "livewire/livewire": "^3.0",
+                "livewire/livewire": "^3.6.1",
                 "php": "^8.1"
             },
             "require-dev": {
@@ -2744,7 +2744,7 @@
                 "issues": "https://github.com/livewire/volt/issues",
                 "source": "https://github.com/livewire/volt"
             },
-            "time": "2025-02-17T16:24:59+00:00"
+            "time": "2025-03-05T15:20:55+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -7339,16 +7339,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v8.3.1",
+            "version": "v8.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "541ca2d2004ae4ed04446b9e712b68180fca158c"
+                "reference": "bb701836357bf6f6c6658ef90b5a0f8232affb0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/541ca2d2004ae4ed04446b9e712b68180fca158c",
-                "reference": "541ca2d2004ae4ed04446b9e712b68180fca158c",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/bb701836357bf6f6c6658ef90b5a0f8232affb0f",
+                "reference": "bb701836357bf6f6c6658ef90b5a0f8232affb0f",
                 "shasum": ""
             },
             "require": {
@@ -7407,9 +7407,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/dusk/issues",
-                "source": "https://github.com/laravel/dusk/tree/v8.3.1"
+                "source": "https://github.com/laravel/dusk/tree/v8.3.2"
             },
-            "time": "2025-02-12T16:14:51+00:00"
+            "time": "2025-02-20T14:42:00+00:00"
         },
         {
             "name": "laravel/pail",
@@ -7491,16 +7491,16 @@
         },
         {
             "name": "laravel/pint",
-            "version": "v1.21.0",
+            "version": "v1.21.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pint.git",
-                "reference": "531fa0871fbde719c51b12afa3a443b8f4e4b425"
+                "reference": "c44bffbb2334e90fba560933c45948fa4a3f3e86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pint/zipball/531fa0871fbde719c51b12afa3a443b8f4e4b425",
-                "reference": "531fa0871fbde719c51b12afa3a443b8f4e4b425",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/c44bffbb2334e90fba560933c45948fa4a3f3e86",
+                "reference": "c44bffbb2334e90fba560933c45948fa4a3f3e86",
                 "shasum": ""
             },
             "require": {
@@ -7511,9 +7511,9 @@
                 "php": "^8.2.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.68.5",
-                "illuminate/view": "^11.42.0",
-                "larastan/larastan": "^3.0.4",
+                "friendsofphp/php-cs-fixer": "^3.70.2",
+                "illuminate/view": "^11.44.1",
+                "larastan/larastan": "^3.1.0",
                 "laravel-zero/framework": "^11.36.1",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/termwind": "^2.3",
@@ -7553,7 +7553,7 @@
                 "issues": "https://github.com/laravel/pint/issues",
                 "source": "https://github.com/laravel/pint"
             },
-            "time": "2025-02-18T03:18:57+00:00"
+            "time": "2025-03-11T03:22:21+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -8061,16 +8061,16 @@
         },
         {
             "name": "orchestra/sidekick",
-            "version": "v1.0.4",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/sidekick.git",
-                "reference": "95e056508a5990480fc9a67cacf1119b58d8d233"
+                "reference": "3e4a497ff3f9d9ab920fa92629d40abbbd07c5ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/sidekick/zipball/95e056508a5990480fc9a67cacf1119b58d8d233",
-                "reference": "95e056508a5990480fc9a67cacf1119b58d8d233",
+                "url": "https://api.github.com/repos/orchestral/sidekick/zipball/3e4a497ff3f9d9ab920fa92629d40abbbd07c5ce",
+                "reference": "3e4a497ff3f9d9ab920fa92629d40abbbd07c5ce",
                 "shasum": ""
             },
             "require": {
@@ -8107,33 +8107,33 @@
             "description": "Packages Toolkit Utilities and Helpers for Laravel",
             "support": {
                 "issues": "https://github.com/orchestral/sidekick/issues",
-                "source": "https://github.com/orchestral/sidekick/tree/v1.0.4"
+                "source": "https://github.com/orchestral/sidekick/tree/v1.0.5"
             },
-            "time": "2025-02-26T09:16:37+00:00"
+            "time": "2025-03-03T11:08:57+00:00"
         },
         {
             "name": "orchestra/testbench",
-            "version": "v9.11.0",
+            "version": "v9.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "ab14f45923875583a3559ae44c9e10c304ca5bac"
+                "reference": "ac9a50806f1a010aa34fb7e98fa612cc5bbecc4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/ab14f45923875583a3559ae44c9e10c304ca5bac",
-                "reference": "ab14f45923875583a3559ae44c9e10c304ca5bac",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/ac9a50806f1a010aa34fb7e98fa612cc5bbecc4c",
+                "reference": "ac9a50806f1a010aa34fb7e98fa612cc5bbecc4c",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
                 "fakerphp/faker": "^1.23",
-                "laravel/framework": "^11.43.0",
+                "laravel/framework": "^11.44.1",
                 "mockery/mockery": "^1.6.10",
-                "orchestra/testbench-core": "^9.11.0",
-                "orchestra/workbench": "^9.13.2",
+                "orchestra/testbench-core": "^9.12.0",
+                "orchestra/workbench": "^9.13.3",
                 "php": "^8.2",
-                "phpunit/phpunit": "^10.5.35 || ^11.3.6",
+                "phpunit/phpunit": "^10.5.35|^11.3.6",
                 "symfony/process": "^7.0.3",
                 "symfony/yaml": "^7.0.3",
                 "vlucas/phpdotenv": "^5.6.1"
@@ -8162,47 +8162,48 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/testbench/issues",
-                "source": "https://github.com/orchestral/testbench/tree/v9.11.0"
+                "source": "https://github.com/orchestral/testbench/tree/v9.12.0"
             },
-            "time": "2025-02-19T01:24:45+00:00"
+            "time": "2025-03-06T11:04:02+00:00"
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v9.11.1",
+            "version": "v9.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "c75e229450d1678f91db2fb714bb115a43dd6b90"
+                "reference": "af32a4e2ec2f4db965a8996fb8ee88bb0077229e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/c75e229450d1678f91db2fb714bb115a43dd6b90",
-                "reference": "c75e229450d1678f91db2fb714bb115a43dd6b90",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/af32a4e2ec2f4db965a8996fb8ee88bb0077229e",
+                "reference": "af32a4e2ec2f4db965a8996fb8ee88bb0077229e",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
-                "orchestra/sidekick": "^1.0.2",
+                "orchestra/sidekick": "^1.0.5",
                 "php": "^8.2",
+                "symfony/deprecation-contracts": "^2.5|^3.0",
                 "symfony/polyfill-php83": "^1.31",
                 "symfony/polyfill-php84": "^1.31"
             },
             "conflict": {
-                "brianium/paratest": "<7.3.0 || >=8.0.0",
-                "laravel/framework": "<11.44.0 || >=12.0.0",
-                "laravel/serializable-closure": "<1.3.0 || >=3.0.0",
-                "nunomaduro/collision": "<8.0.0 || >=9.0.0",
-                "orchestra/testbench-dusk": "<9.10.0 || >=10.0.0",
-                "phpunit/phpunit": "<10.5.35 || >=11.0.0 <11.3.6 || >=12.0.0 <12.0.1 || >=12.1.0"
+                "brianium/paratest": "<7.3.0|>=8.0.0",
+                "laravel/framework": "<11.44.1|>=12.0.0",
+                "laravel/serializable-closure": "<1.3.0|>=3.0.0",
+                "nunomaduro/collision": "<8.0.0|>=9.0.0",
+                "orchestra/testbench-dusk": "<9.10.0|>=10.0.0",
+                "phpunit/phpunit": "<10.5.35|>=11.0.0 <11.3.6|>=12.0.0 <12.0.1|>=12.1.0"
             },
             "require-dev": {
                 "fakerphp/faker": "^1.24",
-                "laravel/framework": "^11.44.0",
+                "laravel/framework": "^11.44.1",
                 "laravel/pint": "^1.20",
-                "laravel/serializable-closure": "^1.3 || ^2.0",
+                "laravel/serializable-closure": "^1.3|^2.0",
                 "mockery/mockery": "^1.6.10",
                 "phpstan/phpstan": "^2.1",
-                "phpunit/phpunit": "^10.5.35 || ^11.3.6 || ^12.0.1",
+                "phpunit/phpunit": "^10.5.35|^11.3.6|^12.0.1",
                 "spatie/laravel-ray": "^1.39",
                 "symfony/process": "^7.0.3",
                 "symfony/yaml": "^7.0.3",
@@ -8215,11 +8216,11 @@
                 "laravel/framework": "Required for testing (^11.44.0).",
                 "mockery/mockery": "Allow using Mockery for testing (^1.6).",
                 "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^8.0).",
-                "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^9.0).",
-                "phpunit/phpunit": "Allow using PHPUnit for testing (^10.5 || ^11.0).",
+                "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^9.10).",
+                "phpunit/phpunit": "Allow using PHPUnit for testing (^10.5|^11.0).",
                 "symfony/process": "Required to use Orchestra\\Testbench\\remote function (^7.0).",
                 "symfony/yaml": "Required for Testbench CLI (^7.0).",
-                "vlucas/phpdotenv": "Required for Testbench CLI (^5.4.1)."
+                "vlucas/phpdotenv": "Required for Testbench CLI (^5.6.1)."
             },
             "bin": [
                 "testbench"
@@ -8258,32 +8259,32 @@
                 "issues": "https://github.com/orchestral/testbench/issues",
                 "source": "https://github.com/orchestral/testbench-core"
             },
-            "time": "2025-02-25T04:42:11+00:00"
+            "time": "2025-03-06T10:15:41+00:00"
         },
         {
             "name": "orchestra/workbench",
-            "version": "v9.13.2",
+            "version": "v9.13.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/workbench.git",
-                "reference": "7999c9ae7f9a7e562adac9434ab9350ccf472fd0"
+                "reference": "c20091beb7574fae13d8f7add0c5a704a353b1df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/workbench/zipball/7999c9ae7f9a7e562adac9434ab9350ccf472fd0",
-                "reference": "7999c9ae7f9a7e562adac9434ab9350ccf472fd0",
+                "url": "https://api.github.com/repos/orchestral/workbench/zipball/c20091beb7574fae13d8f7add0c5a704a353b1df",
+                "reference": "c20091beb7574fae13d8f7add0c5a704a353b1df",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
                 "fakerphp/faker": "^1.23",
-                "laravel/framework": "^11.35",
+                "laravel/framework": "^11.44.1",
                 "laravel/pail": "^1.2",
                 "laravel/tinker": "^2.9",
                 "nunomaduro/collision": "^8.0",
-                "orchestra/canvas": "^9.2.1",
-                "orchestra/sidekick": "^1.0.2",
-                "orchestra/testbench-core": "^9.11.0",
+                "orchestra/canvas": "^9.2.2",
+                "orchestra/sidekick": "^1.0.5",
+                "orchestra/testbench-core": "^9.12.0",
                 "php": "^8.2",
                 "symfony/polyfill-php83": "^1.31",
                 "symfony/polyfill-php84": "^1.31",
@@ -8294,7 +8295,7 @@
                 "laravel/pint": "^1.21",
                 "mockery/mockery": "^1.6.10",
                 "phpstan/phpstan": "^2.1",
-                "phpunit/phpunit": "^10.5.35 || ^11.3.6",
+                "phpunit/phpunit": "^10.5.35|^11.3.6",
                 "spatie/laravel-ray": "^1.39.1"
             },
             "suggest": {
@@ -8325,9 +8326,9 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/workbench/issues",
-                "source": "https://github.com/orchestral/workbench/tree/v9.13.2"
+                "source": "https://github.com/orchestral/workbench/tree/v9.13.3"
             },
-            "time": "2025-02-19T00:53:04+00:00"
+            "time": "2025-03-06T10:42:35+00:00"
         },
         {
             "name": "pestphp/pest",
@@ -9224,16 +9225,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.12.19",
+            "version": "1.12.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "c42ba9bab7a940ed00092ecb1c77bad98896d789"
+                "reference": "14276fdef70575106a3392a4ed553c06a984df28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c42ba9bab7a940ed00092ecb1c77bad98896d789",
-                "reference": "c42ba9bab7a940ed00092ecb1c77bad98896d789",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/14276fdef70575106a3392a4ed553c06a984df28",
+                "reference": "14276fdef70575106a3392a4ed553c06a984df28",
                 "shasum": ""
             },
             "require": {
@@ -9278,7 +9279,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-02-19T15:42:21+00:00"
+            "time": "2025-03-09T09:24:50+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -10022,16 +10023,16 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "6.3.0",
+            "version": "6.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "d4e47a769525c4dd38cea90e5dcd435ddbbc7115"
+                "reference": "24b8fbc2c8e201bb1308e7b05148d6ab393b6959"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/d4e47a769525c4dd38cea90e5dcd435ddbbc7115",
-                "reference": "d4e47a769525c4dd38cea90e5dcd435ddbbc7115",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/24b8fbc2c8e201bb1308e7b05148d6ab393b6959",
+                "reference": "24b8fbc2c8e201bb1308e7b05148d6ab393b6959",
                 "shasum": ""
             },
             "require": {
@@ -10050,7 +10051,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "6.2-dev"
+                    "dev-main": "6.3-dev"
                 }
             },
             "autoload": {
@@ -10090,7 +10091,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/comparator/issues",
                 "security": "https://github.com/sebastianbergmann/comparator/security/policy",
-                "source": "https://github.com/sebastianbergmann/comparator/tree/6.3.0"
+                "source": "https://github.com/sebastianbergmann/comparator/tree/6.3.1"
             },
             "funding": [
                 {
@@ -10098,7 +10099,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-06T10:28:19+00:00"
+            "time": "2025-03-07T06:57:01+00:00"
         },
         {
             "name": "sebastian/complexity",

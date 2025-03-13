@@ -20,7 +20,7 @@ jobs:
         extensions: mbstring, xml, ctype, iconv, mysql
 
     - name: Cache Composer Packages
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ~/.composer/cache
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -60,4 +60,3 @@ jobs:
 
     - name: Run Tests
       run: ./vendor/bin/pest
-

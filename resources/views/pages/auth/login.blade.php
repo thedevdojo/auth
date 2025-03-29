@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Attempting;
+use Illuminate\Auth\Events\Failed;
 use function Laravel\Folio\{middleware, name};
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;

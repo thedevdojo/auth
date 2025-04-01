@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Attempting;
+use Illuminate\Auth\Events\Failed;
 use function Laravel\Folio\{middleware, name};
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
@@ -89,8 +91,13 @@ new class extends Component
         $this->validate();
 
         $credentials = ['email' => $this->email, 'password' => $this->password];
-
+        
+        // Fire Attempting event manually
+        event(new Attempting('web', $credentials, false));
+        
         if(!\Auth::validate($credentials)){
+            // Fire Failed event manually
+            event(new Failed('web', null, $credentials)); 
             $this->addError('password', trans('auth.failed'));
             return;
         }
@@ -112,6 +119,7 @@ new class extends Component
 
         } else {
             if (!Auth::attempt($credentials, $this->rememberMe)) {
+                event(new Failed('web', null, $credentials)); // Fire Failed Attempt
                 $this->addError('password', trans('auth.failed'));
                 return;
             }

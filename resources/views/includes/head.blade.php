@@ -6,8 +6,8 @@
 @if(config('devdojo.auth.settings.dev_mode'))
     @vite(['packages/devdojo/auth/resources/css/auth.css', 'packages/devdojo/auth/resources/css/auth.js'])
 @else
-    <script src="/auth/build/assets/scripts.js"></script>
-    <link rel="stylesheet" href="/auth/build/assets/styles.css" />
+    <script src="{{ asset('/auth/build/assets/scripts.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('/auth/build/assets/styles.css') }}" />
 @endif
 
 @php

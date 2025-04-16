@@ -9,6 +9,7 @@
     {
         total_digits: @js($digits),
         eventCallback: @js($eventCallback),
+        callbackSubmitted: false,
         moveCursorNext (index, digits, evt) {
         
             if (!isNaN(parseInt(evt.key)) && parseInt(evt.key) >= 0 && parseInt(evt.key) <= 9 && index != digits) {
@@ -54,7 +55,8 @@
 
         },
         submitCallback(){
-            if(this.eventCallback){
+            if(this.eventCallback && !this.callbackSubmitted){
+                this.callbackSubmitted = true;
                 window.dispatchEvent(new CustomEvent(this.eventCallback, { detail: { code: this.generateCode() }}));
             }
         },

@@ -12,7 +12,7 @@
         "laravel-vite-plugin": "^1.0.0",
         "postcss": "^8.4.35",
         "tailwindcss": "^3.4.1",
-        "vite": "^5.0.0"
+        "vite": "^6.2.1"
     },
     "dependencies": {
         "@invoate/alpine-query-string": "^1.0.0",

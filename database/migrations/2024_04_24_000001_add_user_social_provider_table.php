@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->text('provider_data')->nullable(); // JSON data containing additional provider data we want to include
 
-            $table->string('token');
+            $table->string('token', 400);
             $table->string('refresh_token')->nullable();
             $table->timestamp('token_expires_at')->nullable();
             $table->timestamps();

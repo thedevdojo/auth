@@ -19,4 +19,5 @@ return [
     'center_align_text' => false,
     'social_providers_location' => 'bottom',
     'check_account_exists_before_login' => false,
+    'include_wire_navigate' => true,
 ];

@@ -25,6 +25,11 @@ class SocialProvider extends Model
 
         foreach ($socialProviders as $key => $provider) {
             $provider['slug'] = $key;
+
+            if (isset($provider['scopes']) && is_array($provider['scopes'])) {
+                $provider['scopes'] = implode(',', $provider['scopes']);
+            }
+
             array_push($rowsArray, $provider);
         }
 

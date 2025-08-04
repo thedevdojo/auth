@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('social_provider_user', function (Blueprint $table) {
-            // Add a new 'refresh_token' column
+            // Change refresh_token column to text type
             $table->text('refresh_token')->change();
         });
     }

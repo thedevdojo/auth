@@ -81,6 +81,9 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->handleStarterKitFunctionality();
         $this->loadDynamicRoutesForTesting();
+
+        // Users can choose to turn off auto-injection of Livewire assets, we want to force this
+        Livewire::forceAssetInjection();
     }
 
     private function registerAuthFolioDirectory(): void

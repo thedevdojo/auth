@@ -19,7 +19,9 @@ class SocialController
     {
         $this->dynamicallySetSocialProviderCredentials($driver);
 
-        return Socialite::driver($driver)->redirect();
+        $scopes = config('devdojo.auth.providers.'.$driver.'.scopes', []);
+
+        return Socialite::driver($driver)->scopes($scopes)->redirect();
     }
 
     private function dynamicallySetSocialProviderCredentials($provider)

@@ -82,8 +82,6 @@ class AuthServiceProvider extends ServiceProvider
         $this->handleStarterKitFunctionality();
         $this->loadDynamicRoutesForTesting();
 
-        // We want to make sure the Livewire assets are injected for the auth pages in cases where the user turns off Livewire auto-injection
-        Livewire::forceAssetInjection();
     }
 
     private function registerAuthFolioDirectory(): void
@@ -154,6 +152,10 @@ class AuthServiceProvider extends ServiceProvider
         if (($this->app->environment('local') || $this->app->environment('testing')) && class_exists(\Laravel\Dusk\DuskServiceProvider::class)) {
             $this->app->register(\Devdojo\Auth\Providers\DuskServiceProvider::class);
         }
+
+        // We want to make sure the Livewire assets are injected for the auth pages in cases where the user turns off Livewire auto-injection
+        // Use this method instead of Livewire:forceAssetInjection(); in boot() method. This is needed to be compatible with Laravel Octane.
+        config()->set('livewire.inject_assets', true);
     }
 
     private function loadDynamicRoutesForTesting()

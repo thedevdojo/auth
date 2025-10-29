@@ -11,149 +11,149 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: ['8.2', '8.3', '8.4']
+        php-version: ["8.2", "8.3", "8.4"]
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php-version }}
-        extensions: mbstring, xml, ctype, iconv, mysql, imagick
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, xml, ctype, iconv, mysql, imagick
 
-    - name: Cache Composer Packages
-      uses: actions/cache@v4
-      with:
-        path: ~/.composer/cache
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}-${{ matrix.php-version }}
-        restore-keys: |
-          ${{ runner.os }}-composer-git-${{ matrix.php-version }}
+      - name: Cache Composer Packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}-${{ matrix.php-version }}
+          restore-keys: |
+            ${{ runner.os }}-composer-git-${{ matrix.php-version }}
 
-    - name: Setup Laravel Application
-      run: composer create-project --prefer-dist laravel/laravel laravel_app_${{ matrix.php-version }} --no-interaction
+      - name: Setup Laravel Application
+        run: composer create-project --prefer-dist laravel/laravel laravel_app_${{ matrix.php-version }} --no-interaction
 
-    - name: Extract branch name
-      shell: bash
-      run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_ENV
-      id: extract_branch
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_ENV
+        id: extract_branch
 
-    - name: Install DevDojo Auth from current branch
-      run: "composer require devdojo/auth:dev-${{ env.branch }} --with-all-dependencies"
-      working-directory: ./laravel_app_${{ matrix.php-version }}
+      - name: Install DevDojo Auth from current branch
+        run: "composer require 'devdojo/auth':'dev-${{ env.branch }}' --with-all-dependencies"
+        working-directory: ./laravel_app_${{ matrix.php-version }}
 
-    - name: Publish the DevDojo Auth Assets
-      run: php artisan vendor:publish --tag=auth:assets
-      working-directory: ./laravel_app_${{ matrix.php-version }}
+      - name: Publish the DevDojo Auth Assets
+        run: php artisan vendor:publish --tag=auth:assets
+        working-directory: ./laravel_app_${{ matrix.php-version }}
 
-    - name: Publish the DevDojo Configs
-      run: php artisan vendor:publish --tag=auth:config
-      working-directory: ./laravel_app_${{ matrix.php-version }}
+      - name: Publish the DevDojo Configs
+        run: php artisan vendor:publish --tag=auth:config
+        working-directory: ./laravel_app_${{ matrix.php-version }}
 
-    - name: Publish the DevDojo Auth Migrations
-      run: php artisan vendor:publish --tag=auth:migrations
-      working-directory: ./laravel_app_${{ matrix.php-version }}
+      - name: Publish the DevDojo Auth Migrations
+        run: php artisan vendor:publish --tag=auth:migrations
+        working-directory: ./laravel_app_${{ matrix.php-version }}
 
-    - name: Remove current tests and symlink to DevDojo Auth
-      run: |
-        rm -rf tests
-        ln -s vendor/devdojo/auth/tests tests
-      working-directory: ./laravel_app_${{ matrix.php-version }}
+      - name: Remove current tests and symlink to DevDojo Auth
+        run: |
+          rm -rf tests
+          ln -s vendor/devdojo/auth/tests tests
+        working-directory: ./laravel_app_${{ matrix.php-version }}
 
-    - name: Create sqlite file
-      run: touch database/database_${{ matrix.php-version }}.sqlite
-      working-directory: ./laravel_app_${{ matrix.php-version }}
+      - name: Create sqlite file
+        run: touch database/database_${{ matrix.php-version }}.sqlite
+        working-directory: ./laravel_app_${{ matrix.php-version }}
 
-    - name: Updating values in the .env
-      run: |
-        sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' .env
-        sed -i 's/^DB_DATABASE=laravel/DB_DATABASE=database\/database_${{ matrix.php-version }}.sqlite/' .env
-      working-directory: ./laravel_app_${{ matrix.php-version }}
+      - name: Updating values in the .env
+        run: |
+          sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' .env
+          sed -i 's/^DB_DATABASE=laravel/DB_DATABASE=database\/database_${{ matrix.php-version }}.sqlite/' .env
+        working-directory: ./laravel_app_${{ matrix.php-version }}
 
-    - name: Include Doctrine DBAL Package
-      run: composer require doctrine/dbal
-      working-directory: ./laravel_app_${{ matrix.php-version }}
+      - name: Include Doctrine DBAL Package
+        run: composer require doctrine/dbal
+        working-directory: ./laravel_app_${{ matrix.php-version }}
 
-    - name: Run the migrations
-      run: php artisan migrate
-      working-directory: ./laravel_app_${{ matrix.php-version }}
+      - name: Run the migrations
+        run: php artisan migrate
+        working-directory: ./laravel_app_${{ matrix.php-version }}
 
-    - name: Clean up composer.json - Remove PHPUnit & fix JSON format
-      run: |
-        # Create a backup
-        cp composer.json composer.json.bak
+      - name: Clean up composer.json - Remove PHPUnit & fix JSON format
+        run: |
+          # Create a backup
+          cp composer.json composer.json.bak
 
-        # Use PHP to properly parse, modify and re-encode the JSON
-        php -r '
-          // Read and decode the composer.json
-          $composerJson = json_decode(file_get_contents("composer.json"), true);
-          if (!$composerJson) {
-              echo "Failed to decode composer.json: " . json_last_error_msg() . "\n";
-              exit(1);
-          }
+          # Use PHP to properly parse, modify and re-encode the JSON
+          php -r '
+            // Read and decode the composer.json
+            $composerJson = json_decode(file_get_contents("composer.json"), true);
+            if (!$composerJson) {
+                echo "Failed to decode composer.json: " . json_last_error_msg() . "\n";
+                exit(1);
+            }
 
-          // Remove phpunit if it exists in require-dev
-          if (isset($composerJson["require-dev"]["phpunit/phpunit"])) {
-              unset($composerJson["require-dev"]["phpunit/phpunit"]);
-          }
+            // Remove phpunit if it exists in require-dev
+            if (isset($composerJson["require-dev"]["phpunit/phpunit"])) {
+                unset($composerJson["require-dev"]["phpunit/phpunit"]);
+            }
 
-          // Write back with proper JSON formatting
-          file_put_contents(
-              "composer.json",
-              json_encode($composerJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
-          );
+            // Write back with proper JSON formatting
+            file_put_contents(
+                "composer.json",
+                json_encode($composerJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+            );
 
-          echo "composer.json cleaned and reformatted successfully\n";
-        '
+            echo "composer.json cleaned and reformatted successfully\n";
+          '
 
-        # Verify the JSON is valid
-        php -r 'echo json_decode(file_get_contents("composer.json")) ? "JSON is valid\n" : "JSON is invalid: " . json_last_error_msg() . "\n";'
-      working-directory: ./laravel_app_${{ matrix.php-version }}
+          # Verify the JSON is valid
+          php -r 'echo json_decode(file_get_contents("composer.json")) ? "JSON is valid\n" : "JSON is invalid: " . json_last_error_msg() . "\n";'
+        working-directory: ./laravel_app_${{ matrix.php-version }}
 
-    - name: Validate composer.json format
-      run: |
-        php -r 'if (!json_decode(file_get_contents("composer.json"))) { echo "JSON error: " . json_last_error_msg(); exit(1); }'
-      working-directory: ./laravel_app_${{ matrix.php-version }}
+      - name: Validate composer.json format
+        run: |
+          php -r 'if (!json_decode(file_get_contents("composer.json"))) { echo "JSON error: " . json_last_error_msg(); exit(1); }'
+        working-directory: ./laravel_app_${{ matrix.php-version }}
 
-    - name: Remove composer.lock and re-run composer install
-      run: |
-        rm composer.lock
-        composer install
-      working-directory: ./laravel_app_${{ matrix.php-version }}
+      - name: Remove composer.lock and re-run composer install
+        run: |
+          rm composer.lock
+          composer install
+        working-directory: ./laravel_app_${{ matrix.php-version }}
 
-    - name: Install PestPHP, PHPStan, Dusk, and Dusk API Conf
-      run: |
-        composer require pestphp/pest --dev --with-all-dependencies
-        composer require larastan/larastan:^3.1 --dev --with-all-dependencies
-        composer require laravel/dusk --dev --with-all-dependencies
-        composer require alebatistella/duskapiconf --dev --with-all-dependencies
-        composer require protonemedia/laravel-dusk-fakes:^1.6 --dev --with-all-dependencies
-      working-directory: ./laravel_app_${{ matrix.php-version }}
+      - name: Install PestPHP, PHPStan, Dusk, and Dusk API Conf
+        run: |
+          composer require pestphp/pest --dev --with-all-dependencies
+          composer require larastan/larastan:^3.1 --dev --with-all-dependencies
+          composer require laravel/dusk --dev --with-all-dependencies
+          composer require alebatistella/duskapiconf --dev --with-all-dependencies
+          composer require protonemedia/laravel-dusk-fakes:^1.6 --dev --with-all-dependencies
+        working-directory: ./laravel_app_${{ matrix.php-version }}
 
-    - name: Set port number based on PHP version
-      run: |
-        if [[ "${{ matrix.php-version }}" == "8.2" ]]; then
-          echo "SERVER_PORT=8000" >> $GITHUB_ENV
-        elif [[ "${{ matrix.php-version }}" == "8.3" ]]; then
-          echo "SERVER_PORT=8001" >> $GITHUB_ENV
-        else
-          echo "SERVER_PORT=8002" >> $GITHUB_ENV
-        fi
+      - name: Set port number based on PHP version
+        run: |
+          if [[ "${{ matrix.php-version }}" == "8.2" ]]; then
+            echo "SERVER_PORT=8000" >> $GITHUB_ENV
+          elif [[ "${{ matrix.php-version }}" == "8.3" ]]; then
+            echo "SERVER_PORT=8001" >> $GITHUB_ENV
+          else
+            echo "SERVER_PORT=8002" >> $GITHUB_ENV
+          fi
 
-    - name: Start Chrome Driver and PHP Server
-      run: |
-        php artisan dusk:chrome-driver --detect &
-        ./vendor/laravel/dusk/bin/chromedriver-linux &
-        php artisan serve --port=${{ env.SERVER_PORT }} --no-reload &
-      working-directory: ./laravel_app_${{ matrix.php-version }}
+      - name: Start Chrome Driver and PHP Server
+        run: |
+          php artisan dusk:chrome-driver --detect &
+          ./vendor/laravel/dusk/bin/chromedriver-linux &
+          php artisan serve --port=${{ env.SERVER_PORT }} --no-reload &
+        working-directory: ./laravel_app_${{ matrix.php-version }}
 
-    - name: Run Tests
-      run: ./vendor/bin/pest
-      working-directory: ./laravel_app_${{ matrix.php-version }}
+      - name: Run Tests
+        run: ./vendor/bin/pest
+        working-directory: ./laravel_app_${{ matrix.php-version }}
 
-    - name: Run Dusk Tests
-      env:
-        APP_URL: "http://127.0.0.1:${{ env.SERVER_PORT }}"
-        APP_ENV: testing
-      run: php artisan dusk -vvv
-      working-directory: ./laravel_app_${{ matrix.php-version }}
+      - name: Run Dusk Tests
+        env:
+          APP_URL: "http://127.0.0.1:${{ env.SERVER_PORT }}"
+          APP_ENV: testing
+        run: php artisan dusk -vvv
+        working-directory: ./laravel_app_${{ matrix.php-version }}

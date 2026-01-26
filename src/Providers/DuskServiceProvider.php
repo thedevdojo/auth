@@ -37,7 +37,8 @@ class DuskServiceProvider extends ServiceProvider
         });
 
         Browser::macro('createJohnDoe', function () {
-            $user = \App\Models\User::factory()->create([
+            $userModel = config('auth.providers.users.model');
+            $user = $userModel::factory()->create([
                 'email' => 'johndoe@gmail.com',
                 'password' => \Hash::make('password'),
             ]);

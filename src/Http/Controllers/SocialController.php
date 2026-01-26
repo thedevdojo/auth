@@ -77,6 +77,12 @@ class SocialController
 
         $user = app(config('auth.providers.users.model'))->where('email', $socialiteUser->getEmail())->first();
 
+        // If no existing user and registrations are disabled, reject the request
+        if (! $user && ! config('devdojo.auth.settings.registration_enabled', true)) {
+            return redirect()->route('auth.login')->with('error',
+                config('devdojo.auth.language.register.registrations_disabled', 'Registrations are currently disabled.'));
+        }
+
         if ($user) {
             $existingProvider = $user->socialProviders()->first();
             if ($existingProvider) {

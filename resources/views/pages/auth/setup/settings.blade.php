@@ -36,7 +36,6 @@ new class extends Component
     {
         $settings = (array) $this->settings;
 
-        // Auto-detect groups based on key prefixes
         $prefixConfig = [
             'registration' => ['title' => 'Registration', 'description' => 'User registration settings'],
             'password' => ['title' => 'Password Security', 'description' => 'Password strength and validation', 'collapsed' => true],
@@ -45,55 +44,14 @@ new class extends Component
             'redirect' => ['title' => 'Redirects', 'description' => 'Where to send users after actions'],
         ];
 
-        $grouped = [];
-        $usedKeys = [];
-
-        // Group settings by their prefix
-        foreach ($settings as $key => $value) {
-            $assigned = false;
-            foreach ($prefixConfig as $prefix => $config) {
-                if (str_starts_with($key, $prefix.'_')) {
-                    if (! isset($grouped[$prefix])) {
-                        $grouped[$prefix] = array_merge($config, ['settings' => []]);
-                    }
-                    $grouped[$prefix]['settings'][$key] = $value;
-                    $usedKeys[] = $key;
-                    $assigned = true;
-                    break;
-                }
-            }
-
-            if (! $assigned) {
-                // Put ungrouped settings in 'general'
-                if (! isset($grouped['general'])) {
-                    $grouped['general'] = [
-                        'title' => 'General',
-                        'description' => 'Basic authentication settings',
-                        'settings' => [],
-                    ];
-                }
-                $grouped['general']['settings'][$key] = $value;
-            }
-        }
-
-        // Sort groups: general first, then alphabetically, with collapsed groups last
-        uksort($grouped, function ($a, $b) use ($grouped) {
-            if ($a === 'general') {
-                return -1;
-            }
-            if ($b === 'general') {
-                return 1;
-            }
-            $aCollapsed = $grouped[$a]['collapsed'] ?? false;
-            $bCollapsed = $grouped[$b]['collapsed'] ?? false;
-            if ($aCollapsed !== $bCollapsed) {
-                return $aCollapsed ? 1 : -1;
-            }
-
-            return strcmp($a, $b);
-        });
-
-        return $grouped;
+        return collect($settings)
+            ->groupBy(fn ($value, $key) => collect($prefixConfig)->keys()->first(fn ($p) => str_starts_with($key, $p.'_')) ?? 'general')
+            ->map(fn ($items, $group) => array_merge(
+                $prefixConfig[$group] ?? ['title' => 'General', 'description' => 'Basic authentication settings'],
+                ['settings' => $items->all()]
+            ))
+            ->sortBy(fn ($g, $k) => [$k !== 'general', $g['collapsed'] ?? false, $k])
+            ->all();
     }
 };
 

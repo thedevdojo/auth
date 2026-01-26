@@ -16,6 +16,7 @@ return [
     'password_require_numeric' => false,
     'password_require_special_character' => false,
     'password_require_uncompromised' => false,
+    'password_show_requirements' => true,
     'enable_branding' => true,
     'dev_mode' => false,
     'enable_2fa' => false, // Enable or disable 2FA functionality globally

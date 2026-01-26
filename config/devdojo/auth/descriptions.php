@@ -17,6 +17,7 @@ return [
         'password_require_numeric' => 'Require at least one number in passwords.',
         'password_require_special_character' => 'Require at least one special character (!@#$%^&* etc.) in passwords.',
         'password_require_uncompromised' => 'Check passwords against the Have I Been Pwned database to prevent compromised passwords.',
+        'password_show_requirements' => 'Show password requirements hint below the password field during registration and password reset.',
         'enable_branding' => 'This will toggle on/off the Auth branding at the bottom of each auth screen. Consider leaving on to support and help grow this project.',
         'dev_mode' => 'This is for development mode, when set in Dev Mode Assets will be loaded from Vite',
         'enable_2fa' => 'Enable the ability for users to turn on Two Factor Authentication',

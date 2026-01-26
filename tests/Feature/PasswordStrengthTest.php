@@ -174,3 +174,58 @@ it('uses default min length of 8 when config not set', function () {
 
     $response2->assertHasNoErrors(['password']);
 });
+
+it('shows password requirements on registration page when enabled', function () {
+    config(['devdojo.auth.settings.password_show_requirements' => true]);
+    config(['devdojo.auth.settings.password_min_length' => 10]);
+    config(['devdojo.auth.settings.registration_show_password_same_screen' => true]);
+
+    $response = $this->get(route('auth.register'));
+
+    $response->assertOk();
+    $response->assertSee('Be at least 10 characters');
+});
+
+it('hides password requirements when disabled', function () {
+    config(['devdojo.auth.settings.password_show_requirements' => false]);
+    config(['devdojo.auth.settings.password_min_length' => 10]);
+    config(['devdojo.auth.settings.registration_show_password_same_screen' => true]);
+
+    $response = $this->get(route('auth.register'));
+
+    $response->assertOk();
+    $response->assertDontSee('Be at least 10 characters');
+});
+
+it('shows uppercase requirement when enabled', function () {
+    config(['devdojo.auth.settings.password_show_requirements' => true]);
+    config(['devdojo.auth.settings.password_require_uppercase' => true]);
+    config(['devdojo.auth.settings.registration_show_password_same_screen' => true]);
+
+    $response = $this->get(route('auth.register'));
+
+    $response->assertOk();
+    $response->assertSee('Include uppercase and lowercase letters');
+});
+
+it('shows numeric requirement when enabled', function () {
+    config(['devdojo.auth.settings.password_show_requirements' => true]);
+    config(['devdojo.auth.settings.password_require_numeric' => true]);
+    config(['devdojo.auth.settings.registration_show_password_same_screen' => true]);
+
+    $response = $this->get(route('auth.register'));
+
+    $response->assertOk();
+    $response->assertSee('Include at least one number');
+});
+
+it('shows special character requirement when enabled', function () {
+    config(['devdojo.auth.settings.password_show_requirements' => true]);
+    config(['devdojo.auth.settings.password_require_special_character' => true]);
+    config(['devdojo.auth.settings.registration_show_password_same_screen' => true]);
+
+    $response = $this->get(route('auth.register'));
+
+    $response->assertOk();
+    $response->assertSee('Include at least one special character');
+});

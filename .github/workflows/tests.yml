@@ -35,7 +35,7 @@ jobs:
 
       - name: Install DevDojo Auth from local checkout
         run: |
-          composer config repositories.local-auth path ../
+          composer config repositories.local-auth '{"type": "path", "url": "../", "options": {"symlink": false}}'
           composer require 'devdojo/auth:@dev' --with-all-dependencies
         working-directory: ./laravel_app_${{ matrix.php-version }}
 

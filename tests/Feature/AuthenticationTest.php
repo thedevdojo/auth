@@ -13,7 +13,7 @@ it('validates email and password fields', function () {
         ->set('email', 'invalid-email')
         ->set('password', '123')
         ->call('register')
-        ->assertHasErrors(['email' => 'email', 'password' => 'min']);
+        ->assertHasErrors(['email' => 'email', 'password']);
 });
 
 it('registers a new user and logs in', function () {
@@ -56,7 +56,7 @@ it('checks for required fields and validation errors', function () {
     Livewire::test('auth.register')
         ->set('password', 'short')
         ->call('register')
-        ->assertHasErrors(['password' => 'min']);
+        ->assertHasErrors(['password']);
 });
 
 it('validates password confirmation field', function () {

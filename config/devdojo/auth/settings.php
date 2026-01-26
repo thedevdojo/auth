@@ -11,6 +11,11 @@ return [
     'registration_include_name_field' => false,
     'registration_include_password_confirmation_field' => false,
     'registration_require_email_verification' => false,
+    'password_min_length' => 8,
+    'password_require_uppercase' => false,
+    'password_require_numeric' => false,
+    'password_require_special_character' => false,
+    'password_require_uncompromised' => false,
     'enable_branding' => true,
     'dev_mode' => false,
     'enable_2fa' => false, // Enable or disable 2FA functionality globally

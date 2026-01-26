@@ -1,16 +1,16 @@
 <?php
 
-use Devdojo\Auth\Models\SocialProvider;
+use Devdojo\Auth\Rules\PasswordStrength;
+use Devdojo\Auth\Traits\HasConfigs;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Auth\Events\Registered;
 use Livewire\Volt\Component;
-use Livewire\Attributes\Validate;
-use Devdojo\Auth\Helper;
-use Devdojo\Auth\Traits\HasConfigs;
-use function Laravel\Folio\{middleware, name};
 
-if (!isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || !app()->isLocal()) {
+use function Laravel\Folio\middleware;
+use function Laravel\Folio\name;
+
+if (! isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || ! app()->isLocal()) {
     middleware(['guest']);
 }
 
@@ -21,19 +21,26 @@ new class extends Component
     use HasConfigs;
 
     public $name;
+
     public $email = '';
+
     public $password = '';
+
     public $password_confirmation = '';
 
     public $showNameField = false;
+
     public $showEmailField = true;
+
     public $showPasswordField = false;
+
     public $showPasswordConfirmationField = false;
+
     public $showEmailRegistration = true;
 
     public function rules()
     {
-        if (!$this->settings->enable_email_registration) {
+        if (! $this->settings->enable_email_registration) {
             return [];
         }
 
@@ -42,10 +49,9 @@ new class extends Component
             $nameValidationRules = ['name' => 'required'];
         }
 
-        $passwordValidationRules = ['password' => 'required|min:8'];
-        if (config('devdojo.auth.settings.registration_include_password_confirmation_field')) {
-            $passwordValidationRules['password'] .= '|confirmed';
-        }
+        $includeConfirmation = config('devdojo.auth.settings.registration_include_password_confirmation_field');
+        $passwordValidationRules = ['password' => PasswordStrength::rules($includeConfirmation)];
+
         return array_merge(
             $nameValidationRules,
             ['email' => 'required|email|unique:users'],
@@ -57,18 +63,20 @@ new class extends Component
     {
         $this->loadConfigs();
 
-        if (!$this->settings->registration_enabled) {
+        if (! $this->settings->registration_enabled) {
             session()->flash('error', config('devdojo.auth.language.register.registrations_disabled', 'Registrations are currently disabled.'));
             redirect()->route('auth.login');
+
             return;
         }
 
-        if (!$this->settings->enable_email_registration) {
+        if (! $this->settings->enable_email_registration) {
             $this->showEmailRegistration = false;
             $this->showNameField = false;
             $this->showEmailField = false;
             $this->showPasswordField = false;
             $this->showPasswordConfirmationField = false;
+
             return;
         }
 
@@ -87,17 +95,19 @@ new class extends Component
 
     public function register()
     {
-        if (!$this->settings->registration_enabled) {
+        if (! $this->settings->registration_enabled) {
             session()->flash('error', config('devdojo.auth.language.register.registrations_disabled', 'Registrations are currently disabled.'));
+
             return redirect()->route('auth.login');
         }
 
-        if (!$this->settings->enable_email_registration) {
+        if (! $this->settings->enable_email_registration) {
             session()->flash('error', config('devdojo.auth.language.register.email_registration_disabled', 'Email registration is currently disabled. Please use social login.'));
+
             return redirect()->route('auth.register');
         }
 
-        if (!$this->showPasswordField) {
+        if (! $this->showPasswordField) {
             if ($this->settings->registration_include_name_field) {
                 $this->validateOnly('name');
             }
@@ -110,6 +120,7 @@ new class extends Component
             $this->showNameField = false;
             $this->showEmailField = false;
             $this->js("setTimeout(function(){ window.dispatchEvent(new CustomEvent('focus-password', {})); }, 10);");
+
             return;
         }
 
@@ -139,6 +150,7 @@ new class extends Component
             redirect()->intended(config('devdojo.auth.settings.redirect_after_auth'));
         } else {
             session()->regenerate();
+
             return redirect(config('devdojo.auth.settings.redirect_after_auth'));
         }
     }

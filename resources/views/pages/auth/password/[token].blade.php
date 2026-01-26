@@ -1,14 +1,16 @@
 <?php
 
+use Devdojo\Auth\Rules\PasswordStrength;
 use Devdojo\Auth\Traits\HasConfigs;
-use Illuminate\Support\Str;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Auth\Events\PasswordReset;
-use function Laravel\Folio\{middleware, name};
-use Livewire\Volt\Component;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
+use Livewire\Volt\Component;
+
+use function Laravel\Folio\name;
 
 name('password.reset');
 
@@ -18,11 +20,22 @@ new class extends Component
 
     #[Validate('required')]
     public $token;
+
     #[Validate('required|email')]
     public $email;
-    #[Validate('required|min:8|same:passwordConfirmation')]
+
     public $password;
+
     public $passwordConfirmation;
+
+    public function rules()
+    {
+        return [
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => array_merge(PasswordStrength::rules(), ['same:passwordConfirmation']),
+        ];
+    }
 
     public function mount($token)
     {

@@ -34,7 +34,7 @@ new class extends Component
 <x-auth::layouts.setup>
 
     @volt('auth.setup.settings')
-        <section class="relative px-4 py-5 mx-auto w-full max-w-screen-lg">
+        <section class="relative px-4 py-5 mx-auto w-full max-w-(--breakpoint-lg)">
             <x-auth::setup.full-screen-loader wire:target="update" />
             <x-auth::setup.heading title="Settings" description="Adjust specific authentication features and enable/disable functionality." />
             <div class="relative w-full">

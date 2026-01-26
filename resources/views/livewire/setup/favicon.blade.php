@@ -9,7 +9,7 @@
         </div>
         <div class="flex flex-col items-start w-full h-auto">
             @if(isset($favicon_light) && $favicon_light != '')
-                <div class="flex relative justify-center items-center w-12 h-12 rounded border border-zinc-200 bg-zinc-100">
+                <div class="flex relative justify-center items-center w-12 h-12 rounded-sm border border-zinc-200 bg-zinc-100">
                     <img src="{{ url($favicon_light) . '?' . uniqid() }}" class="w-auto h-8 rounded-md" />
                 </div>
             @endif
@@ -28,7 +28,7 @@
         </div>
         <div class="flex flex-col items-start w-full h-auto">
             @if(isset($favicon_dark) && $favicon_dark != '')
-                <div class="flex relative justify-center items-center w-12 h-12 rounded border border-zinc-800 bg-zinc-900">
+                <div class="flex relative justify-center items-center w-12 h-12 rounded-sm border border-zinc-800 bg-zinc-900">
                     <img src="{{ url($favicon_dark) . '?' . uniqid() }}" class="w-auto h-8 rounded-md" />
                 </div>
             @endif

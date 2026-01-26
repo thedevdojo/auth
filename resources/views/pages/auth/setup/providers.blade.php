@@ -34,7 +34,7 @@ new class extends Component
     <x-auth::layouts.setup>
 
         @volt('auth.setup.providers')
-            <section class="relative px-4 py-5 mx-auto w-full max-w-screen-lg">
+            <section class="relative px-4 py-5 mx-auto w-full max-w-(--breakpoint-lg)">
                 <x-auth::setup.full-screen-loader wire:target="update" />
                 <x-auth::setup.heading title="Social Providers" description="Select the social networks that users can use for authentication" />
                 <div class="relative w-full">

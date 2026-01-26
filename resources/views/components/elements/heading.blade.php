@@ -35,6 +35,6 @@
     </div>
     <h1 id="auth-heading-title" class="mt-1 text-xl font-medium leading-9">{{ $text ?? '' }}</h1>
     @if(($description ?? false) && $show_subheadline)
-        <p id="auth-heading-description" class="mb-1.5 space-x-0.5 text-sm leading-5 text-center opacity-[67%]">{{ $description ?? '' }}</p>
+        <p id="auth-heading-description" class="mb-1.5 space-x-0.5 text-sm leading-5 text-center opacity-67">{{ $description ?? '' }}</p>
     @endif
 </div>

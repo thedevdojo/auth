@@ -131,7 +131,7 @@ new class extends Component
                 </div>
 
                 <div class="mt-5 space-x-0.5 text-sm leading-5 text-left" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
-                    <span class="opacity-[47%]">or you can </span>
+                    <span class="opacity-47">or you can </span>
                     <span class="font-medium underline opacity-60 cursor-pointer" wire:click="switchToRecovery" href="#_">
                         @if(!$recovery)
                             <span>login using a recovery code</span>

@@ -52,7 +52,7 @@ new class extends Component
         @if ($emailSentMessage)
             <div class="p-4 mb-2 bg-green-50 rounded-md dark:bg-green-600">
                 <div class="flex">
-                    <div class="flex-shrink-0">
+                    <div class="shrink-0">
                         <svg class="w-5 h-5 text-green-400 dark:text-white" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                         </svg>
@@ -72,7 +72,7 @@ new class extends Component
             </form>
         @endif
         <div class="mt-3 space-x-0.5 text-sm leading-5 text-center" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
-            <span class="opacity-[47%]">{{config('devdojo.auth.language.passwordResetRequest.or')}}</span>
+            <span class="opacity-47">{{config('devdojo.auth.language.passwordResetRequest.or')}}</span>
             <x-auth::elements.text-link data-auth="login-link" href="{{ route('auth.login') }}">{{config('devdojo.auth.language.passwordResetRequest.return_to_login')}}</x-auth::elements.text-link>
         </div>
     </x-auth::elements.container>

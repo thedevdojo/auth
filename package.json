@@ -7,16 +7,15 @@
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.11",
-        "autoprefixer": "^10.4.23",
+        "@tailwindcss/postcss": "^4.1.18",
         "axios": "^1.13.3",
         "laravel-vite-plugin": "^2.1.0",
         "postcss": "^8.5.6",
-        "tailwindcss": "^3.4.19",
+        "tailwindcss": "^4.1.18",
         "vite": "^7.3.1"
     },
     "dependencies": {
         "@invoate/alpine-query-string": "^1.0.0",
-        "@tailwindcss/container-queries": "^0.1.1",
         "highlightjs": "^9.16.2"
     }
 }

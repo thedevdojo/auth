@@ -33,13 +33,10 @@ jobs:
       - name: Setup Laravel Application
         run: composer create-project --prefer-dist laravel/laravel laravel_app_${{ matrix.php-version }} --no-interaction
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_ENV
-        id: extract_branch
-
-      - name: Install DevDojo Auth from current branch
-        run: "composer require 'devdojo/auth':'dev-${{ env.branch }}' --with-all-dependencies"
+      - name: Install DevDojo Auth from local checkout
+        run: |
+          composer config repositories.local-auth path ../
+          composer require 'devdojo/auth:@dev' --with-all-dependencies
         working-directory: ./laravel_app_${{ matrix.php-version }}
 
       - name: Publish the DevDojo Auth Assets

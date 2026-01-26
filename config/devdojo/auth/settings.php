@@ -5,6 +5,7 @@
  */
 return [
     'redirect_after_auth' => '/',
+    'redirect_after_logout' => '/',
     'registration_enabled' => true,
     'registration_show_password_same_screen' => true,
     'registration_include_name_field' => false,

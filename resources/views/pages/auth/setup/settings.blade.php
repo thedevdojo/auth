@@ -35,58 +35,63 @@ new class extends Component
     public function getGroupedSettings()
     {
         $settings = (array) $this->settings;
-        $groups = [
-            'general' => [
-                'title' => 'General',
-                'description' => 'Basic authentication settings',
-                'keys' => ['redirect_after_auth', 'redirect_after_logout', 'enable_branding', 'dev_mode', 'include_wire_navigate'],
-            ],
-            'registration' => [
-                'title' => 'Registration',
-                'description' => 'User registration settings',
-                'keys' => ['registration_enabled', 'registration_show_password_same_screen', 'registration_include_name_field', 'registration_include_password_confirmation_field', 'registration_require_email_verification', 'enable_email_registration'],
-            ],
-            'password' => [
-                'title' => 'Password Security',
-                'description' => 'Password strength and validation requirements',
-                'keys' => ['password_min_length', 'password_require_uppercase', 'password_require_numeric', 'password_require_special_character', 'password_require_uncompromised', 'password_show_requirements'],
-                'collapsed' => true,
-            ],
-            'login' => [
-                'title' => 'Login & Social',
-                'description' => 'Login behavior and social provider settings',
-                'keys' => ['login_show_social_providers', 'social_providers_location', 'center_align_social_provider_button_content', 'center_align_text', 'check_account_exists_before_login'],
-            ],
-            'two_factor' => [
-                'title' => 'Two-Factor Authentication',
-                'description' => '2FA settings',
-                'keys' => ['enable_2fa'],
-            ],
+
+        // Auto-detect groups based on key prefixes
+        $prefixConfig = [
+            'registration' => ['title' => 'Registration', 'description' => 'User registration settings'],
+            'password' => ['title' => 'Password Security', 'description' => 'Password strength and validation', 'collapsed' => true],
+            'login' => ['title' => 'Login', 'description' => 'Login behavior settings'],
+            'social' => ['title' => 'Social Providers', 'description' => 'Social login settings'],
+            'redirect' => ['title' => 'Redirects', 'description' => 'Where to send users after actions'],
         ];
 
         $grouped = [];
         $usedKeys = [];
 
-        foreach ($groups as $groupKey => $group) {
-            $grouped[$groupKey] = $group;
-            $grouped[$groupKey]['settings'] = [];
-            foreach ($group['keys'] as $key) {
-                if (isset($settings[$key])) {
-                    $grouped[$groupKey]['settings'][$key] = $settings[$key];
+        // Group settings by their prefix
+        foreach ($settings as $key => $value) {
+            $assigned = false;
+            foreach ($prefixConfig as $prefix => $config) {
+                if (str_starts_with($key, $prefix.'_')) {
+                    if (! isset($grouped[$prefix])) {
+                        $grouped[$prefix] = array_merge($config, ['settings' => []]);
+                    }
+                    $grouped[$prefix]['settings'][$key] = $value;
                     $usedKeys[] = $key;
+                    $assigned = true;
+                    break;
                 }
+            }
+
+            if (! $assigned) {
+                // Put ungrouped settings in 'general'
+                if (! isset($grouped['general'])) {
+                    $grouped['general'] = [
+                        'title' => 'General',
+                        'description' => 'Basic authentication settings',
+                        'settings' => [],
+                    ];
+                }
+                $grouped['general']['settings'][$key] = $value;
             }
         }
 
-        // Add any ungrouped settings to 'other'
-        $ungrouped = array_diff_key($settings, array_flip($usedKeys));
-        if (! empty($ungrouped)) {
-            $grouped['other'] = [
-                'title' => 'Other',
-                'description' => 'Additional settings',
-                'settings' => $ungrouped,
-            ];
-        }
+        // Sort groups: general first, then alphabetically, with collapsed groups last
+        uksort($grouped, function ($a, $b) use ($grouped) {
+            if ($a === 'general') {
+                return -1;
+            }
+            if ($b === 'general') {
+                return 1;
+            }
+            $aCollapsed = $grouped[$a]['collapsed'] ?? false;
+            $bCollapsed = $grouped[$b]['collapsed'] ?? false;
+            if ($aCollapsed !== $bCollapsed) {
+                return $aCollapsed ? 1 : -1;
+            }
+
+            return strcmp($a, $b);
+        });
 
         return $grouped;
     }

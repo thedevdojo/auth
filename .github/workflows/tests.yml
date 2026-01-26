@@ -118,7 +118,9 @@ jobs:
       - name: Remove composer.lock and re-run composer install
         run: |
           rm composer.lock
-          composer install
+          rm -rf vendor
+          composer install --no-scripts
+          composer dump-autoload
         working-directory: ./laravel_app_${{ matrix.php-version }}
 
       - name: Install PestPHP, PHPStan, Dusk, and Dusk API Conf

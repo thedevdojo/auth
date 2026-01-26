@@ -45,10 +45,12 @@ new class extends Component
         ];
 
         return collect($settings)
-            ->groupBy(fn ($value, $key) => collect($prefixConfig)->keys()->first(fn ($p) => str_starts_with($key, $p.'_')) ?? 'general')
+            ->mapToGroups(fn ($value, $key) => [
+                (collect($prefixConfig)->keys()->first(fn ($p) => str_starts_with($key, $p.'_')) ?? 'general') => [$key => $value]
+            ])
             ->map(fn ($items, $group) => array_merge(
                 $prefixConfig[$group] ?? ['title' => 'General', 'description' => 'Basic authentication settings'],
-                ['settings' => $items->all()]
+                ['settings' => $items->collapse()->all()]
             ))
             ->sortBy(fn ($g, $k) => [$k !== 'general', $g['collapsed'] ?? false, $k])
             ->all();

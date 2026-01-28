@@ -92,7 +92,16 @@ class SocialController
         }
 
         return DB::transaction(function () use ($socialiteUser, $driver, $user) {
-            $user = $user ?? $this->createUser($socialiteUser);
+            if ($user) {
+                // Existing user linking social account - mark email as verified
+                // since social providers verify email addresses
+                if (is_null($user->email_verified_at)) {
+                    $user->email_verified_at = now();
+                    $user->save();
+                }
+            } else {
+                $user = $this->createUser($socialiteUser);
+            }
 
             return $this->createSocialProviderUser($user, $socialiteUser, $driver);
         });

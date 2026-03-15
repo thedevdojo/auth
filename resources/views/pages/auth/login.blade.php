@@ -1,14 +1,16 @@
 <?php
 
-use Illuminate\Auth\Events\Login;
+use Devdojo\Auth\Traits\HasConfigs;
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Auth\Events\Failed;
-use function Laravel\Folio\{middleware, name};
+use Illuminate\Auth\Events\Login;
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
-use Devdojo\Auth\Traits\HasConfigs;
 
-if(!isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || !app()->isLocal()){
+use function Laravel\Folio\middleware;
+use function Laravel\Folio\name;
+
+if (! isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || ! app()->isLocal()) {
     middleware(['guest']);
 }
 
@@ -30,6 +32,7 @@ new class extends Component
     public $showPasswordField = false;
 
     public $showIdentifierInput = true;
+
     public $showSocialProviderInfo = false;
 
     public $language = [];
@@ -40,15 +43,18 @@ new class extends Component
 
     public $userModel = null;
 
-    public function mount(){
+    public function mount()
+    {
         $this->loadConfigs();
         $this->twoFactorEnabled = $this->settings->enable_2fa;
         $this->userModel = app(config('auth.providers.users.model'));
     }
 
-    public function editIdentity(){
-        if($this->showPasswordField){
+    public function editIdentity()
+    {
+        if ($this->showPasswordField) {
             $this->showPasswordField = false;
+
             return;
         }
 
@@ -59,76 +65,81 @@ new class extends Component
     public function authenticate()
     {
 
-        if(!$this->showPasswordField){
+        if (! $this->showPasswordField) {
             $this->validateOnly('email');
             $userTryingToValidate = $this->userModel->where('email', $this->email)->first();
-            if(!is_null($userTryingToValidate)){
-                if(is_null($userTryingToValidate->password)){
+            if (! is_null($userTryingToValidate)) {
+                if (is_null($userTryingToValidate->password)) {
                     $this->userSocialProviders = [];
                     // User is attempting to login and password is null. Need to show Social Provider info
-                    foreach($userTryingToValidate->socialProviders->all() as $provider){
+                    foreach ($userTryingToValidate->socialProviders->all() as $provider) {
                         array_push($this->userSocialProviders, $provider->provider_slug);
                     }
                     $this->showIdentifierInput = false;
                     $this->showSocialProviderInfo = true;
+
                     return;
                 }
             }
 
             // Check if account exists before login and handle error if user is not found
-            if(config('devdojo.auth.settings.check_account_exists_before_login') && is_null($userTryingToValidate)){
+            if (config('devdojo.auth.settings.check_account_exists_before_login') && is_null($userTryingToValidate)) {
                 $this->js("setTimeout(function(){ window.dispatchEvent(new CustomEvent('focus-email', {})); }, 10);");
                 $this->addError('email', trans(config('devdojo.auth.language.login.couldnt_find_your_account')));
+
                 return;
             }
 
             $this->showPasswordField = true;
             $this->js("setTimeout(function(){ window.dispatchEvent(new CustomEvent('focus-password', {})); }, 10);");
+
             return;
         }
-
 
         $this->validate();
 
         $credentials = ['email' => $this->email, 'password' => $this->password];
-        
-        // Fire Attempting event manually
-        event(new Attempting('web', $credentials, false));
-        
-        if(!\Auth::validate($credentials)){
-            // Fire Failed event manually
-            event(new Failed('web', null, $credentials)); 
+
+        // Fire Attempting event (Auth::validate doesn't fire this)
+        event(new Attempting('web', $credentials, $this->rememberMe));
+
+        if (! \Auth::validate($credentials)) {
+            // Fire Failed event (Auth::validate doesn't fire this)
+            event(new Failed('web', null, $credentials));
             $this->addError('password', trans('auth.failed'));
+
             return;
         }
 
         $userAttemptingLogin = $this->userModel->where('email', $this->email)->first();
 
-        if(!isset($userAttemptingLogin->id)){
+        if (! isset($userAttemptingLogin->id)) {
+            // Edge case: credentials valid but user not found (shouldn't happen normally)
+            event(new Failed('web', null, $credentials));
             $this->addError('password', trans('auth.failed'));
+
             return;
         }
 
-        if($this->twoFactorEnabled && !is_null($userAttemptingLogin->two_factor_confirmed_at)){
-            // We want this user to login via 2fa
+        if ($this->twoFactorEnabled && ! is_null($userAttemptingLogin->two_factor_confirmed_at)) {
+            // User has 2FA enabled - redirect to challenge page
             session()->put([
-                'login.id' => $userAttemptingLogin->getKey()
+                'login.id' => $userAttemptingLogin->getKey(),
             ]);
 
             return redirect()->route('auth.two-factor-challenge');
 
         } else {
-            if (!Auth::attempt($credentials, $this->rememberMe)) {
-                event(new Failed('web', null, $credentials)); // Fire Failed Attempt
-                $this->addError('password', trans('auth.failed'));
-                return;
-            }
+            // Login the user directly (we already validated credentials above)
+            Auth::login($userAttemptingLogin, $this->rememberMe);
+            event(new Login('web', $userAttemptingLogin, $this->rememberMe));
 
-            if(session()->get('url.intended') != route('logout.get')){
+            if (session()->get('url.intended') != route('logout.get')) {
                 session()->regenerate();
                 redirect()->intended(config('devdojo.auth.settings.redirect_after_auth'));
             } else {
                 session()->regenerate();
+
                 return redirect(config('devdojo.auth.settings.redirect_after_auth'));
             }
         }

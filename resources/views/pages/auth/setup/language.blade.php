@@ -49,9 +49,9 @@ new class extends Component
                                 @foreach((array)$value as $key => $value)
                                     <div class="pb-5 mb-5 border-b border-zinc-200">
                                         @if(is_bool($value))
-                                            <x-auth::setup.checkbox-title-description wire:change="update('{{ $parentKey . '.' . $key }}', $el.checked)" name="{{ $key }}" :$key :title="Helper::convertSlugToTitle($key)" :checked="($value ? true : false)" />
+                                            <x-auth::setup.checkbox-title-description wire:change="update('{{ $parentKey . '.' . $key }}', $event.target.checked)" name="{{ $key }}" :$key :title="Helper::convertSlugToTitle($key)" :checked="($value ? true : false)" />
                                         @else
-                                            <x-auth::setup.input :id="$key" wire:blur="update('{{ $parentKey . '.' . $key }}', $el.value)" :label="Helper::convertSlugToTitle($key)" type="text" name="{{ $key }}" value="{{ $value }}" />
+                                            <x-auth::setup.input :id="$key" wire:blur="update('{{ $parentKey . '.' . $key }}', $event.target.value)" :label="Helper::convertSlugToTitle($key)" type="text" name="{{ $key }}" value="{{ $value }}" />
                                         @endif
                                         
                                     </div>

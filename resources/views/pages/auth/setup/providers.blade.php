@@ -76,7 +76,7 @@ new class extends Component
                                         @if(!isset($provider['socialite']) || !$provider['socialite'])
                                             <a href="https://devdojo.com/auth/docs/config/social-providers/#socialite-providers-package" target="_blank" class="px-2 py-0.5 text-[0.6rem] mr-1.5 text-yellow-900 bg-yellow-200 rounded-full">Requires Package</a>
                                         @endif
-                                        <x-auth::setup.checkbox wire:change="update('{{ $network_slug }}', $el.checked)" :checked="($provider['active'] ? true : false)" />
+                                        <x-auth::setup.checkbox wire:change="update('{{ $network_slug }}', $event.target.checked)" :checked="($provider['active'] ? true : false)" />
                                     </div>
                                 </div>
                             @endforeach

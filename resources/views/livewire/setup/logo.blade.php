@@ -56,7 +56,7 @@
                 <div x-show="logo_type == 'svg'" x-data="{ example: false }" class="p-3 rounded-lg border border-gray-200 bg-zinc-50">
                     <small class="block text-xs text-gray-500">Enter the SVG code for your logo (<span x-on:click="example=!example" class="text-blue-500 underline cursor-pointer select-none">view example</span>)</small>
                     <pre wire:ignore x-show="example" class="p-2.5 mt-2.5 font-mono text-xs bg-gray-100 rounded-md" x-collapse><code class="whitespace-pre-line bg-transparent language-html">&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;black&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;rect width=&quot;24&quot; height=&quot;24&quot; /&gt;&lt;/svg&gt;</code></pre>
-                    <textarea id="svgTextarea" wire:blur="updateSvg($el.value)" x-model="logo_svg_string" class="mt-3 w-full h-20 font-mono text-xs text-gray-700 bg-white rounded-sm border shadow-xs outline-hidden border-gray-200/60 focus:border-gray-900 focus:ring-2 focus:ring-gray-900 focus:ring-opacity-25 focus:outline-hidden"></textarea>
+                    <textarea id="svgTextarea" wire:blur="updateSvg($event.target.value)" x-model="logo_svg_string" class="mt-3 w-full h-20 font-mono text-xs text-gray-700 bg-white rounded-sm border shadow-xs outline-hidden border-gray-200/60 focus:border-gray-900 focus:ring-2 focus:ring-gray-900 focus:ring-opacity-25 focus:outline-hidden"></textarea>
                 </div>
             </div>
         </div>

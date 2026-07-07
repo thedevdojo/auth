@@ -11,7 +11,10 @@ Route::redirect('login', 'auth/login')->name('login');
 Route::redirect('register', 'auth/register')->name('register');
 
 // define the logout route
-Route::middleware(['auth', 'web'])->group(function () {
+// 'web' must precede 'auth': in apps whose Authenticate middleware doesn't
+// extend the framework's, middleware-priority sorting can't reorder the pair,
+// so the literal order decides whether the session exists when auth runs.
+Route::middleware(['web', 'auth'])->group(function () {
 
     Route::post('/auth/logout', LogoutController::class)
         ->name('logout');

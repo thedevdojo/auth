@@ -147,12 +147,13 @@ new class extends Component
 
         if (session()->get('url.intended') != route('logout.get')) {
             session()->regenerate();
-            redirect()->intended(config('devdojo.auth.settings.redirect_after_auth'));
-        } else {
-            session()->regenerate();
 
-            return redirect(config('devdojo.auth.settings.redirect_after_auth'));
+            return redirect()->intended(config('devdojo.auth.settings.redirect_after_auth'));
         }
+
+        session()->regenerate();
+
+        return redirect(config('devdojo.auth.settings.redirect_after_auth'));
     }
 };
 

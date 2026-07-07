@@ -27,4 +27,8 @@ return [
     'social_providers_location' => 'bottom',
     'check_account_exists_before_login' => false,
     'include_wire_navigate' => true,
+    // Code-based email verification (the inline companion to the signed link).
+    'verification_code_expires_in' => 15,      // minutes
+    'verification_code_max_attempts' => 5,     // wrong guesses before a resend is forced
+    'verification_code_resend_cooldown' => 60, // seconds between sends
 ];

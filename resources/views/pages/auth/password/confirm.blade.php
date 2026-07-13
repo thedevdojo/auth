@@ -1,7 +1,8 @@
 <?php
 
-use function Laravel\Folio\{middleware, name};
-use Livewire\Volt\Component;
+use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Middleware;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Traits\HasConfigs;
 
@@ -9,9 +10,9 @@ if(!isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != t
     middleware('auth');
 }
 
-name('password.confirm');
-
-new class extends Component
+new #[Layout('auth::layouts.app')]
+#[Middleware('auth')]
+class extends Component
 {
     use HasConfigs;
 
@@ -34,10 +35,7 @@ new class extends Component
 
 ?>
 
-<x-auth::layouts.app>
-
-    @volt('auth.password.confirm')
-        <x-auth::elements.container>
+<x-auth::elements.container>
             <x-auth::elements.heading
                 :text="($language->passwordConfirm->headline ?? 'No Heading')"
                 :description="($language->passwordConfirm->subheadline ?? 'No Description')"
@@ -48,6 +46,4 @@ new class extends Component
                 <x-auth::elements.button type="primary" rounded="md" data-auth="submit-button" submit="true">{{config('devdojo.auth.language.passwordConfirm.button')}}</x-auth::elements.button>
             </form>
         </x-auth::elements.container>
-    @endvolt
-
-</x-auth::layouts.app>
+    

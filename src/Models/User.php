@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Laravel\Passkeys\Contracts\PasskeyUser;
+use Laravel\Passkeys\PasskeyAuthenticatable;
 use PragmaRX\Google2FA\Google2FA;
 
 /**
@@ -20,9 +22,9 @@ use PragmaRX\Google2FA\Google2FA;
  * @property Carbon|null $two_factor_confirmed_at
  * @property HasMany $socialProviders
  */
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
 {
-    use HasSocialProviders, Notifiable;
+    use HasSocialProviders, Notifiable, PasskeyAuthenticatable;
 
     protected $fillable = [
         'name', 'email', 'password', 'two_factor_secret', 'two_factor_recovery_codes', 'two_factor_confirmed_at', 'email_verified_at',

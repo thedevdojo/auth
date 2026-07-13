@@ -8,13 +8,14 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
-use Livewire\Volt\Component;
+use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Middleware;
+use Devdojo\Auth\Http\Middleware\GuestUnlessAuthPreview;
 
-use function Laravel\Folio\name;
-
-name('password.reset');
-
-new class extends Component
+new #[Layout('auth::layouts.app')]
+#[Middleware(GuestUnlessAuthPreview::class)]
+class extends Component
 {
     use HasConfigs;
 
@@ -79,9 +80,7 @@ new class extends Component
 
 ?>
 
-<x-auth::layouts.app>
-    @volt('auth.password.token')
-        <x-auth::elements.container>
+<x-auth::elements.container>
             <x-auth::elements.heading
                 :text="($language->passwordReset->headline ?? 'No Heading')"
                 :description="($language->passwordReset->subheadline ?? 'No Description')"
@@ -96,5 +95,4 @@ new class extends Component
                 <x-auth::elements.button type="primary" data-auth="submit-button" rounded="md" submit="true">{{config('devdojo.auth.language.passwordReset.button')}}</x-auth::elements.button>
             </form>
         </x-auth::elements.container>
-    @endvolt
-</x-auth::layouts.app>
+    

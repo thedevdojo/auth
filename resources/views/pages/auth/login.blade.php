@@ -3,18 +3,16 @@
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Auth\Events\Failed;
-use function Laravel\Folio\{middleware, name};
 use Livewire\Attributes\Validate;
-use Livewire\Volt\Component;
+use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Middleware;
+use Devdojo\Auth\Http\Middleware\GuestUnlessAuthPreview;
 use Devdojo\Auth\Traits\HasConfigs;
 
-if(!isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || !app()->isLocal()){
-    middleware(['guest']);
-}
-
-name('auth.login');
-
-new class extends Component
+new #[Layout('auth::layouts.app')]
+#[Middleware(GuestUnlessAuthPreview::class)]
+class extends Component
 {
     use HasConfigs;
 
@@ -87,7 +85,6 @@ new class extends Component
             return;
         }
 
-
         $this->validate();
 
         $credentials = ['email' => $this->email, 'password' => $this->password];
@@ -138,10 +135,7 @@ new class extends Component
 
 ?>
 
-<x-auth::layouts.app title="{{ config('devdojo.auth.language.login.page_title') }}">
-
-    @volt('auth.login')
-        <x-auth::elements.container>
+<x-auth::elements.container>
 
             <x-auth::elements.heading
                 :text="($language->login->headline ?? 'No Heading')"
@@ -162,7 +156,7 @@ new class extends Component
                     </x-auth::elements.input-placeholder>
                 @else
                     @if($showIdentifierInput)
-                        <x-auth::elements.input :label="config('devdojo.auth.language.login.email_address')" type="email" wire:model="email" autofocus="true" data-auth="email-input" id="email" name="email" autocomplete="email" required />
+                        <x-auth::elements.input :label="config('devdojo.auth.language.login.email_address')" type="email" wire:model="email" autofocus="true" data-auth="email-input" id="email" name="email" autocomplete="username webauthn" required />
                     @endif
                 @endif
 
@@ -197,7 +191,6 @@ new class extends Component
                 </x-auth::elements.button>
             </form>
 
-
             @if(config('devdojo.auth.settings.registration_enabled', true))
                 <div class="mt-3 space-x-0.5 text-sm leading-5 @if(config('devdojo.auth.settings.center_align_text')){{ 'text-center' }}@else{{ 'text-left' }}@endif" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
                     <span class="opacity-47"> {{ config('devdojo.auth.language.login.dont_have_an_account') }} </span>
@@ -210,6 +203,4 @@ new class extends Component
             @endif
 
         </x-auth::elements.container>
-    @endvolt
-
-</x-auth::layouts.app>
+    

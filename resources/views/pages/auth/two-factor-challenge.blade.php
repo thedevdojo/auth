@@ -1,24 +1,21 @@
 <?php
 
-use App\Models\User;
-use function Laravel\Folio\{middleware, name};
 use Illuminate\Support\Facades\Route;
 use Illuminate\Auth\Events\Login;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
-use Livewire\Volt\Component;
+use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Middleware;
 use PragmaRX\Google2FA\Google2FA;
 use Devdojo\Auth\Traits\HasConfigs;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
 
-if(!isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || !app()->isLocal()){
-    middleware(['two-factor-challenged', 'throttle:5,1']);
-}
-
-name('auth.two-factor-challenge');
-
-new class extends Component
+new #[Layout('auth::layouts.app')]
+#[Middleware('two-factor-challenged')]
+#[Middleware('throttle:5,1')]
+class extends Component
 {
     use HasConfigs;
     
@@ -52,7 +49,7 @@ new class extends Component
         $this->auth_code = $code;
         $this->validate();
 
-        $user = User::find(session()->get('login.id'));
+        $user = app(config('auth.providers.users.model'))::find(session()->get('login.id'));
         $secret = decrypt($user->two_factor_secret);
         $google2fa = new Google2FA();
         $valid = $google2fa->verifyKey($secret, $code);
@@ -66,7 +63,7 @@ new class extends Component
     }
 
     public function submit_recovery_code(){
-        $user = User::find(session()->get('login.id'));
+        $user = app(config('auth.providers.users.model'))::find(session()->get('login.id'));
         $valid = in_array($this->recovery_code, json_decode(decrypt($user->two_factor_recovery_codes)));
 
         if ($valid) {
@@ -94,9 +91,7 @@ new class extends Component
 
 ?>
 
-<x-auth::layouts.app title="{{ config('devdojo.auth.language.twoFactorChallenge.page_title') }}">
-    @volt('auth.two-factor-challenge')
-        <x-auth::elements.container>
+<x-auth::elements.container>
             <div x-data x-on:code-input-complete.window="console.log(event); $dispatch('submitCode', [event.detail.code])" class="relative w-full h-auto">
                 @if(!$recovery)
                     <x-auth::elements.heading 
@@ -142,5 +137,4 @@ new class extends Component
                 </div>
             </div>
         </x-auth::elements.container>
-    @endvolt
-</x-auth::layouts.app>
+    

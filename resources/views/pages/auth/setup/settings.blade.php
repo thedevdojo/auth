@@ -1,15 +1,14 @@
 <?php
 
-use Livewire\Volt\Component;
+use Illuminate\Support\Facades\Artisan;
+use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Middleware;
 use Devdojo\Auth\Helper;
 
-use function Laravel\Folio\middleware;
-use function Laravel\Folio\name;
-
-middleware(['view-auth-setup']);
-name('auth.setup.settings');
-
-new class extends Component
+new #[Layout('auth::layouts.setup')]
+#[Middleware('view-auth-setup')]
+class extends Component
 {
     public $settings;
 
@@ -45,6 +44,7 @@ new class extends Component
         ];
 
         return collect($settings)
+            ->reject(fn ($value, $key) => $key === 'enable_passkeys')
             ->mapToGroups(fn ($value, $key) => [
                 (collect($prefixConfig)->keys()->first(fn ($p) => str_starts_with($key, $p.'_')) ?? 'general') => [$key => $value]
             ])
@@ -59,10 +59,7 @@ new class extends Component
 
 ?>
 
-<x-auth::layouts.setup>
-
-    @volt('auth.setup.settings')
-        <section class="relative px-4 py-5 mx-auto w-full max-w-(--breakpoint-lg)">
+<section class="relative px-4 py-5 mx-auto w-full max-w-(--breakpoint-lg)">
             <x-auth::setup.full-screen-loader wire:target="update" />
             <x-auth::setup.heading title="Settings" description="Adjust specific authentication features and enable/disable functionality." />
             <div class="relative w-full">
@@ -111,6 +108,4 @@ new class extends Component
                 @endif
             </div>
         </section>
-    @endvolt
-
-</x-auth::layouts.setup>
+    

@@ -13,5 +13,11 @@
     "name": "scripts",
     "src": "resources/js/auth.js",
     "isEntry": true
+  },
+  "resources/js/passkeys.js": {
+    "file": "assets/passkeys.js",
+    "name": "passkeys",
+    "src": "resources/js/passkeys.js",
+    "isEntry": true
   }
 }

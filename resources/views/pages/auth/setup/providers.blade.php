@@ -1,15 +1,16 @@
 <?php
 
-use function Laravel\Folio\{middleware, name};
-use Livewire\Volt\Component;
+use Illuminate\Support\Facades\Artisan;
+use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Middleware;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Helper;
 use Devdojo\ConfigWriter\ArrayFile;
 
-middleware(['view-auth-setup']);
-name('auth.setup.providers');
-
-new class extends Component
+new #[Layout('auth::layouts.setup')]
+#[Middleware('view-auth-setup')]
+class extends Component
 {
     public $providers;
     public $descriptions;
@@ -31,10 +32,7 @@ new class extends Component
 ?>
 
 <div>
-    <x-auth::layouts.setup>
-
-        @volt('auth.setup.providers')
-            <section class="relative px-4 py-5 mx-auto w-full max-w-(--breakpoint-lg)">
+    <section class="relative px-4 py-5 mx-auto w-full max-w-(--breakpoint-lg)">
                 <x-auth::setup.full-screen-loader wire:target="update" />
                 <x-auth::setup.heading title="Social Providers" description="Select the social networks that users can use for authentication" />
                 <div class="relative w-full">
@@ -84,7 +82,4 @@ new class extends Component
                     @endif
                 </div>
             </section>
-        @endvolt
-
-    </x-auth::layouts.setup>
-</div>
+        </div>

@@ -67,7 +67,7 @@ it('shows error for non-existent email on reset request', function () {
 /*
 |--------------------------------------------------------------------------
 | Password Reset Page (with token) HTTP Tests
-| Note: These tests use HTTP requests as Volt components with Folio dynamic
+| Note: These tests use HTTP requests against Livewire 4 page components with dynamic
 | routes ([token].blade.php) can't be directly tested via Livewire::test()
 |--------------------------------------------------------------------------
 */

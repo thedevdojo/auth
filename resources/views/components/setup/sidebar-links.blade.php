@@ -20,6 +20,11 @@
                     text="Social Providers"
                 ></x-auth::setup.sidebar-link-item>
                 <x-auth::setup.sidebar-link-item
+                    pageLink="auth/setup/passkeys"
+                    icon="fingerprint"
+                    text="Passkeys"
+                ></x-auth::setup.sidebar-link-item>
+                <x-auth::setup.sidebar-link-item
                     pageLink="auth/setup/language"
                     icon="globe-hemisphere-east"
                     text="Language"

@@ -1,7 +1,8 @@
 <?php
 
-use function Laravel\Folio\{middleware, name};
-use Livewire\Volt\Component;
+use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Middleware;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use PragmaRX\Google2FA\Google2FA;
@@ -9,10 +10,11 @@ use Devdojo\Auth\Actions\TwoFactorAuth\DisableTwoFactorAuthentication;
 use Devdojo\Auth\Actions\TwoFactorAuth\GenerateNewRecoveryCodes;
 use Devdojo\Auth\Actions\TwoFactorAuth\GenerateQrCodeAndSecretKey;
 
-name('user.two-factor-authentication');
-middleware(['auth', 'verified', 'two-factor-enabled']);
-
-new class extends Component
+new #[Layout('auth::layouts.app')]
+#[Middleware('auth')]
+#[Middleware('verified')]
+#[Middleware('two-factor-enabled')]
+class extends Component
 {
     public $enabled = false;
 
@@ -103,8 +105,7 @@ new class extends Component
 ?>
 
 <x-auth::layouts.empty title="Two Factor Authentication">
-    @volt('user.two-factor-authentication')
-        <section class="flex @container justify-center items-center w-screen h-screen">
+    <section class="flex @container justify-center items-center w-screen h-screen">
 
             <div x-data x-on:code-input-complete.window="$dispatch('submitCode', [event.detail.code])" class="flex flex-col w-full max-w-sm mx-auto text-sm">
                 @if($confirmed)
@@ -168,6 +169,4 @@ new class extends Component
                 @endif
             </div>
         </section>
-    @endvolt
-
-</x-auth::layouts.empty>
+    </x-auth::layouts.empty>

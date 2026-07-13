@@ -1,14 +1,15 @@
 <?php
 
-use function Laravel\Folio\{middleware, name};
-use Livewire\Volt\Component;
+use Illuminate\Support\Facades\Artisan;
+use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Middleware;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Helper;
 
-middleware(['view-auth-setup']);
-name('auth.setup.appearance');
-
-new class extends Component
+new #[Layout('auth::layouts.setup')]
+#[Middleware('view-auth-setup')]
+class extends Component
 {
     public $appearance;
     public $descriptions;
@@ -30,10 +31,7 @@ new class extends Component
 
 ?>
 
-<x-auth::layouts.setup>
-
-    @volt('auth.setup.appearance')
-        <section x-data="{ 
+<section x-data="{ 
                 'tab': new URLSearchParams(window.location.search).get('tab') || 'logo',
                 addQueryParam(key, value) {
                     // Create a URL object based on the current document URL
@@ -129,7 +127,4 @@ new class extends Component
             </div>
             
         </section>
-    @endvolt
     
-
-</x-auth::layouts.setup>

@@ -1,14 +1,15 @@
 <?php
 
-use function Laravel\Folio\{middleware, name};
-use Livewire\Volt\Component;
+use Illuminate\Support\Facades\Artisan;
+use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Middleware;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Helper;
 
-middleware(['view-auth-setup']);
-name('auth.setup.language');
-
-new class extends Component
+new #[Layout('auth::layouts.setup')]
+#[Middleware('view-auth-setup')]
+class extends Component
 {
     public $language;
     public $descriptions;
@@ -29,10 +30,7 @@ new class extends Component
 
 ?>
 
-<x-auth::layouts.setup>
-
-    @volt('auth.setup.language')
-        <section class="relative px-4 py-5 mx-auto w-full max-w-(--breakpoint-lg)">
+<section class="relative px-4 py-5 mx-auto w-full max-w-(--breakpoint-lg)">
             <x-auth::setup.full-screen-loader wire:target="update" />
             <x-auth::setup.heading title="Language" description="Update the language copy for each authenticaiton page" />
             <div class="relative w-full">
@@ -64,6 +62,4 @@ new class extends Component
                 @endif
             </div>
         </section>
-    @endvolt
-
-</x-auth::layouts.setup>
+    

@@ -2,13 +2,15 @@
 
 use Devdojo\Auth\Traits\HasConfigs;
 use Illuminate\Support\Facades\Password;
-use function Laravel\Folio\{middleware, name};
-use Livewire\Volt\Component;
+use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Middleware;
+use Devdojo\Auth\Http\Middleware\GuestUnlessAuthPreview;
 use Livewire\Attributes\Validate;
 
-name('auth.password.request');
-
-new class extends Component
+new #[Layout('auth::layouts.app')]
+#[Middleware(GuestUnlessAuthPreview::class)]
+class extends Component
 {
     use HasConfigs;
 
@@ -38,10 +40,7 @@ new class extends Component
 
 ?>
 
-<x-auth::layouts.app>
-
-    @volt('auth.password.reset')
-        <x-auth::elements.container>
+<x-auth::elements.container>
 
         <x-auth::elements.heading
             :text="($language->passwordResetRequest->headline ?? 'No Heading')"
@@ -76,6 +75,4 @@ new class extends Component
             <x-auth::elements.text-link data-auth="login-link" href="{{ route('auth.login') }}">{{config('devdojo.auth.language.passwordResetRequest.return_to_login')}}</x-auth::elements.text-link>
         </div>
     </x-auth::elements.container>
-    @endvolt
-
-</x-auth::layouts.app>
+    

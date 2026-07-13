@@ -12,72 +12,54 @@ use Devdojo\Auth\Livewire\Setup\Css;
 use Devdojo\Auth\Livewire\Setup\Favicon;
 use Devdojo\Auth\Livewire\Setup\Logo;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\DuskServiceProvider;
-use Laravel\Folio\Folio;
 use Laravel\Fortify\Features;
 use Livewire\Livewire;
-use Livewire\Volt\Volt;
 use PragmaRX\Google2FA\Google2FA;
 
 class AuthServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     */
     public function boot(): void
     {
-
         Route::middlewareGroup('two-factor-challenged', [TwoFactorChallenged::class]);
         Route::middlewareGroup('two-factor-enabled', [TwoFactorEnabled::class]);
         Route::middlewareGroup('view-auth-setup', [ViewAuthSetup::class]);
 
-        /*
-         * Optional methods to load your package assets
-         */
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'auth');
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'auth');
-        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
-        $this->registerAuthFolioDirectory();
-        $this->registerVoltDirectory();
+        Livewire::addLocation(viewPath: __DIR__.'/../resources/views/pages');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../config/' => config_path('/'),
             ], 'auth:config');
 
-            // Publishing the views.
-            /*$this->publishes([
-                __DIR__.'/../resources/views' => resource_path('views/vendor/auth'),
-            ], 'views');*/
-
-            // Publishing assets.
             $this->publishes([
                 __DIR__.'/../public' => public_path('auth'),
             ], 'auth:assets');
 
-            // Publishing CI workflow test.
             $this->publishes([
                 __DIR__.'/../resources/workflows' => base_path('.github/workflows'),
             ], 'auth:ci');
 
-            // Publish the migrations
             $this->publishes([
                 __DIR__.'/../database/migrations' => database_path('migrations'),
             ], 'auth:migrations');
 
-            // Publish the components
             $this->publishes([
                 __DIR__.'/../resources/views/components/elements' => resource_path('views/components/auth/elements'),
             ], 'auth:components');
 
-            // Registering package commands.
-            // $this->commands([]);
+            if (class_exists(\Laravel\Passkeys\PasskeysServiceProvider::class)) {
+                $this->publishes([
+                    __DIR__.'/../config/passkeys.php' => config_path('passkeys.php'),
+                ], 'auth:passkeys-config');
+            }
         }
+
         if (! $this->app->runningInConsole()) {
             Livewire::component('auth.setup.logo', Logo::class);
             Livewire::component('auth.setup.background', Background::class);
@@ -89,37 +71,10 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->handleStarterKitFunctionality();
         $this->loadDynamicRoutesForTesting();
-
     }
 
-    private function registerAuthFolioDirectory(): void
+    private function handleStarterKitFunctionality(): void
     {
-        $pagesDirectory = __DIR__.'/../resources/views/pages';
-        if (File::exists($pagesDirectory)) {
-            Folio::path($pagesDirectory)->middleware([
-                '*' => [
-                    //
-                ],
-            ]);
-        }
-    }
-
-    private function registerVoltDirectory(): void
-    {
-
-        $this->app->booted(function () {
-            Volt::mount(__DIR__.'/../resources/views/pages');
-        });
-    }
-
-    private function handleStarterKitFunctionality()
-    {
-        $this->jetstreamFunctionality();
-    }
-
-    private function jetstreamFunctionality()
-    {
-        // We check if fortify is installed and the user has enabled 2FA, if so we want to enable that feature
         if (class_exists(Features::class) && config('devdojo.auth.settings.enable_2fa')) {
             Config::set('fortify.features', array_merge(
                 Config::get('fortify.features', []),
@@ -133,40 +88,34 @@ class AuthServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * Register the application services.
-     */
-    public function register()
+    public function register(): void
     {
-        // Automatically apply the package configuration
         $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/settings.php', 'devdojo.auth.settings');
         $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/appearance.php', 'devdojo.auth.appearance');
         $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/language.php', 'devdojo.auth.language');
         $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/providers.php', 'devdojo.auth.providers');
-
         $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/descriptions.php', 'devdojo.auth.descriptions');
 
-        // Register the main class to use with the facade
+        if (class_exists(\Laravel\Passkeys\PasskeysServiceProvider::class)) {
+            $this->mergeConfigFrom(__DIR__.'/../config/passkeys.php', 'passkeys');
+        }
+
         $this->app->singleton('devdojoauth', function () {
             return new Auth;
         });
 
-        // Bind a singleton for the Google2FA service
-        $this->app->singleton(Google2FA::class, function ($app) {
+        $this->app->singleton(Google2FA::class, function () {
             return new Google2FA;
         });
 
-        // Register the DuskServiceProvider
         if (($this->app->environment('local') || $this->app->environment('testing')) && class_exists(DuskServiceProvider::class)) {
             $this->app->register(Providers\DuskServiceProvider::class);
         }
 
-        // We want to make sure the Livewire assets are injected for the auth pages in cases where the user turns off Livewire auto-injection
-        // Use this method instead of Livewire:forceAssetInjection(); in boot() method. This is needed to be compatible with Laravel Octane.
         config()->set('livewire.inject_assets', true);
     }
 
-    private function loadDynamicRoutesForTesting()
+    private function loadDynamicRoutesForTesting(): void
     {
         if (app()->environment('testing') || app()->environment('local')) {
             Route::get('/auth/password_confirmation_test', function () {

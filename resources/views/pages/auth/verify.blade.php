@@ -3,13 +3,14 @@
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Auth;
 use Devdojo\Auth\Traits\HasConfigs;
-use function Laravel\Folio\{middleware, name};
-use Livewire\Volt\Component;
+use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Middleware;
 
 //middleware(['auth', 'throttle:6,1']);
-name('verification.notice');
 
-new class extends Component
+new #[Layout('auth::layouts.app')]
+class extends Component
 {
     use HasConfigs;
 
@@ -35,16 +36,12 @@ new class extends Component
 
 ?>
 
-<x-auth::layouts.app title="{{ config('devdojo.auth.language.verify.page_title') }}">
-
-    @volt('auth.verify')
-        <x-auth::elements.container>
+<x-auth::elements.container>
 
             <x-auth::elements.heading
                 :text="($language->verify->headline ?? 'No Heading')"
                 :description="($language->register->subheadline ?? 'No Description')"
                 :show_subheadline="($language->verify->show_subheadline ?? false)" />
-
 
                 @if (session('resent'))
                     <div class="flex items-start px-4 py-3 mb-5 text-sm text-white bg-green-500 rounded-sm shadow-sm" role="alert">
@@ -60,8 +57,6 @@ new class extends Component
                     <p>{{config('devdojo.auth.language.verify.description')}} <a wire:click="resend" data-auth="verify-email-resend-link" class="text-gray-700 underline transition duration-150 ease-in-out cursor-pointer dark:text-gray-300 hover:text-gray-600 focus:outline-hidden focus:underline">{{config('devdojo.auth.language.verify.new_request_link')}}</a></p>
                 </div>
 
-
-
             <div class="mt-2 space-x-0.5 text-sm leading-5 text-center text-gray-600 translate-y-4 dark:text-gray-400">
                 <span>{{config('devdojo.auth.language.verify.or')}}</span>
                 <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-gray-500 underline cursor-pointer dark:text-gray-400 dark:hover:text-gray-300 hover:text-gray-800">
@@ -73,6 +68,4 @@ new class extends Component
             </div>
 
         </x-auth::elements.container>
-    @endvolt
-
-</x-auth::layouts.app>
+    

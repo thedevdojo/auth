@@ -5,18 +5,14 @@ use Devdojo\Auth\Traits\HasConfigs;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Livewire\Volt\Component;
+use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Middleware;
+use Devdojo\Auth\Http\Middleware\GuestUnlessAuthPreview;
 
-use function Laravel\Folio\middleware;
-use function Laravel\Folio\name;
-
-if (! isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || ! app()->isLocal()) {
-    middleware(['guest']);
-}
-
-name('auth.register');
-
-new class extends Component
+new #[Layout('auth::layouts.app')]
+#[Middleware(GuestUnlessAuthPreview::class)]
+class extends Component
 {
     use HasConfigs;
 
@@ -158,10 +154,7 @@ new class extends Component
 
 ?>
 
-<x-auth::layouts.app title="{{ config('devdojo.auth.language.register.page_title') }}">
-
-    @volt('auth.register')
-    <x-auth::elements.container>
+<x-auth::elements.container>
 
         <x-auth::elements.heading :text="($language->register->headline ?? 'No Heading')" :description="($language->register->subheadline ?? 'No Description')" :show_subheadline="($language->register->show_subheadline ?? false)" />
         <x-auth::elements.session-message />
@@ -206,8 +199,5 @@ new class extends Component
             <x-auth::elements.social-providers :separator="$showEmailRegistration" />
         @endif
 
-
     </x-auth::elements.container>
-    @endvolt
-
-</x-auth::layouts.app>
+    

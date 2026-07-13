@@ -1,23 +1,20 @@
 <?php
 
-use function Laravel\Folio\{middleware, name};
-use Livewire\Volt\Component;
+use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Middleware;
 use Livewire\Attributes\Validate;
 
-middleware(['view-auth-setup']);
-name('auth.setup');
-
-new class extends Component
+new #[Layout('auth::layouts.setup')]
+#[Middleware('view-auth-setup')]
+class extends Component
 {
 
 };
 
 ?>
 
-<x-auth::layouts.setup>
-
-        @volt('auth.setup')
-            <section class="max-w-(--breakpoint-lg) px-4 mx-auto py-14">
+<section class="max-w-(--breakpoint-lg) px-4 mx-auto py-14">
                 @if(!file_exists(base_path('config/devdojo/auth/settings.php')))
                     <x-auth::setup.config-notification />
                 @endif
@@ -28,6 +25,7 @@ new class extends Component
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <x-auth::setup.welcome-card link="auth/setup/appearance" icon="appearance" title="Change The Appearance" description="Change the appearance of your auth screens, add a logo, modify the color, and more."></x-auth::setup.welcome-card>
                     <x-auth::setup.welcome-card link="auth/setup/providers" icon="social-providers" title="Add/Edit Social Providers" description="Select the social networks that users can use for authentication."></x-auth::setup.welcome-card>
+                    <x-auth::setup.welcome-card link="auth/setup/passkeys" icon="fingerprint" title="Configure Passkeys" description="Enable passwordless sign-in with passkeys on your authentication screens."></x-auth::setup.welcome-card>
                     <x-auth::setup.welcome-card link="auth/setup/language" icon="language" title="Update Language Copy" description="Update the text copy on your login, registration, and other authentication pages"></x-auth::setup.welcome-card>
                     <x-auth::setup.welcome-card link="auth/setup/settings" icon="settings" title="Modify Settings" description="Adjust specific authentication features and enable/disable functionality."></x-auth::setup.welcome-card>
                 </div>
@@ -45,6 +43,4 @@ new class extends Component
                 </div>
             </section>
 
-        @endvolt
-
-</x-auth::layouts.setup>
+        

@@ -5,7 +5,7 @@
 
 @assets
     @if(config('devdojo.auth.settings.dev_mode'))
-        @vite(['resources/js/passkeys.js'])
+        @vite(['vendor/devdojo/auth/resources/js/passkeys.js'])
     @else
         <script src="{{ asset('/auth/build/assets/passkeys.js') }}"></script>
     @endif

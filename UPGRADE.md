@@ -47,6 +47,20 @@ Your application views take precedence when registered after the package provide
 
 To override Blade components without copying entire pages, publish to `resources/views/vendor/auth/`.
 
+If your customized setup pages use Livewire event handlers, update Livewire 3 syntax to Livewire 4:
+
+```blade
+{{-- Before (Livewire 3) --}}
+wire:change="update('key', $el.checked)"
+wire:blur="update('key', $el.value)"
+
+{{-- After (Livewire 4) --}}
+wire:change="update('key', $event.target.checked)"
+wire:blur="update('key', $event.target.value)"
+```
+
+Package setup pages already use `$event.target`. Alpine `$el` references inside `x-data` blocks are unchanged.
+
 ### 4. Optional: enable passkeys
 
 ```bash
@@ -75,6 +89,7 @@ php artisan route:clear
 | Livewire | 3.x | 4.x |
 | Passkeys | Not included | Optional via `enable_passkeys` |
 | Setup preview modal | `absolute` + custom z-index | `fixed` + standard z-index utilities |
+| Setup event handlers | `$el.checked` / `$el.value` | `$event.target.checked` / `$event.target.value` |
 
 ## Need help?
 

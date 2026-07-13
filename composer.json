@@ -41,12 +41,14 @@
     "autoload": {
         "psr-4": {
             "Devdojo\\Auth\\": "src",
-            "Devdojo\\Auth\\Tests\\": "tests"
+            "Devdojo\\Auth\\Tests\\": "tests",
+            "Tests\\": "tests"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Devdojo\\Auth\\Tests\\": "tests"
+            "Devdojo\\Auth\\Tests\\": "tests",
+            "Tests\\": "tests"
         }
     },
     "scripts": {

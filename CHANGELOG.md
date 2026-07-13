@@ -23,7 +23,9 @@
 - Migrated all authentication pages from Volt/Folio to Livewire 4 SFCs.
 - `Devdojo\Auth\Models\User` now implements `PasskeyUser` and uses `PasskeyAuthenticatable`.
 - Setup preview modal now uses `fixed` positioning so it renders above the settings panel.
+- Setup pages use Livewire 4 event syntax (`$event.target`) for toggles and inputs.
 
 ### Fixed
 
 - Setup preview modal no longer appears behind the settings page when published assets are current.
+- PHPStan configuration and `User` model property annotations.

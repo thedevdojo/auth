@@ -3,8 +3,8 @@ includes:
 
 parameters:
     paths:
-        - packages/devdojo/auth/src
-        - vendor/devdojo/auth/src
+        - src
     level: 1
     excludePaths:
-        - /Users/tonylea/Sites/auth/vendor
+        analyseAndScan:
+            - vendor (?)

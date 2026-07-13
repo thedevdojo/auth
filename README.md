@@ -106,6 +106,10 @@ php artisan migrate
 
 Your `App\Models\User` should extend `Devdojo\Auth\Models\User`, which already includes the required `PasskeyAuthenticatable` trait.
 
+## Upgrading from 2.x
+
+See [UPGRADE.md](UPGRADE.md) for the v3.0 migration guide.
+
 ## License
 
 The DevDojo Auth package is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

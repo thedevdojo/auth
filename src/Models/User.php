@@ -17,6 +17,7 @@ use PragmaRX\Google2FA\Google2FA;
  * Class User
  *
  * @property string|null $email
+ * @property Carbon|null $email_verified_at
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property Carbon|null $two_factor_confirmed_at

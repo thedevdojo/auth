@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\DuskServiceProvider;
 use Laravel\Fortify\Features;
+use Laravel\Passkeys\PasskeysServiceProvider;
 use Livewire\Livewire;
 use PragmaRX\Google2FA\Google2FA;
 
@@ -53,7 +54,7 @@ class AuthServiceProvider extends ServiceProvider
                 __DIR__.'/../resources/views/components/elements' => resource_path('views/components/auth/elements'),
             ], 'auth:components');
 
-            if (class_exists(\Laravel\Passkeys\PasskeysServiceProvider::class)) {
+            if (class_exists(PasskeysServiceProvider::class)) {
                 $this->publishes([
                     __DIR__.'/../config/passkeys.php' => config_path('passkeys.php'),
                 ], 'auth:passkeys-config');
@@ -96,7 +97,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/providers.php', 'devdojo.auth.providers');
         $this->mergeConfigFrom(__DIR__.'/../config/devdojo/auth/descriptions.php', 'devdojo.auth.descriptions');
 
-        if (class_exists(\Laravel\Passkeys\PasskeysServiceProvider::class)) {
+        if (class_exists(PasskeysServiceProvider::class)) {
             $this->mergeConfigFrom(__DIR__.'/../config/passkeys.php', 'passkeys');
         }
 

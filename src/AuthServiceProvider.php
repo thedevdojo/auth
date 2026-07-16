@@ -19,7 +19,6 @@ use Laravel\Dusk\DuskServiceProvider;
 use Laravel\Folio\Folio;
 use Laravel\Fortify\Features;
 use Livewire\Livewire;
-use Livewire\Volt\Volt;
 use PragmaRX\Google2FA\Google2FA;
 
 class AuthServiceProvider extends ServiceProvider
@@ -42,8 +41,8 @@ class AuthServiceProvider extends ServiceProvider
         // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
+        Livewire::addLocation(__DIR__.'/../resources/views/pages');
         $this->registerAuthFolioDirectory();
-        $this->registerVoltDirectory();
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -51,9 +50,9 @@ class AuthServiceProvider extends ServiceProvider
             ], 'auth:config');
 
             // Publishing the views.
-            /*$this->publishes([
+            $this->publishes([
                 __DIR__.'/../resources/views' => resource_path('views/vendor/auth'),
-            ], 'views');*/
+            ], 'auth:views');
 
             // Publishing assets.
             $this->publishes([
@@ -102,14 +101,6 @@ class AuthServiceProvider extends ServiceProvider
                 ],
             ]);
         }
-    }
-
-    private function registerVoltDirectory(): void
-    {
-
-        $this->app->booted(function () {
-            Volt::mount(__DIR__.'/../resources/views/pages');
-        });
     }
 
     private function handleStarterKitFunctionality()

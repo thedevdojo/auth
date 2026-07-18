@@ -1,16 +1,13 @@
 <?php
 
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Livewire\Attributes\Layout;
-use function Laravel\Folio\{middleware, name};
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Helper;
 
-middleware(['view-auth-setup']);
-name('auth.setup.appearance');
-
 new
-#[Layout('auth::components.layouts.setup')]
+#[Layout('auth::components.layouts.setup'), Middleware('view-auth-setup')]
 class extends Component {
     public $appearance;
     public $descriptions;

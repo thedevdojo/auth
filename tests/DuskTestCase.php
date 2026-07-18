@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Devdojo\Auth\Tests;
 
 use AleBatistella\DuskApiConf\Traits\UsesDuskApiConfig;
 use Facebook\WebDriver\Chrome\ChromeOptions;

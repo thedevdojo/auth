@@ -1,8 +1,8 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Livewire\Attributes\Layout;
-use function Laravel\Folio\{middleware, name};
 use Illuminate\Support\Facades\Route;
 use Illuminate\Auth\Events\Login;
 use Livewire\Attributes\On;
@@ -13,14 +13,8 @@ use Devdojo\Auth\Traits\HasConfigs;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
 
-if (!isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || !app()->isLocal()) {
-    middleware(['two-factor-challenged', 'throttle:5,1']);
-}
-
-name('auth.two-factor-challenge');
-
 new
-#[Layout('auth::components.layouts.app')]
+#[Layout('auth::components.layouts.app'), Middleware('preview-or-2fa')]
 class extends Component {
     use HasConfigs;
 

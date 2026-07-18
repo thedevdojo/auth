@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Pages;
+namespace Devdojo\Auth\Tests\Browser\Pages;
 
 use Laravel\Dusk\Browser;
 

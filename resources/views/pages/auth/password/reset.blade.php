@@ -3,11 +3,8 @@
 use Devdojo\Auth\Traits\HasConfigs;
 use Illuminate\Support\Facades\Password;
 use Livewire\Attributes\Layout;
-use function Laravel\Folio\{middleware, name};
 use Livewire\Component;
 use Livewire\Attributes\Validate;
-
-name('auth.password.request');
 
 new
 #[Layout('auth::components.layouts.app')]

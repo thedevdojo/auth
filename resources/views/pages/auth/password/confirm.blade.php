@@ -1,19 +1,13 @@
 <?php
 
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Livewire\Attributes\Layout;
-use function Laravel\Folio\{middleware, name};
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Traits\HasConfigs;
 
-if (!isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || !app()->isLocal()) {
-    middleware('auth');
-}
-
-name('password.confirm');
-
 new
-#[Layout('auth::components.layouts.app')]
+#[Layout('auth::components.layouts.app'), Middleware('preview-or-auth')]
 class extends Component {
     use HasConfigs;
 
@@ -23,6 +17,11 @@ class extends Component {
     public function mount()
     {
         $this->loadConfigs();
+    }
+
+    public function render()
+    {
+        return $this->view()->title(config('devdojo.auth.language.passwordConfirm.page_title'));
     }
 
     public function confirm()

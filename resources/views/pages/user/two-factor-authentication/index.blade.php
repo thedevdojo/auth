@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
-use function Laravel\Folio\{middleware, name};
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -11,12 +11,9 @@ use Devdojo\Auth\Actions\TwoFactorAuth\DisableTwoFactorAuthentication;
 use Devdojo\Auth\Actions\TwoFactorAuth\GenerateNewRecoveryCodes;
 use Devdojo\Auth\Actions\TwoFactorAuth\GenerateQrCodeAndSecretKey;
 
-name('user.two-factor-authentication');
-middleware(['auth', 'verified', 'two-factor-enabled']);
 
 new
-#[Layout('auth::layouts.empty')]
-#[Title('Two Factor Authentication')]
+#[Layout('auth::layouts.empty'), Middleware(['auth', 'verified', 'two-factor-enabled']), Title('Two Factor Authentication')]
 class extends Component {
     public $enabled = false;
 

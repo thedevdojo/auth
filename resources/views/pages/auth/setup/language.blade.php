@@ -1,18 +1,14 @@
 <?php
 
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Livewire\Attributes\Layout;
-use function Laravel\Folio\{middleware, name};
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Helper;
 
-middleware(['view-auth-setup']);
-name('auth.setup.language');
-
 new
-#[Layout('auth::components.layouts.setup')]
-class extends Component
-{
+#[Layout('auth::components.layouts.setup'), Middleware('view-auth-setup')]
+class extends Component {
     public $language;
     public $descriptions;
     private $config;
@@ -35,7 +31,7 @@ class extends Component
 ?>
 <section class="relative px-4 py-5 mx-auto w-full max-w-(--breakpoint-lg)">
     <x-auth::setup.full-screen-loader wire:target="update"/>
-    <x-auth::setup.heading title="Language" description="Update the language copy for each authenticaiton page"/>
+    <x-auth::setup.heading title="Language" description="Update the language copy for each authentication page"/>
     <div class="relative w-full">
         @if(!file_exists(base_path('config/devdojo/auth/language.php')))
             <x-auth::setup.config-notification/>

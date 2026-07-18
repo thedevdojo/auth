@@ -7,9 +7,6 @@ use Livewire\Attributes\Layout;
 use function Laravel\Folio\{middleware, name};
 use Livewire\Component;
 
-//middleware(['auth', 'throttle:6,1']);
-name('verification.notice');
-
 new
 #[Layout('auth::components.layouts.app')]
 class extends Component {

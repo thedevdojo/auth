@@ -3,23 +3,26 @@
 namespace Devdojo\Auth\Http\Middleware;
 
 use Closure;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
-class ViewAuthSetup
+class PreviewOrAuth
 {
     /**
      * Handle an incoming request.
      *
      * @param  Closure(Request): (Response)  $next
+     *
+     * @throws AuthenticationException
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (app()->isLocal() || Gate::allows('viewAuthSetup')) {
+        if (app()->isLocal() && $request->boolean('preview')) {
             return $next($request);
         }
 
-        abort(403);
+        return app(Authenticate::class)->handle($request, $next);
     }
 }

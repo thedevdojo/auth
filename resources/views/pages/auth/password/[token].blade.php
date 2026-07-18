@@ -11,10 +11,6 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-use function Laravel\Folio\name;
-
-name('password.reset');
-
 new
 #[Layout('auth::components.layouts.app')]
 class extends Component {
@@ -44,6 +40,11 @@ class extends Component {
         $this->loadConfigs();
         $this->email = request()->query('email', '');
         $this->token = $token;
+    }
+
+    public function render()
+    {
+        return $this->view()->title(config('devdojo.auth.language.passwordResetRequest.page_title'));
     }
 
     public function resetPassword()

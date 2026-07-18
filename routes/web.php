@@ -11,19 +11,19 @@ Route::redirect('login', 'auth/login')->name('login');
 Route::redirect('register', 'auth/register')->name('register');
 
 // Explicit routes for Livewire 4 pages
-Route::livewire('/auth/login', 'auth.login');
-Route::livewire('/auth/password/confirm', 'auth.password.confirm');
-Route::livewire('/auth/password/reset', 'auth.password.reset');
-Route::livewire('/auth/password/{token}', 'auth.password.[token]');
-Route::livewire('/auth/register', 'auth.register');
-Route::livewire('/auth/setup', 'auth.setup');
-Route::livewire('/auth/setup/appearance', 'auth.setup.appearance');
-Route::livewire('/auth/setup/language', 'auth.setup.language');
-Route::livewire('/auth/setup/providers', 'auth.setup.providers');
-Route::livewire('/auth/setup/settings', 'auth.setup.settings');
-Route::livewire('/auth/two-factor-challenge', 'auth.two-factor-challenge');
-Route::livewire('/auth/verify', 'auth.verify');
-Route::livewire('/user/two-factor-authentication', 'user.two-factor-authentication');
+Route::livewire('/auth/login', 'auth.login')->name('auth.login');
+Route::livewire('/auth/password/confirm', 'auth.password.confirm')->name('password.confirm');
+Route::livewire('/auth/password/reset', 'auth.password.reset')->name('auth.password.request');
+Route::livewire('/auth/password/{token}', 'auth.password.[token]')->name('password.reset');
+Route::livewire('/auth/register', 'auth.register')->name('auth.register');
+Route::livewire('/auth/setup', 'auth.setup')->name('auth.setup');
+Route::livewire('/auth/setup/appearance', 'auth.setup.appearance')->name('auth.setup.appearance');
+Route::livewire('/auth/setup/language', 'auth.setup.language')->name('auth.setup.language');
+Route::livewire('/auth/setup/providers', 'auth.setup.providers')->name('auth.setup.providers');
+Route::livewire('/auth/setup/settings', 'auth.setup.settings')->name('auth.setup.settings');
+Route::livewire('/auth/two-factor-challenge', 'auth.two-factor-challenge')->name('auth.two-factor-challenge');
+Route::livewire('/auth/verify', 'auth.verify')->name('verification.notice');
+Route::livewire('/user/two-factor-authentication', 'user.two-factor-authentication')->name('user.two-factor-authentication');
 
 // define the logout route
 // 'web' must precede 'auth': in apps whose Authenticate middleware doesn't

@@ -3,21 +3,15 @@
 use Devdojo\Auth\Rules\PasswordStrength;
 use Devdojo\Auth\Traits\HasConfigs;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-use function Laravel\Folio\{middleware, name};
-
-if (!isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || !app()->isLocal()) {
-    middleware(['guest']);
-}
-
-name('auth.register');
-
 new
-#[Layout('auth::components.layouts.app')] class extends Component {
+#[Layout('auth::components.layouts.app'), Middleware('preview-or-guest')]
+class extends Component {
     use HasConfigs;
 
     public $name;

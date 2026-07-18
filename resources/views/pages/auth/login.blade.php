@@ -3,20 +3,14 @@
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Auth\Events\Failed;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Livewire\Attributes\Layout;
-use function Laravel\Folio\{middleware, name};
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Devdojo\Auth\Traits\HasConfigs;
 
-name('auth.login');
-
-if (!isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || !app()->isLocal()) {
-    middleware(['guest']);
-}
-
 new
-#[Layout('auth::components.layouts.app')]
+#[Layout('auth::components.layouts.app'), Middleware('preview-or-guest')]
 class extends Component {
     use HasConfigs;
 

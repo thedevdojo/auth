@@ -2,6 +2,9 @@
 
 namespace Devdojo\Auth;
 
+use Devdojo\Auth\Http\Middleware\PreviewOr2FAThrottle;
+use Devdojo\Auth\Http\Middleware\PreviewOrAuth;
+use Devdojo\Auth\Http\Middleware\PreviewOrGuest;
 use Devdojo\Auth\Http\Middleware\TwoFactorChallenged;
 use Devdojo\Auth\Http\Middleware\TwoFactorEnabled;
 use Devdojo\Auth\Http\Middleware\ViewAuthSetup;
@@ -12,11 +15,9 @@ use Devdojo\Auth\Livewire\Setup\Css;
 use Devdojo\Auth\Livewire\Setup\Favicon;
 use Devdojo\Auth\Livewire\Setup\Logo;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\DuskServiceProvider;
-use Laravel\Folio\Folio;
 use Laravel\Fortify\Features;
 use Livewire\Livewire;
 use PragmaRX\Google2FA\Google2FA;
@@ -32,6 +33,9 @@ class AuthServiceProvider extends ServiceProvider
         Route::middlewareGroup('two-factor-challenged', [TwoFactorChallenged::class]);
         Route::middlewareGroup('two-factor-enabled', [TwoFactorEnabled::class]);
         Route::middlewareGroup('view-auth-setup', [ViewAuthSetup::class]);
+        Route::middlewareGroup('preview-or-auth', [PreviewOrAuth::class]);
+        Route::middlewareGroup('preview-or-guest', [PreviewOrGuest::class]);
+        Route::middlewareGroup('preview-or-2fa', [PreviewOr2FAThrottle::class]);
 
         /*
          * Optional methods to load your package assets
@@ -42,7 +46,6 @@ class AuthServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
         Livewire::addLocation(__DIR__.'/../resources/views/pages');
-        $this->registerAuthFolioDirectory();
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -89,18 +92,6 @@ class AuthServiceProvider extends ServiceProvider
         $this->handleStarterKitFunctionality();
         $this->loadDynamicRoutesForTesting();
 
-    }
-
-    private function registerAuthFolioDirectory(): void
-    {
-        $pagesDirectory = __DIR__.'/../resources/views/pages';
-        if (File::exists($pagesDirectory)) {
-            Folio::path($pagesDirectory)->middleware([
-                '*' => [
-                    //
-                ],
-            ]);
-        }
     }
 
     private function handleStarterKitFunctionality()

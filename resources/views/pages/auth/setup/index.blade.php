@@ -1,17 +1,14 @@
 <?php
 
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Livewire\Attributes\Layout;
-use function Laravel\Folio\{middleware, name};
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 
-middleware(['view-auth-setup']);
-name('auth.setup');
-
 new
-#[Layout('auth::components.layouts.setup')]
-class extends Component
-{}
+#[Layout('auth::components.layouts.setup'), Middleware('view-auth-setup')]
+class extends Component {
+}
 ?>
 <section class="max-w-(--breakpoint-lg) px-4 mx-auto py-14">
     @if(!file_exists(base_path('config/devdojo/auth/settings.php')))

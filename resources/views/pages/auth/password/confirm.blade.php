@@ -6,7 +6,7 @@ use Livewire\Attributes\Middleware;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Traits\HasConfigs;
 
-if(!isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || !app()->isLocal()){
+if(!isset($_GET['preview']) || (!$_GET['preview']) || !app()->isLocal()){
     middleware('auth');
 }
 

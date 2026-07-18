@@ -7,7 +7,7 @@ use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class GuestUnlessAuthPreview
+class GuestUnlessPreview
 {
     public function handle(Request $request, Closure $next): Response
     {

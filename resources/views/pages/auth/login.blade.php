@@ -1,18 +1,18 @@
 <?php
 
+use Devdojo\Auth\Http\Middleware\PreviewOrGuest;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
-use Livewire\Attributes\Layout;
-use Devdojo\Auth\Http\Middleware\GuestUnlessPreview;
 use Devdojo\Auth\Traits\HasConfigs;
 
 new
-#[Layout('auth::layouts.app')]
-#[Middleware(GuestUnlessPreview::class)]
+#[Layout('auth::components.layouts.app')]
+#[Middleware(PreviewOrGuest::class)]
 class extends Component {
     use HasConfigs;
 
@@ -43,6 +43,11 @@ class extends Component {
         $this->loadConfigs();
         $this->twoFactorEnabled = $this->settings->enable_2fa;
         $this->userModel = app(config('auth.providers.users.model'));
+    }
+
+    public function render()
+    {
+        return $this->view()->title(config('devdojo.auth.language.login.page_title'));
     }
 
     public function editIdentity()
@@ -86,6 +91,7 @@ class extends Component {
             $this->js("setTimeout(function(){ window.dispatchEvent(new CustomEvent('focus-password', {})); }, 10);");
             return;
         }
+
 
         $this->validate();
 
@@ -136,7 +142,6 @@ class extends Component {
 };
 
 ?>
-
 <x-auth::elements.container>
 
     <x-auth::elements.heading
@@ -161,7 +166,7 @@ class extends Component {
             @if($showIdentifierInput)
                 <x-auth::elements.input :label="config('devdojo.auth.language.login.email_address')" type="email"
                                         wire:model="email" autofocus="true" data-auth="email-input" id="email"
-                                        name="email" autocomplete="username webauthn" required/>
+                                        name="email" autocomplete="email" required/>
             @endif
         @endif
 
@@ -201,6 +206,7 @@ class extends Component {
         </x-auth::elements.button>
     </form>
 
+
     @if(config('devdojo.auth.settings.registration_enabled', true))
         <div class="mt-3 space-x-0.5 text-sm leading-5 @if(config('devdojo.auth.settings.center_align_text')){{ 'text-center' }}@else{{ 'text-left' }}@endif"
              style="color:{{ config('devdojo.auth.appearance.color.text') }}">
@@ -215,4 +221,3 @@ class extends Component {
     @endif
 
 </x-auth::elements.container>
-    

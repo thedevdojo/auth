@@ -10,11 +10,8 @@ use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Middleware;
-use Devdojo\Auth\Http\Middleware\GuestUnlessPreview;
 
 new #[Layout('auth::layouts.app')]
-#[Middleware(GuestUnlessPreview::class)]
 class extends Component {
     use HasConfigs;
 

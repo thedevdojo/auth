@@ -1,26 +1,29 @@
 <?php
 
-use Livewire\Component;
+use Devdojo\Auth\Http\Middleware\PreviewOrAuth;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Middleware;
+use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Traits\HasConfigs;
 
-if(!isset($_GET['preview']) || (!$_GET['preview']) || !app()->isLocal()){
-    middleware('auth');
-}
-
-new #[Layout('auth::layouts.app')]
-#[Middleware('auth')]
-class extends Component
-{
+new
+#[Layout('auth::components.layouts.app')]
+#[Middleware(PreviewOrAuth::class)]
+class extends Component {
     use HasConfigs;
 
     #[Validate('required|current_password')]
     public $password = '';
 
-    public function mount(){
+    public function mount()
+    {
         $this->loadConfigs();
+    }
+
+    public function render()
+    {
+        return $this->view()->title(config('devdojo.auth.language.passwordConfirm.page_title'));
     }
 
     public function confirm()
@@ -34,16 +37,17 @@ class extends Component
 };
 
 ?>
-
 <x-auth::elements.container>
-            <x-auth::elements.heading
-                :text="($language->passwordConfirm->headline ?? 'No Heading')"
-                :description="($language->passwordConfirm->subheadline ?? 'No Description')"
-                :show_subheadline="($language->passwordConfirm->show_subheadline ?? false)"
-            />
-            <form wire:submit="confirm" class="space-y-5">
-                <x-auth::elements.input :label="config('devdojo.auth.language.passwordConfirm.password')" type="password" id="password" name="password" data-auth="password-input" autofocus="true" wire:model="password" autocomplete="current-password" />
-                <x-auth::elements.button type="primary" rounded="md" data-auth="submit-button" submit="true">{{config('devdojo.auth.language.passwordConfirm.button')}}</x-auth::elements.button>
-            </form>
-        </x-auth::elements.container>
-    
+    <x-auth::elements.heading
+            :text="($language->passwordConfirm->headline ?? 'No Heading')"
+            :description="($language->passwordConfirm->subheadline ?? 'No Description')"
+            :show_subheadline="($language->passwordConfirm->show_subheadline ?? false)"
+    />
+    <form wire:submit="confirm" class="space-y-5">
+        <x-auth::elements.input :label="config('devdojo.auth.language.passwordConfirm.password')" type="password"
+                                id="password" name="password" data-auth="password-input" autofocus="true"
+                                wire:model="password" autocomplete="current-password"/>
+        <x-auth::elements.button type="primary" rounded="md" data-auth="submit-button"
+                                 submit="true">{{config('devdojo.auth.language.passwordConfirm.button')}}</x-auth::elements.button>
+    </form>
+</x-auth::elements.container>

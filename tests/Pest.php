@@ -1,9 +1,9 @@
 <?php
 
 use App\Models\User;
+use Devdojo\Auth\Tests\DuskTestCase;
+use Devdojo\Auth\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\DuskTestCase;
-use Tests\TestCase;
 
 uses(
     DuskTestCase::class,

@@ -4,12 +4,9 @@ use Devdojo\Auth\Traits\HasConfigs;
 use Illuminate\Support\Facades\Password;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Middleware;
-use Devdojo\Auth\Http\Middleware\GuestUnlessPreview;
 use Livewire\Attributes\Validate;
 
 new #[Layout('auth::layouts.app')]
-#[Middleware(GuestUnlessPreview::class)]
 class extends Component {
     use HasConfigs;
 

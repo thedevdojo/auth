@@ -1,13 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Artisan;
-use Livewire\Component;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Middleware;
+use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Helper;
 
-new #[Layout('auth::layouts.setup')]
+new
+#[Layout('auth::layouts.setup')]
 #[Middleware('view-auth-setup')]
 class extends Component
 {
@@ -15,11 +15,13 @@ class extends Component
     public $descriptions;
     private $config;
 
-    public function mount(){
+    public function mount()
+    {
         $this->language = (object)config('devdojo.auth.language');
     }
 
-    public function update($key, $value){
+    public function update($key, $value)
+    {
         \Config::write('devdojo.auth.language.' . $key, $value);
         Artisan::call('config:clear');
 
@@ -29,37 +31,43 @@ class extends Component
 };
 
 ?>
-
 <section class="relative px-4 py-5 mx-auto w-full max-w-(--breakpoint-lg)">
-            <x-auth::setup.full-screen-loader wire:target="update" />
-            <x-auth::setup.heading title="Language" description="Update the language copy for each authenticaiton page" />
-            <div class="relative w-full">
-                @if(!file_exists(base_path('config/devdojo/auth/language.php')))
-                    <x-auth::setup.config-notification />
-                @else
-                    @foreach($this->language as $parentKey => $value)
-                        <div x-data="{ show: false }" class="w-full border-b border-zinc-100">
-                            <div x-on:click="show=!show" :class="{ 'text-zinc-800 bg-zinc-100' : show, 'text-zinc-500 hover:text-zinc-800 hover:bg-zinc-100' : !show  }" class="flex relative justify-between items-center p-3 w-full cursor-pointer">
-                                <h3>{{ ucwords(str_replace('_', ' ', Str::snake($parentKey))) }}</h3>
-                                <x-phosphor-caret-down class="w-5 h-5" />
-                            </div>
-                            <div x-show="show" class="relative p-5 select-none" x-collapse>
-                                @foreach((array)$value as $key => $value)
-                                    <div class="pb-5 mb-5 border-b border-zinc-200">
-                                        @if(is_bool($value))
-                                            <x-auth::setup.checkbox-title-description wire:change="update('{{ $parentKey . '.' . $key }}', $event.target.checked)" name="{{ $key }}" :$key :title="Helper::convertSlugToTitle($key)" :checked="($value ? true : false)" />
-                                        @else
-                                            <x-auth::setup.input :id="$key" wire:blur="update('{{ $parentKey . '.' . $key }}', $event.target.value)" :label="Helper::convertSlugToTitle($key)" type="text" name="{{ $key }}" value="{{ $value }}" />
-                                        @endif
-                                        
-                                    </div>
-                                @endforeach
+    <x-auth::setup.full-screen-loader wire:target="update"/>
+    <x-auth::setup.heading title="Language" description="Update the language copy for each authentication page"/>
+    <div class="relative w-full">
+        @if(!file_exists(base_path('config/devdojo/auth/language.php')))
+            <x-auth::setup.config-notification/>
+        @else
+            @foreach($this->language as $parentKey => $value)
+                <div x-data="{ show: false }" class="w-full border-b border-zinc-100">
+                    <div x-on:click="show=!show"
+                         :class="{ 'text-zinc-800 bg-zinc-100' : show, 'text-zinc-500 hover:text-zinc-800 hover:bg-zinc-100' : !show  }"
+                         class="flex relative justify-between items-center p-3 w-full cursor-pointer">
+                        <h3>{{ ucwords(str_replace('_', ' ', Str::snake($parentKey))) }}</h3>
+                        <x-phosphor-caret-down class="w-5 h-5"/>
+                    </div>
+                    <div x-show="show" class="relative p-5 select-none" x-collapse>
+                        @foreach((array)$value as $key => $value)
+                            <div class="pb-5 mb-5 border-b border-zinc-200">
+                                @if(is_bool($value))
+                                    <x-auth::setup.checkbox-title-description
+                                            wire:change="update('{{ $parentKey . '.' . $key }}', $event.target.checked)"
+                                            name="{{ $key }}" :$key :title="Helper::convertSlugToTitle($key)"
+                                            :checked="($value ? true : false)"/>
+                                @else
+                                    <x-auth::setup.input :id="$key"
+                                                         wire:blur="update('{{ $parentKey . '.' . $key }}', $event.target.value)"
+                                                         :label="Helper::convertSlugToTitle($key)" type="text"
+                                                         name="{{ $key }}" value="{{ $value }}"/>
+                                @endif
 
                             </div>
-                        </div>
-                    @endforeach
-                    
-                @endif
-            </div>
-        </section>
-    
+                        @endforeach
+
+                    </div>
+                </div>
+            @endforeach
+
+        @endif
+    </div>
+</section>

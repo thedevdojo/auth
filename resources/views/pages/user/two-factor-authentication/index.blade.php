@@ -11,7 +11,7 @@ use Devdojo\Auth\Actions\TwoFactorAuth\DisableTwoFactorAuthentication;
 use Devdojo\Auth\Actions\TwoFactorAuth\GenerateNewRecoveryCodes;
 use Devdojo\Auth\Actions\TwoFactorAuth\GenerateQrCodeAndSecretKey;
 
-new #[Layout('auth::layouts.app')]
+new #[Layout('auth::components.layouts.app')]
 #[Middleware('auth')]
 #[Middleware('verified')]
 #[Middleware('two-factor-enabled')]

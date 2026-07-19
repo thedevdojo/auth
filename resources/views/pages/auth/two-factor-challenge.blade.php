@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
 
 new
-#[Layout('auth::layouts.app')]
+#[Layout('auth::components.layouts.app')]
 #[Middleware(PreviewOr2FAThrottle::class)]
 class extends Component {
     use HasConfigs;

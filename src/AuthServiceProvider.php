@@ -43,7 +43,7 @@ class AuthServiceProvider extends ServiceProvider
             ], 'auth:assets');
 
             $this->publishes([
-                __DIR__.'/../resources/views/' => resource_path('views/auth'),
+                __DIR__.'/../resources/views' => resource_path('views/auth'),
             ], 'auth:views');
 
             $this->publishes([

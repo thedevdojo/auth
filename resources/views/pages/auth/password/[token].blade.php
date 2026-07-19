@@ -11,7 +11,7 @@ use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 
-new #[Layout('auth::layouts.app')]
+new #[Layout('auth::components.layouts.app')]
 class extends Component {
     use HasConfigs;
 

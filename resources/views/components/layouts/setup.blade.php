@@ -73,10 +73,6 @@
                 'url' : '/auth/login'
             },
             {
-                'name' : 'Passkeys Setup',
-                'url' : '/auth/setup/passkeys'
-            },
-            {
                 'name' : 'Register',
                 'url' : '/auth/register'
             },

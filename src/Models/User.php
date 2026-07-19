@@ -3,6 +3,8 @@
 namespace Devdojo\Auth\Models;
 
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
+use Devdojo\Auth\Notifications\VerifyEmailWithCode;
+use Devdojo\Auth\Traits\HasEmailVerificationCodes;
 use Devdojo\Auth\Traits\HasSocialProviders;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,7 +24,7 @@ use PragmaRX\Google2FA\Google2FA;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasSocialProviders, Notifiable;
+    use HasEmailVerificationCodes, HasSocialProviders, Notifiable;
 
     protected $fillable = [
         'name', 'email', 'password', 'two_factor_secret', 'two_factor_recovery_codes', 'two_factor_confirmed_at', 'email_verified_at',
@@ -35,6 +37,14 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return $this->email_verified_at !== null;
+    }
+
+    /**
+     * Verification emails carry both the 6-digit code and the signed link.
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmailWithCode($this->issueEmailVerificationCode()));
     }
 
     public function twoFactorQrCodeSvg()

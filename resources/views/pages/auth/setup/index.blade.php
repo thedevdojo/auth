@@ -6,7 +6,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 
 new
-#[Layout('auth::layouts.setup')]
+#[Layout('auth::components.layouts.setup')]
 #[Middleware('view-auth-setup')]
 class extends Component {
 
@@ -55,4 +55,3 @@ class extends Component {
     </div>
 </section>
 
-        

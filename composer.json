@@ -17,15 +17,15 @@
     ],
     "require": {
         "php": "^8.2|^8.3|^8.4|^8.5",
-        "illuminate/support": "^12.0|^13.0",
-        "livewire/livewire": "^4.0",
+        "bacon/bacon-qr-code": "^3.0",
+        "calebporzio/sushi": "^2.5",
         "codeat3/blade-phosphor-icons": "^2.0",
         "devdojo/config-writer": "^0.0.7",
+        "illuminate/support": "^12.0|^13.0",
+        "laravel/passkeys": "^0.2.1",
         "laravel/socialite": "^5.0",
-        "calebporzio/sushi": "^2.5",
-        "pragmarx/google2fa": "^9.0",
-        "bacon/bacon-qr-code": "^3.0",
-        "laravel/passkeys": "^0.2"
+        "livewire/livewire": "^4.0",
+        "pragmarx/google2fa": "^9.0"
     },
     "require-dev": {
         "laravel/pint": "^1.15",

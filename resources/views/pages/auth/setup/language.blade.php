@@ -7,7 +7,7 @@ use Livewire\Attributes\Validate;
 use Devdojo\Auth\Helper;
 
 new
-#[Layout('auth::layouts.setup')]
+#[Layout('auth::components.layouts.setup')]
 #[Middleware('view-auth-setup')]
 class extends Component
 {

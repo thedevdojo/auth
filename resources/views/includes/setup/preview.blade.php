@@ -1,10 +1,10 @@
-<div x-show="preview" @click="preview=false" x-transition.opacity class="absolute inset-0 z-98 w-screen h-screen delay-500 bg-black/50" x-cloak></div>
+<div x-show="preview" @click="preview=false" x-transition.opacity class="fixed inset-0 z-40 w-screen h-screen delay-500 bg-black/50" x-cloak></div>
 <div x-on:click="preview=true" x-show="!preview" class="flex fixed right-0 bottom-0 z-50 items-center px-4 py-2 mr-3 space-x-1 text-sm bg-white rounded-t-lg border border-b-0 cursor-pointer text-zinc-600 hover:text-zinc-800 border-zinc-200">
     <x-phosphor-monitor-bold class="-ml-0.5 w-4 h-4 duration-300 ease-out translate-x-0 group-hover:-translate-x-0.5" />
     <span>Open Preview</span>
 </div>
 <div :class="{ 'translate-y-full duration-500 invisible' : !preview, 'translate-y-0 pt-3 duration-300' : preview }"
-        class="flex absolute top-0 left-0 px-3 z-99 ease-in-out  flex-col w-screen h-screen" x-cloak>
+        class="flex fixed top-0 left-0 px-3 z-50 ease-in-out flex-col w-screen h-screen" x-cloak>
     
     <div class="flex flex-col w-full h-full bg-white rounded-t-md">
         <div class="flex relative z-50 shrink-0 justify-center items-center w-full h-10 bg-white rounded-t-md border-b border-zinc-200">
@@ -14,7 +14,7 @@
                     <span class="font-medium" x-text="previewPageActive.name"></span>
                     <x-phosphor-caret-down-fill class="ml-2 w-3 h-3" />
                 </button>
-                <div x-show="previewMenuDropdown" x-transition.scale.origin.top.opacity class="[&>button]:px-3 [&>button]:block [&>button]:rounded-md space-y-1 [&>button:hover]:bg-zinc-100 group [&>button]:text-left [&>button]:w-full [&>button]:text-sm [&>button]:py-1.5 absolute left-0 bg-white shadow-xl py-1 px-2 w-64 rounded-md top-0 mt-[33px] z-99">
+                <div x-show="previewMenuDropdown" x-transition.scale.origin.top.opacity class="[&>button]:px-3 [&>button]:block [&>button]:rounded-md space-y-1 [&>button:hover]:bg-zinc-100 group [&>button]:text-left [&>button]:w-full [&>button]:text-sm [&>button]:py-1.5 absolute left-0 bg-white shadow-xl py-1 px-2 w-64 rounded-md top-0 mt-[33px] z-50">
                     <template x-for="(previewPage, index) in previewPages">
                         <button :class="{ 'bg-zinc-100' : previewPage.url == previewPageActive.url }" @click="previewURL=previewPage.url; previewPageActive=previewPages[index]; previewMenuDropdown=false;" x-text="previewPage.name"></button>
                     </template>

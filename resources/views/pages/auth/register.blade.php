@@ -1,5 +1,6 @@
 <?php
 
+use Devdojo\Auth\Http\Middleware\PreviewOrGuest;
 use Devdojo\Auth\Rules\PasswordStrength;
 use Devdojo\Auth\Traits\HasConfigs;
 use Illuminate\Auth\Events\Registered;
@@ -10,7 +11,8 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 new
-#[Layout('auth::components.layouts.app'), Middleware('preview-or-guest')]
+#[Layout('auth::components.layouts.app')]
+#[Middleware(PreviewOrGuest::class)]
 class extends Component {
     use HasConfigs;
 

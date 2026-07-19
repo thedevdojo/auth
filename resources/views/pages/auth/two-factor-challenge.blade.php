@@ -1,20 +1,21 @@
 <?php
 
-use App\Models\User;
+use Devdojo\Auth\Http\Middleware\PreviewOr2FAThrottle;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
-use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Auth\Events\Login;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 use PragmaRX\Google2FA\Google2FA;
 use Devdojo\Auth\Traits\HasConfigs;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
 
 new
-#[Layout('auth::components.layouts.app'), Middleware('preview-or-2fa')]
+#[Layout('auth::components.layouts.app')]
+#[Middleware(PreviewOr2FAThrottle::class)]
 class extends Component {
     use HasConfigs;
 
@@ -29,11 +30,6 @@ class extends Component {
     {
         $this->loadConfigs();
         $this->recovery = false;
-    }
-
-    public function render()
-    {
-        return $this->view()->title(config('devdojo.auth.language.twoFactorChallenge.page_title'));
     }
 
     public function switchToRecovery()
@@ -53,7 +49,7 @@ class extends Component {
         $this->auth_code = $code;
         $this->validate();
 
-        $user = User::find(session()->get('login.id'));
+        $user = app(config('auth.providers.users.model'))::find(session()->get('login.id'));
         $secret = decrypt($user->two_factor_secret);
         $google2fa = new Google2FA();
         $valid = $google2fa->verifyKey($secret, $code);
@@ -68,7 +64,7 @@ class extends Component {
 
     public function submit_recovery_code()
     {
-        $user = User::find(session()->get('login.id'));
+        $user = app(config('auth.providers.users.model'))::find(session()->get('login.id'));
         $valid = in_array($this->recovery_code, json_decode(decrypt($user->two_factor_recovery_codes)));
 
         if ($valid) {
@@ -96,6 +92,7 @@ class extends Component {
 }
 
 ?>
+
 <x-auth::elements.container>
     <div x-data x-on:code-input-complete.window="console.log(event); $dispatch('submitCode', [event.detail.code])"
          class="relative w-full h-auto">
@@ -127,9 +124,8 @@ class extends Component {
                 </x-auth::elements.button>
             @else
                 <div class="relative">
-                    <x-auth::elements.input label="Recovery Code" type="text"
-                                            wire:keydown.enter="submit_recovery_code" wire:model="recovery_code"
-                                            id="auth-2fa-recovery-code" required/>
+                    <x-auth::elements.input label="Recovery Code" type="text" wire:keydown.enter="submit_recovery_code"
+                                            wire:model="recovery_code" id="auth-2fa-recovery-code" required/>
                 </div>
                 <x-auth::elements.button rounded="md" submit="true" wire:click="submit_recovery_code">Continue
                 </x-auth::elements.button>
@@ -142,12 +138,13 @@ class extends Component {
              style="color:{{ config('devdojo.auth.appearance.color.text') }}">
             <span class="opacity-47">or you can </span>
             <span class="font-medium underline opacity-60 cursor-pointer" wire:click="switchToRecovery" href="#_">
-                    @if(!$recovery)
+                        @if(!$recovery)
                     <span>login using a recovery code</span>
                 @else
                     <span>login using an authentication code</span>
                 @endif
-                </span>
+                    </span>
         </div>
     </div>
 </x-auth::elements.container>
+    

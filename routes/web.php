@@ -19,6 +19,7 @@ Route::livewire('/auth/register', 'auth.register')->name('auth.register');
 Route::livewire('/auth/setup', 'auth.setup')->name('auth.setup');
 Route::livewire('/auth/setup/appearance', 'auth.setup.appearance')->name('auth.setup.appearance');
 Route::livewire('/auth/setup/language', 'auth.setup.language')->name('auth.setup.language');
+Route::livewire('/auth/setup/passkeys', 'auth.setup.passkeys')->name('auth.setup.passkeys');
 Route::livewire('/auth/setup/providers', 'auth.setup.providers')->name('auth.setup.providers');
 Route::livewire('/auth/setup/settings', 'auth.setup.settings')->name('auth.setup.settings');
 Route::livewire('/auth/two-factor-challenge', 'auth.two-factor-challenge')->name('auth.two-factor-challenge');

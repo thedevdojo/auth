@@ -3,7 +3,7 @@
 use App\Models\User;
 use Devdojo\Auth\Rules\PasswordStrength;
 use Illuminate\Validation\Rules\Password;
-use Livewire\Volt\Volt;
+use Livewire\Livewire;
 
 beforeEach(function () {
     config()->set('devdojo.auth.settings.registration_enabled', true);
@@ -45,7 +45,7 @@ it('does not include confirmed rule when parameter is false', function () {
 it('enforces minimum password length from config', function () {
     config()->set('devdojo.auth.settings.password_min_length', 12);
 
-    $response = Volt::test('auth.register')
+    $response = Livewire::test('auth.register')
         ->set('email', 'minlength@test.com')
         ->set('password', 'short123')
         ->call('register');
@@ -56,7 +56,7 @@ it('enforces minimum password length from config', function () {
 it('allows password meeting minimum length', function () {
     config()->set('devdojo.auth.settings.password_min_length', 8);
 
-    $response = Volt::test('auth.register')
+    $response = Livewire::test('auth.register')
         ->set('email', 'validlength@test.com')
         ->set('password', 'password123')
         ->call('register');
@@ -67,7 +67,7 @@ it('allows password meeting minimum length', function () {
 it('requires uppercase when config enabled', function () {
     config()->set('devdojo.auth.settings.password_require_uppercase', true);
 
-    $response = Volt::test('auth.register')
+    $response = Livewire::test('auth.register')
         ->set('email', 'uppercase@test.com')
         ->set('password', 'lowercase123')
         ->call('register');
@@ -78,7 +78,7 @@ it('requires uppercase when config enabled', function () {
 it('allows password with uppercase when required', function () {
     config()->set('devdojo.auth.settings.password_require_uppercase', true);
 
-    $response = Volt::test('auth.register')
+    $response = Livewire::test('auth.register')
         ->set('email', 'uppercase2@test.com')
         ->set('password', 'Uppercase123')
         ->call('register');
@@ -89,7 +89,7 @@ it('allows password with uppercase when required', function () {
 it('requires numeric when config enabled', function () {
     config()->set('devdojo.auth.settings.password_require_numeric', true);
 
-    $response = Volt::test('auth.register')
+    $response = Livewire::test('auth.register')
         ->set('email', 'numeric@test.com')
         ->set('password', 'nonumbers')
         ->call('register');
@@ -100,7 +100,7 @@ it('requires numeric when config enabled', function () {
 it('allows password with numbers when required', function () {
     config()->set('devdojo.auth.settings.password_require_numeric', true);
 
-    $response = Volt::test('auth.register')
+    $response = Livewire::test('auth.register')
         ->set('email', 'numeric2@test.com')
         ->set('password', 'password123')
         ->call('register');
@@ -111,7 +111,7 @@ it('allows password with numbers when required', function () {
 it('requires special character when config enabled', function () {
     config()->set('devdojo.auth.settings.password_require_special_character', true);
 
-    $response = Volt::test('auth.register')
+    $response = Livewire::test('auth.register')
         ->set('email', 'special@test.com')
         ->set('password', 'NoSpecial123')
         ->call('register');
@@ -122,7 +122,7 @@ it('requires special character when config enabled', function () {
 it('allows password with special character when required', function () {
     config()->set('devdojo.auth.settings.password_require_special_character', true);
 
-    $response = Volt::test('auth.register')
+    $response = Livewire::test('auth.register')
         ->set('email', 'special2@test.com')
         ->set('password', 'Special@123')
         ->call('register');
@@ -136,7 +136,7 @@ it('enforces all password requirements together', function () {
     config()->set('devdojo.auth.settings.password_require_numeric', true);
     config()->set('devdojo.auth.settings.password_require_special_character', true);
 
-    $response = Volt::test('auth.register')
+    $response = Livewire::test('auth.register')
         ->set('email', 'allreqs@test.com')
         ->set('password', 'StrongPass@123')
         ->call('register');
@@ -149,7 +149,7 @@ it('fails when any requirement is not met', function () {
     config()->set('devdojo.auth.settings.password_require_numeric', true);
     config()->set('devdojo.auth.settings.password_require_special_character', true);
 
-    $response = Volt::test('auth.register')
+    $response = Livewire::test('auth.register')
         ->set('email', 'partialreqs@test.com')
         ->set('password', 'password123')
         ->call('register');
@@ -160,14 +160,14 @@ it('fails when any requirement is not met', function () {
 it('uses default min length of 8 when config not set', function () {
     config()->set('devdojo.auth.settings.password_min_length', null);
 
-    $response = Volt::test('auth.register')
+    $response = Livewire::test('auth.register')
         ->set('email', 'default@test.com')
         ->set('password', '1234567')
         ->call('register');
 
     $response->assertHasErrors(['password']);
 
-    $response2 = Volt::test('auth.register')
+    $response2 = Livewire::test('auth.register')
         ->set('email', 'default2@test.com')
         ->set('password', 'eightchr')
         ->call('register');

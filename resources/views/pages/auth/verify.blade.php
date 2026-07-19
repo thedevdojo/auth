@@ -4,7 +4,6 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Auth;
 use Devdojo\Auth\Traits\HasConfigs;
 use Livewire\Attributes\Layout;
-use function Laravel\Folio\{middleware, name};
 use Livewire\Component;
 
 new

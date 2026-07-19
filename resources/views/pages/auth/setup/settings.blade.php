@@ -6,7 +6,8 @@ use Livewire\Component;
 use Devdojo\Auth\Helper;
 
 new
-#[Layout('auth::components.layouts.setup'), Middleware('view-auth-setup')]
+#[Layout('auth::components.layouts.setup')]
+#[Middleware('view-auth-setup')]
 class extends Component {
     public $settings;
 

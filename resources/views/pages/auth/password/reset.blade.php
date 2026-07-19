@@ -2,12 +2,11 @@
 
 use Devdojo\Auth\Traits\HasConfigs;
 use Illuminate\Support\Facades\Password;
-use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 
-new
-#[Layout('auth::components.layouts.app')]
+new #[Layout('auth::components.layouts.app')]
 class extends Component {
     use HasConfigs;
 
@@ -37,6 +36,7 @@ class extends Component {
 };
 
 ?>
+
 <x-auth::elements.container>
 
     <x-auth::elements.heading
@@ -66,8 +66,8 @@ class extends Component {
     @else
         <form wire:submit="sendResetPasswordLink" class="space-y-5">
             <x-auth::elements.input :label="config('devdojo.auth.language.passwordResetRequest.email')" type="email"
-                                    id="email" name="email" data-auth="email-input" wire:model="email"
-                                    autofocus="true" autocomplete="email"/>
+                                    id="email" name="email" data-auth="email-input" wire:model="email" autofocus="true"
+                                    autocomplete="email"/>
             <x-auth::elements.button type="primary" data-auth="submit-button" rounded="md"
                                      submit="true">{{config('devdojo.auth.language.passwordResetRequest.button')}}</x-auth::elements.button>
         </form>
@@ -79,3 +79,4 @@ class extends Component {
                                     href="{{ route('auth.login') }}">{{config('devdojo.auth.language.passwordResetRequest.return_to_login')}}</x-auth::elements.text-link>
     </div>
 </x-auth::elements.container>
+    

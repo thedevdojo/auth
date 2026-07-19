@@ -1,13 +1,15 @@
 <?php
 
 use Illuminate\Routing\Attributes\Controllers\Middleware;
-use Livewire\Attributes\Layout;
+use Illuminate\Support\Facades\Artisan;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Devdojo\Auth\Helper;
 
 new
-#[Layout('auth::components.layouts.setup'), Middleware('view-auth-setup')]
+#[Layout('auth::components.layouts.setup')]
+#[Middleware('view-auth-setup')]
 class extends Component {
     public $appearance;
     public $descriptions;
@@ -30,42 +32,43 @@ class extends Component {
 };
 
 ?>
-<section x-data="{
-            'tab': new URLSearchParams(window.location.search).get('tab') || 'logo',
-            addQueryParam(key, value) {
-                // Create a URL object based on the current document URL
-                let url = new URL(window.location.href);
 
-                // Set or replace the query parameter
-                url.searchParams.set(key, value);
+<section x-data="{ 
+                'tab': new URLSearchParams(window.location.search).get('tab') || 'logo',
+                addQueryParam(key, value) {
+                    // Create a URL object based on the current document URL
+                    let url = new URL(window.location.href);
 
-                // Update the URL in the address bar without reloading the page
-                window.history.pushState({ path: url.toString() }, '', url.toString());
-            }
-        }"
+                    // Set or replace the query parameter
+                    url.searchParams.set(key, value);
+
+                    // Update the URL in the address bar without reloading the page
+                    window.history.pushState({ path: url.toString() }, '', url.toString());
+                }
+            }"
          x-init="
-            $watch('tab', function(value){
-                if (value !== null) {
-                    addQueryParam('tab', value);
-                }
-                if(tab == 'css'){
-                    if(codemirrorEditor == null){
-                        setTimeout(function(){
-                            enableCodeMirror();
-                        }, 100);
+                $watch('tab', function(value){
+                    if (value !== null) {
+                        addQueryParam('tab', value);
                     }
-                    //enableCodeMirror();
+                    if(tab == 'css'){
+                        if(codemirrorEditor == null){
+                            setTimeout(function(){
+                                enableCodeMirror();
+                            }, 100);
+                        }
+                        //enableCodeMirror();
+                    }
+                    
+                });
+
+                if(tab == 'css'){
+                    console.log('accessed');
+                    setTimeout(function(){
+                        enableCodeMirror();
+                    }, 100);
                 }
-
-            });
-
-            if(tab == 'css'){
-                console.log('accessed');
-                setTimeout(function(){
-                    enableCodeMirror();
-                }, 100);
-            }
-        " class="relative px-4 py-5 mx-auto w-full max-w-(--breakpoint-lg)">
+            " class="relative px-4 py-5 mx-auto w-full max-w-(--breakpoint-lg)">
     <x-auth::setup.full-screen-loader wire:target="update"/>
     <x-auth::setup.heading title="Appearance"
                            description="Change the appearance of your auth screens, add a logo, modify the color, and more."/>
@@ -128,3 +131,4 @@ class extends Component {
     </div>
 
 </section>
+    

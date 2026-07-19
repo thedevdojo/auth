@@ -8,7 +8,8 @@ use Devdojo\Auth\Helper;
 use Devdojo\ConfigWriter\ArrayFile;
 
 new
-#[Layout('auth::components.layouts.setup'), Middleware('view-auth-setup')]
+#[Layout('auth::components.layouts.setup')]
+#[Middleware('view-auth-setup')]
 class extends Component {
     public $providers;
     public $descriptions;

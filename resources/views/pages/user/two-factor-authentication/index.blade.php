@@ -11,10 +11,12 @@ use Devdojo\Auth\Actions\TwoFactorAuth\DisableTwoFactorAuthentication;
 use Devdojo\Auth\Actions\TwoFactorAuth\GenerateNewRecoveryCodes;
 use Devdojo\Auth\Actions\TwoFactorAuth\GenerateQrCodeAndSecretKey;
 
-
-new
-#[Layout('auth::layouts.empty'), Middleware(['auth', 'verified', 'two-factor-enabled']), Title('Two Factor Authentication')]
-class extends Component {
+new #[Layout('auth::components.layouts.app')]
+#[Middleware('auth')]
+#[Middleware('verified')]
+#[Middleware('two-factor-enabled')]
+class extends Component
+{
     public $enabled = false;
 
     // confirmed means that it has been enabled and the user has confirmed a code

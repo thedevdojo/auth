@@ -1,5 +1,6 @@
 <?php
 
+use Devdojo\Auth\Http\Middleware\PreviewOrAuth;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -7,7 +8,8 @@ use Livewire\Attributes\Validate;
 use Devdojo\Auth\Traits\HasConfigs;
 
 new
-#[Layout('auth::components.layouts.app'), Middleware('preview-or-auth')]
+#[Layout('auth::components.layouts.app')]
+#[Middleware(PreviewOrAuth::class)]
 class extends Component {
     use HasConfigs;
 

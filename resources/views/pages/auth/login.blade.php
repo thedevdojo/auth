@@ -1,5 +1,6 @@
 <?php
 
+use Devdojo\Auth\Http\Middleware\PreviewOrGuest;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Auth\Events\Failed;
@@ -10,7 +11,8 @@ use Livewire\Component;
 use Devdojo\Auth\Traits\HasConfigs;
 
 new
-#[Layout('auth::components.layouts.app'), Middleware('preview-or-guest')]
+#[Layout('auth::components.layouts.app')]
+#[Middleware(PreviewOrGuest::class)]
 class extends Component {
     use HasConfigs;
 

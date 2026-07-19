@@ -7,12 +7,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 
-new
-#[Layout('auth::components.layouts.app')]
+new #[Layout('auth::components.layouts.app')]
 class extends Component {
     use HasConfigs;
 
@@ -40,11 +39,6 @@ class extends Component {
         $this->loadConfigs();
         $this->email = request()->query('email', '');
         $this->token = $token;
-    }
-
-    public function render()
-    {
-        return $this->view()->title(config('devdojo.auth.language.passwordResetRequest.page_title'));
     }
 
     public function resetPassword()
@@ -81,6 +75,7 @@ class extends Component {
 };
 
 ?>
+
 <x-auth::elements.container>
     <x-auth::elements.heading
             :text="($language->passwordReset->headline ?? 'No Heading')"
@@ -95,11 +90,12 @@ class extends Component {
                                 id="password" name="password" data-auth="password-input" wire:model="password"
                                 autocomplete="new-password"/>
         <x-auth::elements.password-requirements/>
-        <x-auth::elements.input :label="config('devdojo.auth.language.passwordReset.password_confirm')"
-                                type="password" id="password_confirmation" name="password_confirmation"
+        <x-auth::elements.input :label="config('devdojo.auth.language.passwordReset.password_confirm')" type="password"
+                                id="password_confirmation" name="password_confirmation"
                                 data-auth="password-confirm-input" wire:model="passwordConfirmation"
                                 autocomplete="new-password"/>
         <x-auth::elements.button type="primary" data-auth="submit-button" rounded="md"
                                  submit="true">{{config('devdojo.auth.language.passwordReset.button')}}</x-auth::elements.button>
     </form>
 </x-auth::elements.container>
+    

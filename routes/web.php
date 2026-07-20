@@ -14,7 +14,7 @@ Route::redirect('register', 'auth/register')->name('register');
 Route::livewire('/auth/login', 'auth.login')->name('auth.login');
 Route::livewire('/auth/password/confirm', 'auth.password.confirm')->name('password.confirm');
 Route::livewire('/auth/password/reset', 'auth.password.reset')->name('auth.password.request');
-Route::livewire('/auth/password/{token}', 'auth.password.[token]')->name('password.reset');
+Route::livewire('/auth/password/{token}', 'auth.password.token')->name('password.reset');
 Route::livewire('/auth/register', 'auth.register')->name('auth.register');
 Route::livewire('/auth/setup', 'auth.setup')->name('auth.setup');
 Route::livewire('/auth/setup/appearance', 'auth.setup.appearance')->name('auth.setup.appearance');

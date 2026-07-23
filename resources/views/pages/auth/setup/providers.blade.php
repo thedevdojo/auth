@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
@@ -9,7 +8,6 @@ use Devdojo\ConfigWriter\ArrayFile;
 
 new
 #[Layout('auth::components.layouts.setup')]
-#[Middleware('view-auth-setup')]
 class extends Component {
     public $providers;
     public $descriptions;

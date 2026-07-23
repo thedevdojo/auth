@@ -1,10 +1,8 @@
 <?php
 
-use Devdojo\Auth\Http\Middleware\PreviewOrGuest;
 use Devdojo\Auth\Rules\PasswordStrength;
 use Devdojo\Auth\Traits\HasConfigs;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Layout;
@@ -12,7 +10,6 @@ use Livewire\Component;
 
 new
 #[Layout('auth::components.layouts.app')]
-#[Middleware(PreviewOrGuest::class)]
 class extends Component {
     use HasConfigs;
 

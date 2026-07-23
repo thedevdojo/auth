@@ -1,10 +1,8 @@
 <?php
 
-use Devdojo\Auth\Http\Middleware\GuestUnlessPreview;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Auth\Events\Failed;
-use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Livewire\Attributes\Validate;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -12,7 +10,6 @@ use Devdojo\Auth\Traits\HasConfigs;
 
 new
 #[Layout('auth::components.layouts.app')]
-#[Middleware(GuestUnlessPreview::class)]
 class extends Component {
     use HasConfigs;
 

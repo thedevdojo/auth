@@ -42,7 +42,7 @@ Route::middleware(['web'])->group(function () {
         ->name('auth.two-factor-challenge');
 
     Route::livewire('/auth/verify', 'auth.verify')
-        ->middleware('auth')
+        ->middleware(['auth', 'throttle:6,1'])
         ->name('verification.notice');
 
     Route::middleware(['auth', 'verified', 'two-factor-enabled'])->group(function () {

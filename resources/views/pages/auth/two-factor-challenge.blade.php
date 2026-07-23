@@ -1,7 +1,5 @@
 <?php
 
-use Devdojo\Auth\Http\Middleware\PreviewOr2FAThrottle;
-use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Auth\Events\Login;
 use Livewire\Attributes\On;
@@ -15,7 +13,6 @@ use Illuminate\Support\Facades\Auth;
 
 new
 #[Layout('auth::components.layouts.app')]
-#[Middleware(PreviewOr2FAThrottle::class)]
 class extends Component {
     use HasConfigs;
 

@@ -1,13 +1,13 @@
 <?php
 
-use Livewire\Attributes\Layout;
-use Livewire\Component;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Validate;
-use PragmaRX\Google2FA\Google2FA;
 use Devdojo\Auth\Actions\TwoFactorAuth\DisableTwoFactorAuthentication;
 use Devdojo\Auth\Actions\TwoFactorAuth\GenerateNewRecoveryCodes;
 use Devdojo\Auth\Actions\TwoFactorAuth\GenerateQrCodeAndSecretKey;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
+use Livewire\Attributes\Validate;
+use Livewire\Component;
+use PragmaRX\Google2FA\Google2FA;
 
 new #[Layout('auth::components.layouts.app')]
 class extends Component
@@ -52,6 +52,7 @@ class extends Component
     private function generateCodes()
     {
         $generateCodesFor = new GenerateNewRecoveryCodes();
+
         return $generateCodesFor(auth()->user());
     }
 
@@ -105,8 +106,7 @@ class extends Component
 }
 
 ?>
-<section class="flex @container justify-center items-center w-screen h-screen">
-
+<x-auth::elements.container>
     <div x-data x-on:code-input-complete.window="$dispatch('submitCode', [event.detail.code])"
          class="flex flex-col w-full max-w-sm mx-auto text-sm">
         @if($confirmed)
@@ -145,7 +145,7 @@ class extends Component
                     <div class="relative w-auto">
                         <x-auth::elements.button type="primary" data-auth="enable-button" rounded="md" size="md"
                                                  wire:click="enable" wire:target="enable">Enable
-                        </x-auth>
+                        </x-auth::elements.button>
                     </div>
                 </div>
             @else
@@ -186,4 +186,4 @@ class extends Component
             @endif
         @endif
     </div>
-</section>
+</x-auth::elements.container>

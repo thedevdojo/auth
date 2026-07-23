@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Pipeline;
+use Illuminate\Routing\Router;
 use Symfony\Component\HttpFoundation\Response;
 
 class PreviewOr2FAThrottle
@@ -25,12 +26,14 @@ class PreviewOr2FAThrottle
         }
 
         // Otherwise execute the middleware you would have attached.
+        $middleware = app(Router::class)->resolveMiddleware([
+            TwoFactorChallenged::class,
+            'throttle:5,1',
+        ]);
+
         return app(Pipeline::class)
             ->send($request)
-            ->through([
-                TwoFactorChallenged::class,
-                'throttle:5,1',
-            ])
+            ->through($middleware)
             ->then(fn ($request) => $next($request));
     }
 }

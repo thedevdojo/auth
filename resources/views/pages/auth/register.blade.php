@@ -5,42 +5,32 @@ use Devdojo\Auth\Traits\HasConfigs;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Livewire\Volt\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
 
-use function Laravel\Folio\middleware;
-use function Laravel\Folio\name;
-
-if (! isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || ! app()->isLocal()) {
-    middleware(['guest']);
-}
-
-name('auth.register');
-
-new class extends Component
-{
+new
+#[Layout('auth::components.layouts.app')]
+class extends Component {
     use HasConfigs;
 
     public $name;
-
     public $email = '';
-
     public $password = '';
-
     public $password_confirmation = '';
-
     public $showNameField = false;
-
     public $showEmailField = true;
-
     public $showPasswordField = false;
-
     public $showPasswordConfirmationField = false;
-
     public $showEmailRegistration = true;
+
+    public function render()
+    {
+        return $this->view()->title(config('devdojo.auth.language.register.page_title'));
+    }
 
     public function rules()
     {
-        if (! $this->settings->enable_email_registration) {
+        if (!$this->settings->enable_email_registration) {
             return [];
         }
 
@@ -63,14 +53,14 @@ new class extends Component
     {
         $this->loadConfigs();
 
-        if (! $this->settings->registration_enabled) {
+        if (!$this->settings->registration_enabled) {
             session()->flash('error', config('devdojo.auth.language.register.registrations_disabled', 'Registrations are currently disabled.'));
             redirect()->route('auth.login');
 
             return;
         }
 
-        if (! $this->settings->enable_email_registration) {
+        if (!$this->settings->enable_email_registration) {
             $this->showEmailRegistration = false;
             $this->showNameField = false;
             $this->showEmailField = false;
@@ -95,19 +85,19 @@ new class extends Component
 
     public function register()
     {
-        if (! $this->settings->registration_enabled) {
+        if (!$this->settings->registration_enabled) {
             session()->flash('error', config('devdojo.auth.language.register.registrations_disabled', 'Registrations are currently disabled.'));
 
             return redirect()->route('auth.login');
         }
 
-        if (! $this->settings->enable_email_registration) {
+        if (!$this->settings->enable_email_registration) {
             session()->flash('error', config('devdojo.auth.language.register.email_registration_disabled', 'Email registration is currently disabled. Please use social login.'));
 
             return redirect()->route('auth.register');
         }
 
-        if (! $this->showPasswordField) {
+        if (!$this->showPasswordField) {
             if ($this->settings->registration_include_name_field) {
                 $this->validateOnly('name');
             }
@@ -158,57 +148,62 @@ new class extends Component
 };
 
 ?>
+<x-auth::elements.container>
 
-<x-auth::layouts.app title="{{ config('devdojo.auth.language.register.page_title') }}">
+    <x-auth::elements.heading :text="($language->register->headline ?? 'No Heading')"
+                              :description="($language->register->subheadline ?? 'No Description')"
+                              :show_subheadline="($language->register->show_subheadline ?? false)"/>
+    <x-auth::elements.session-message/>
 
-    @volt('auth.register')
-    <x-auth::elements.container>
+    @if(config('devdojo.auth.settings.social_providers_location') == 'top')
+        <x-auth::elements.social-providers :separator="$showEmailRegistration"/>
+    @endif
 
-        <x-auth::elements.heading :text="($language->register->headline ?? 'No Heading')" :description="($language->register->subheadline ?? 'No Description')" :show_subheadline="($language->register->show_subheadline ?? false)" />
-        <x-auth::elements.session-message />
-
-        @if(config('devdojo.auth.settings.social_providers_location') == 'top')
-            <x-auth::elements.social-providers :separator="$showEmailRegistration" />
-        @endif
-
-        @if($showEmailRegistration)
+    @if($showEmailRegistration)
         <form wire:submit="register" class="space-y-5">
 
             @if($showNameField)
-            <x-auth::elements.input :label="config('devdojo.auth.language.register.name')" type="text" wire:model="name" autofocus="true" required />
+                <x-auth::elements.input :label="config('devdojo.auth.language.register.name')" type="text"
+                                        wire:model="name" autofocus="true" required/>
             @endif
 
             @if($showEmailField)
-            @php
-            $autofocusEmail = ($showNameField) ? false : true;
-            @endphp
-            <x-auth::elements.input :label="config('devdojo.auth.language.register.email_address')" id="email" name="email" type="email" wire:model="email" data-auth="email-input" :autofocus="$autofocusEmail" autocomplete="email" required />
+                @php
+                    $autofocusEmail = ($showNameField) ? false : true;
+                @endphp
+                <x-auth::elements.input :label="config('devdojo.auth.language.register.email_address')" id="email"
+                                        name="email" type="email" wire:model="email" data-auth="email-input"
+                                        :autofocus="$autofocusEmail" autocomplete="email" required/>
             @endif
 
             @if($showPasswordField)
-           <x-auth::elements.input :label="config('devdojo.auth.language.register.password')" type="password" wire:model="password" id="password" name="password" data-auth="password-input" autocomplete="new-password" required />
-            <x-auth::elements.password-requirements />
+                <x-auth::elements.input :label="config('devdojo.auth.language.register.password')" type="password"
+                                        wire:model="password" id="password" name="password" data-auth="password-input"
+                                        autocomplete="new-password" required/>
+                <x-auth::elements.password-requirements/>
             @endif
 
             @if($showPasswordConfirmationField)
-            <x-auth::elements.input :label="config('devdojo.auth.language.register.password_confirmation')" type="password" wire:model="password_confirmation" id="password_confirmation" name="password_confirmation" data-auth="password-confirmation-input" autocomplete="new-password" required />
+                <x-auth::elements.input :label="config('devdojo.auth.language.register.password_confirmation')"
+                                        type="password" wire:model="password_confirmation" id="password_confirmation"
+                                        name="password_confirmation" data-auth="password-confirmation-input"
+                                        autocomplete="new-password" required/>
             @endif
 
-            <x-auth::elements.button data-auth="submit-button" rounded="md" submit="true">{{config('devdojo.auth.language.register.button')}}</x-auth::elements.button>
+            <x-auth::elements.button data-auth="submit-button" rounded="md"
+                                     submit="true">{{config('devdojo.auth.language.register.button')}}</x-auth::elements.button>
         </form>
-        @endif
+    @endif
 
-        <div class="@if(config('devdojo.auth.settings.social_providers_location') != 'top' && $showEmailRegistration){{ 'mt-3' }}@endif space-x-0.5 text-sm leading-5 @if(config('devdojo.auth.settings.center_align_text')){{ 'text-center' }}@else{{ 'text-left' }}@endif" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
-            <span class="opacity-47">{{config('devdojo.auth.language.register.already_have_an_account')}}</span>
-            <x-auth::elements.text-link data-auth="login-link" href="{{ route('auth.login') }}">{{config('devdojo.auth.language.register.sign_in')}}</x-auth::elements.text-link>
-        </div>
+    <div class="@if(config('devdojo.auth.settings.social_providers_location') != 'top' && $showEmailRegistration){{ 'mt-3' }}@endif space-x-0.5 text-sm leading-5 @if(config('devdojo.auth.settings.center_align_text')){{ 'text-center' }}@else{{ 'text-left' }}@endif"
+         style="color:{{ config('devdojo.auth.appearance.color.text') }}">
+        <span class="opacity-47">{{config('devdojo.auth.language.register.already_have_an_account')}}</span>
+        <x-auth::elements.text-link data-auth="login-link"
+                                    href="{{ route('auth.login') }}">{{config('devdojo.auth.language.register.sign_in')}}</x-auth::elements.text-link>
+    </div>
 
-        @if(config('devdojo.auth.settings.social_providers_location') != 'top')
-            <x-auth::elements.social-providers :separator="$showEmailRegistration" />
-        @endif
+    @if(config('devdojo.auth.settings.social_providers_location') != 'top')
+        <x-auth::elements.social-providers :separator="$showEmailRegistration"/>
+    @endif
 
-
-    </x-auth::elements.container>
-    @endvolt
-
-</x-auth::layouts.app>
+</x-auth::elements.container>

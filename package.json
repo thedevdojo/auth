@@ -16,6 +16,11 @@
     },
     "dependencies": {
         "@invoate/alpine-query-string": "^1.0.0",
+        "@laravel/passkeys": "^0.2.0",
         "highlightjs": "^9.16.2"
+    },
+    "allowScripts": {
+        "esbuild@0.28.1": true,
+        "fsevents@2.3.3": true
     }
 }

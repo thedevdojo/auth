@@ -1,7 +1,31 @@
 # Changelog
 
-All notable changes to `auth` will be documented in this file
+## 3.0.0 - Unreleased
 
-## 1.0.0 - 201X-XX-XX
+### Breaking Changes
 
-- initial release
+- Requires Livewire 4 (`^4.0`). Livewire 3 is no longer supported.
+- Removed `livewire/volt` and `laravel/folio` dependencies.
+- Auth pages are now Livewire 4 single-file components registered via `Livewire::addLocation()`.
+- Minimum PHP version is now 8.2.
+- Minimum Laravel version is now 12 (Laravel 13 is also supported).
+- Published auth assets must be republished after upgrading. See [UPGRADE.md](UPGRADE.md).
+
+### Added
+
+- Optional passkey authentication via `laravel/passkeys`.
+- New `/auth/setup/passkeys` configuration screen to enable or disable passkey sign-in.
+- `enable_passkeys` setting in `config/devdojo/auth/settings.php`.
+- `auth:passkeys-config` publish tag for passkeys configuration.
+
+### Changed
+
+- Migrated all authentication pages from Volt/Folio to Livewire 4 SFCs.
+- `Devdojo\Auth\Models\User` now implements `PasskeyUser` and uses `PasskeyAuthenticatable`.
+- Setup preview modal now uses `fixed` positioning so it renders above the settings panel.
+- Setup pages use Livewire 4 event syntax (`$event.target`) for toggles and inputs.
+
+### Fixed
+
+- Setup preview modal no longer appears behind the settings page when published assets are current.
+- PHPStan configuration and `User` model property annotations.

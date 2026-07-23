@@ -1,3 +1,6 @@
 vendor/
 node_modules/
 .DS_Store
+.idea/
+tests/Browser/Screenshots
+tests/Browser/screenshots

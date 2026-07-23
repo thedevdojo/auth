@@ -85,6 +85,31 @@ class User extends Devdojo\Auth\Models\User
 }
 ```
 
+## (Optional) Enabling Passkeys
+
+Passkeys are disabled by default. To enable passwordless sign-in:
+
+1. Publish the passkeys config:
+
+```
+php artisan vendor:publish --tag=auth:passkeys-config
+```
+
+2. Publish and run the passkeys migration:
+
+```
+php artisan vendor:publish --tag=passkeys-migrations --provider="Laravel\Passkeys\PasskeysServiceProvider"
+php artisan migrate
+```
+
+3. Visit `/auth/setup/passkeys` and enable **Passkey Sign-In**.
+
+Your `App\Models\User` should extend `Devdojo\Auth\Models\User`, which already includes the required `PasskeyAuthenticatable` trait.
+
+## Upgrading from 2.x
+
+See [UPGRADE.md](UPGRADE.md) for the v3.0 migration guide.
+
 ## License
 
 The DevDojo Auth package is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

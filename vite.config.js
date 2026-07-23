@@ -7,6 +7,7 @@ export default defineConfig({
             input: [
                 'resources/css/auth.css',
                 'resources/js/auth.js',
+                'resources/js/passkeys.js',
             ],
             refresh: true,
         }),
@@ -15,9 +16,9 @@ export default defineConfig({
         rollupOptions: {
             minify: false,
             input: {
-                // Include both CSS and JS files as separate entry points
                 'scripts': 'resources/js/auth.js',
                 'styles': 'resources/css/auth.css',
+                'passkeys': 'resources/js/passkeys.js',
             },
             output: {
                 entryFileNames: `assets/[name].js`,

@@ -38,3 +38,4 @@
 <link href="{{ url(config('devdojo.auth.appearance.favicon.dark')) }}" rel="icon" media="(prefers-color-scheme: dark)" />
 
 @stack('devdojo-auth-head-scripts')
+@livewireStyles

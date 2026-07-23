@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Dusk\DuskServiceProvider;
 use Laravel\Fortify\Features;
 use Laravel\Passkeys\PasskeysServiceProvider;
 use Livewire\Livewire;
@@ -117,10 +116,6 @@ class AuthServiceProvider extends ServiceProvider
         $this->app->singleton(Google2FA::class, function () {
             return new Google2FA;
         });
-
-        if (($this->app->environment('local') || $this->app->environment('testing')) && class_exists(DuskServiceProvider::class)) {
-            $this->app->register(Providers\DuskServiceProvider::class);
-        }
 
         config()->set('livewire.inject_assets', true);
     }

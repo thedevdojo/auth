@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ["8.2", "8.3", "8.4", "8.5"]
+        php-version: ["8.3", "8.4", "8.5"]
 
     steps:
       - uses: actions/checkout@v6
@@ -21,7 +21,12 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: mbstring, xml, ctype, iconv, mysql, imagick
+          extensions: mbstring, xml, ctype, iconv, mysql, imagick, sockets
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
 
       - name: Cache Composer Packages
         uses: actions/cache@v5
@@ -83,37 +88,18 @@ jobs:
       - name: Install test dependencies
         run: |
           composer require --dev --no-progress --with-all-dependencies \
-            pestphp/pest \
-            larastan/larastan:^3.1 \
-            laravel/dusk \
-            alebatistella/duskapiconf \
-            protonemedia/laravel-dusk-fakes:^1.6
+            pestphp/pest:^4.0 \
+            pestphp/pest-plugin-laravel:^4.0 \
+            pestphp/pest-plugin-browser:^4.0 \
+            larastan/larastan:^3.1
         working-directory: ./laravel_app_${{ matrix.php-version }}
 
-      - name: Set port number based on PHP version
+      - name: Install Playwright
         run: |
-          if [[ "${{ matrix.php-version }}" == "8.2" ]]; then
-            echo "SERVER_PORT=8000" >> $GITHUB_ENV
-          elif [[ "${{ matrix.php-version }}" == "8.3" ]]; then
-            echo "SERVER_PORT=8001" >> $GITHUB_ENV
-          else
-            echo "SERVER_PORT=8002" >> $GITHUB_ENV
-          fi
-
-      - name: Start Chrome Driver and PHP Server
-        run: |
-          php artisan dusk:chrome-driver --detect &
-          ./vendor/laravel/dusk/bin/chromedriver-linux &
-          php artisan serve --port=${{ env.SERVER_PORT }} --no-reload &
+          npm install playwright@latest --no-progress
+          npx playwright install --with-deps chromium
         working-directory: ./laravel_app_${{ matrix.php-version }}
 
       - name: Run Tests
         run: ./vendor/bin/pest --parallel
-        working-directory: ./laravel_app_${{ matrix.php-version }}
-
-      - name: Run Dusk Tests
-        env:
-          APP_URL: "http://127.0.0.1:${{ env.SERVER_PORT }}"
-          APP_ENV: testing
-        run: php artisan dusk -vvv
         working-directory: ./laravel_app_${{ matrix.php-version }}

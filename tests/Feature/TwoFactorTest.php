@@ -10,12 +10,12 @@ beforeEach(function () {
 
 test('Two factor challenge page redirects to login for guest user', function () {
     $this->get('auth/two-factor-challenge')
-        ->assertRedirect('auth/login');
+        ->assertRedirect('/auth/login');
 });
 
 test('Two factor challenge page redirects if user is logged in and they don\'t have the login.id session', function () {
     withANewUser()->get('auth/two-factor-challenge')
-        ->assertRedirect('auth/login');
+        ->assertRedirect('/auth/login');
 });
 
 test('User logs in when two factor disabled, the login.id session should not be created', function () {
@@ -72,7 +72,7 @@ it('guest is redirected from two factor setup page', function () {
     config()->set('devdojo.auth.settings.enable_2fa', true);
 
     $this->get('user/two-factor-authentication')
-        ->assertRedirect('auth/login');
+        ->assertRedirect('/login');
 });
 
 it('user can view two factor challenge page when it\'s enabled', function () {

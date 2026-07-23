@@ -44,7 +44,13 @@ class extends Component {
     public function submitCode($code)
     {
         $this->auth_code = $code;
-        $this->validate();
+
+        try {
+            $this->validate();
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->dispatch('reset-code-input');
+            throw $e;
+        }
 
         $user = app(config('auth.providers.users.model'))::find(session()->get('login.id'));
         $secret = decrypt($user->two_factor_secret);
@@ -55,6 +61,7 @@ class extends Component {
             $this->loginUser($user);
         } else {
             $this->addError('auth_code', 'Invalid authentication code. Please try again.');
+            $this->dispatch('reset-code-input');
         }
 
     }
@@ -91,7 +98,7 @@ class extends Component {
 ?>
 
 <x-auth::elements.container>
-    <div x-data x-on:code-input-complete.window="console.log(event); $dispatch('submitCode', [event.detail.code])"
+    <div x-data x-on:code-input-complete.window="$wire.submitCode($event.detail.code)"
          class="relative w-full h-auto">
         @if(!$recovery)
             <x-auth::elements.heading
@@ -115,8 +122,7 @@ class extends Component {
                 @error('auth_code')
                 <p class="my-2 text-sm text-red-600">{{ $message }}</p>
                 @enderror
-                <x-auth::elements.button rounded="md" submit="true"
-                                         wire:click="submitCode(document.getElementById('auth-input-code').value)">
+                <x-auth::elements.button rounded="md" submit="true" wire:click="submitCode(auth_code)">
                     Continue
                 </x-auth::elements.button>
             @else

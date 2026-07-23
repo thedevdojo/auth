@@ -77,7 +77,13 @@ class extends Component
     public function submitCode($code)
     {
         $this->auth_code = $code;
-        $this->validate();
+
+        try {
+            $this->validate();
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->dispatch('reset-code-input');
+            throw $e;
+        }
 
         $google2fa = new Google2FA();
         $valid = $google2fa->verifyKey($this->secret, $code);
@@ -90,6 +96,7 @@ class extends Component
             $this->confirmed = true;
         } else {
             $this->addError('auth_code', 'Invalid authentication code. Please try again.');
+            $this->dispatch('reset-code-input');
         }
     }
 
@@ -107,7 +114,7 @@ class extends Component
 
 ?>
 <x-auth::elements.container>
-    <div x-data x-on:code-input-complete.window="$dispatch('submitCode', [event.detail.code])"
+    <div x-data x-on:code-input-complete.window="$wire.submitCode($event.detail.code)"
          class="flex flex-col w-full max-w-sm mx-auto text-sm">
         @if($confirmed)
             <div class="flex flex-col space-y-5">
@@ -166,7 +173,7 @@ class extends Component
                         {{ __('Setup Key') }}: {{ $secret }}
                     </p>
 
-                    <x-auth::elements.input-code id="auth-input-code" digits="6" eventCallback="code-input-complete"
+                    <x-auth::elements.input-code wire:model="auth_code" id="auth-input-code" digits="6" eventCallback="code-input-complete"
                                                  type="text" label="Code"/>
                     @error('auth_code')
                     <p class="my-2 text-sm text-red-600">{{ $message }}</p>
@@ -177,7 +184,7 @@ class extends Component
                                                  wire:target="cancelTwoFactor">Cancel
                         </x-auth::elements.button>
                         <x-auth::elements.button type="primary" size="md"
-                                                 wire:click="submitCode(document.getElementById('auth-input-code').value)"
+                                                 wire:click="submitCode(auth_code)"
                                                  wire:target="submitCode" rounded="md">Confirm
                         </x-auth::elements.button>
                     </div>

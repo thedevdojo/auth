@@ -28,7 +28,7 @@ class PreviewOr2FAThrottle
         return app(Pipeline::class)
             ->send($request)
             ->through([
-                'two-factor-challenged',
+                TwoFactorChallenged::class,
                 'throttle:5,1',
             ])
             ->then(fn ($request) => $next($request));

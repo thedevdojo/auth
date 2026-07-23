@@ -1,6 +1,7 @@
 @props([
     'label' => 'Sign in with a passkey',
     'loadingLabel' => 'Authenticating...',
+    'reloadOnSuccess' => false,
 ])
 
 @assets
@@ -36,6 +37,12 @@
                 });
 
                 const redirect = response?.redirect || '{{ config('devdojo.auth.settings.redirect_after_auth', '/') }}';
+
+                if (@json($reloadOnSuccess)) {
+                    window.location.reload();
+                    return;
+                }
+
                 window.location.replace(redirect);
             } catch (e) {
                 if (e.constructor?.name !== 'UserCancelledError') {

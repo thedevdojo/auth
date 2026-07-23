@@ -125,10 +125,10 @@ class extends Component
                     <div class="relative">
                         <p class="font-medium">Store these recovery codes in a secure password manager. They can be used
                             to recover access to your account if your two factor authentication device is lost.</p>
-                        <div class="grid max-w-xl gap-1 px-4 py-4 mt-4 font-mono text-sm bg-gray-100 rounded-lg dark:bg-gray-900 dark:text-gray-100">
+                        <div class="grid max-w-xl gap-1 px-4 py-4 mt-4 font-mono text-sm bg-zinc-100 text-zinc-900 rounded-lg dark:bg-zinc-900 dark:text-zinc-100">
 
                             @foreach (json_decode(decrypt(auth()->user()->two_factor_recovery_codes), true) as $code)
-                                <div>{{ $code }}</div>
+                                <div class="text-zinc-900 dark:text-zinc-100">{{ $code }}</div>
                             @endforeach
                         </div>
                     </div>

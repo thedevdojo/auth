@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -12,9 +10,6 @@ use Devdojo\Auth\Actions\TwoFactorAuth\GenerateNewRecoveryCodes;
 use Devdojo\Auth\Actions\TwoFactorAuth\GenerateQrCodeAndSecretKey;
 
 new #[Layout('auth::components.layouts.app')]
-#[Middleware('auth')]
-#[Middleware('verified')]
-#[Middleware('two-factor-enabled')]
 class extends Component
 {
     public $enabled = false;

@@ -68,6 +68,13 @@ it('user cannot view two factor challenge page logging in if it\'s disabled', fu
         ->assertRedirect('/');
 });
 
+it('guest is redirected from two factor setup page', function () {
+    config()->set('devdojo.auth.settings.enable_2fa', true);
+
+    $this->get('user/two-factor-authentication')
+        ->assertRedirect('auth/login');
+});
+
 it('user can view two factor challenge page when it\'s enabled', function () {
     config()->set('devdojo.auth.settings.enable_2fa', true);
     $user = loginAsUser();

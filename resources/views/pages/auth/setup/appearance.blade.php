@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Artisan;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -9,7 +8,6 @@ use Devdojo\Auth\Helper;
 
 new
 #[Layout('auth::components.layouts.setup')]
-#[Middleware('view-auth-setup')]
 class extends Component {
     public $appearance;
     public $descriptions;

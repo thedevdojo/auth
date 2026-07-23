@@ -11,7 +11,8 @@
         eventCallback: @js($eventCallback),
         callbackSubmitted: false,
         moveCursorNext (index, digits, evt) {
-        
+            this.callbackSubmitted = false;
+
             if (!isNaN(parseInt(evt.key)) && parseInt(evt.key) >= 0 && parseInt(evt.key) <= 9 && index != digits) {
                 evt.preventDefault();
                 evt.stopPropagation();
@@ -41,9 +42,10 @@
 
             }
 
+            this.syncPinToLivewire();
+
             let that = this;
             setTimeout(function(){
-                that.$refs.pin.value = that.generateCode();
                 if (index === digits && [...Array(digits).keys()].every(i => that.$refs['input' + (i + 1)].value !== '')) {
                     that.submitCallback();
                 }
@@ -62,23 +64,27 @@
         },
         pasteValue(event){
             event.preventDefault();
-            {{-- let paste = (event.clipboardData || window.clipboardData).getData('text'); --}}
-            let paste = (event.clipboardData || window.clipboardData).getData('text');
+            this.callbackSubmitted = false;
+            let paste = (event.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
             for (let i = 0; i < paste.length; i++) {
                 if (i < this.total_digits) {
                     this.$refs['input' + (i + 1)].value = paste[i];
                 }
                 let focusLastInput = (paste.length <= this.total_digits) ? paste.length : this.total_digits;
                 this.$refs['input' + focusLastInput].focus();
+                this.syncPinToLivewire();
                 if(paste.length >= this.total_digits){
                     let that = this;
                     setTimeout(function(){
-                        that.$refs.pin.value = that.generateCode();
                         that.submitCallback();
                     }, 100);
                     
                 }
             }
+        },
+        syncPinToLivewire() {
+            this.$refs.pin.value = this.generateCode();
+            this.$refs.pin.dispatchEvent(new Event('input', { bubbles: true }));
         },
         generateCode() {
             let code = '';
@@ -94,6 +100,7 @@
         }, 100);
     "
     @focus-auth-2fa-auth-code.window="$refs.input1.focus()"
+    @reset-code-input.window="callbackSubmitted = false"
     class="relative"
 >
     <div class="flex">
@@ -112,5 +119,5 @@
             @endfor
         </div>
     </div>
-    <input {{ $attributes->whereStartsWith('id') }} type="hidden" x-ref="pin" name="pin" />
+    <input type="hidden" x-ref="pin" name="pin" {{ $attributes->whereStartsWith('wire:model') }} {{ $attributes->whereStartsWith('id') }} />
 </div>

@@ -27,5 +27,6 @@ return [
         'center_align_text' => 'Center align text?',
         'social_providers_location' => 'The location of the social provider buttons (top or bottom)',
         'check_account_exists_before_login' => 'Determines if the system checks for account existence before login',
+        'login_show_password_same_screen' => 'Show the email and password fields on one screen instead of asking for the email first',
     ],
 ];

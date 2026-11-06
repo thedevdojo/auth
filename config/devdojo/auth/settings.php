@@ -26,6 +26,8 @@ return [
     'center_align_text' => false,
     'social_providers_location' => 'bottom',
     'check_account_exists_before_login' => false,
+    // Email + password on one screen instead of the email-first two-step login.
+    'login_show_password_same_screen' => false,
     'include_wire_navigate' => true,
     // Code-based email verification (the inline companion to the signed link).
     'verification_code_expires_in' => 15,      // minutes

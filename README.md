@@ -85,6 +85,25 @@ class User extends Devdojo\Auth\Models\User
 }
 ```
 
+## Using the login and registration flows in your own component
+
+The pages at `/auth/login` and `/auth/register` are views over two traits you can wear on any Livewire component — a modal, a sidebar, an inline form on a landing page:
+
+```php
+use Devdojo\Auth\Traits\AuthenticatesUsers;
+
+class LoginForm extends \Livewire\Component
+{
+    use AuthenticatesUsers; // $email, $password, $rememberMe, authenticate(), editIdentity()
+
+    protected function passwordOnSameScreen(): bool { return true; } // email + password together
+
+    protected function authenticated($user) { return redirect('/app'); } // optional landing override
+}
+```
+
+`RegistersUsers` is the same idea for sign-up (`$name`, `$email`, `$password`, `register()`), with `registrationData()`, `createUser()` and `registered($user)` as the seams to shape the account or the landing. Both honour every setting in `config/devdojo/auth/settings.php`; `login_show_password_same_screen` switches the package's own login page to the one-screen flow.
+
 ## Running the test suite
 
 The tests in this package are designed to run **from inside a consuming Laravel application**, not from the package folder. Set up a host app as described in [CONTRIBUTING.md](CONTRIBUTING.md): require the package via a path repository, then replace the app's `tests/` directory with a symlink to this package's `tests/` folder. From the app root you can then run the Feature suite with `./vendor/bin/pest` and the Browser suite with Laravel Dusk.

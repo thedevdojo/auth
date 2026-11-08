@@ -4,16 +4,24 @@ use Devdojo\Auth\Enums\CodeCheckResult;
 use Devdojo\Auth\Models\User;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Schema;
 
 // The package's own User model carries the trait; the consuming app's
 // App\Models\User (absent in the package CI harness) is not assumed.
 function emailCodeUser(): User
 {
-    return User::forceCreate([
+    $attributes = [
         'name' => 'Code Tester',
         'email' => uniqid('code-user-', true).'@example.com',
         'password' => bcrypt('secret-password'),
-    ]);
+    ];
+
+    // Apps like Wave add a required username column to the users table.
+    if (Schema::hasColumn('users', 'username')) {
+        $attributes['username'] = uniqid('code-user-');
+    }
+
+    return User::forceCreate($attributes);
 }
 
 it('issues a single active code and verifies with it', function () {

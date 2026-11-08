@@ -108,7 +108,7 @@ jobs:
         working-directory: ./laravel_app_${{ matrix.php-version }}
 
       - name: Run Tests
-        run: ./vendor/bin/pest --parallel
+        run: ./vendor/bin/pest
         working-directory: ./laravel_app_${{ matrix.php-version }}
 
       - name: Run Dusk Tests

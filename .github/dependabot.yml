@@ -11,6 +11,11 @@ updates:
       - "php"
     commit-message:
       prefix: "chore(deps):"
+    groups:
+      composer-minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
 
   - package-ecosystem: "npm"
     directory: "/"
@@ -23,6 +28,23 @@ updates:
       - "javascript"
     commit-message:
       prefix: "chore(deps):"
+    groups:
+      # vite, its laravel plugin and tailwind need to move together, majors included
+      frontend-build:
+        patterns:
+          - "vite"
+          - "laravel-vite-plugin"
+          - "tailwindcss"
+          - "@tailwindcss/*"
+      npm-minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
+      npm-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -34,3 +56,7 @@ updates:
       - "ci"
     commit-message:
       prefix: "chore(deps):"
+    groups:
+      github-actions:
+        patterns:
+          - "*"

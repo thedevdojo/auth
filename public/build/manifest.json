@@ -1,12 +1,12 @@
 {
   "resources/css/auth.css": {
     "file": "assets/styles.css",
-    "src": "resources/css/auth.css",
-    "isEntry": true,
     "name": "styles",
     "names": [
       "styles.css"
-    ]
+    ],
+    "src": "resources/css/auth.css",
+    "isEntry": true
   },
   "resources/js/auth.js": {
     "file": "assets/scripts.js",

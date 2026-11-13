@@ -9,10 +9,22 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    name: PHP ${{ matrix.php-version }} / Laravel ${{ matrix.laravel }} / Livewire ${{ matrix.livewire }}
     strategy:
       fail-fast: false
       matrix:
         php-version: ["8.2", "8.3", "8.4", "8.5"]
+        laravel: ["12", "13"]
+        livewire: ["4"]
+        exclude:
+          # Laravel 13 needs PHP 8.3
+          - php-version: "8.2"
+            laravel: "13"
+        include:
+          # Livewire 3 is still allowed by composer.json
+          - php-version: "8.4"
+            laravel: "12"
+            livewire: "3"
 
     steps:
       - uses: actions/checkout@v7
@@ -32,12 +44,12 @@ jobs:
             ${{ runner.os }}-composer-git-${{ matrix.php-version }}
 
       - name: Setup Laravel Application
-        run: composer create-project --prefer-dist --no-progress laravel/laravel laravel_app_${{ matrix.php-version }} --no-interaction
+        run: composer create-project --prefer-dist --no-progress "laravel/laravel:^${{ matrix.laravel }}.0" laravel_app_${{ matrix.php-version }} --no-interaction
 
       - name: Install DevDojo Auth from local checkout
         run: |
           composer config repositories.local-auth '{"type": "path", "url": "../", "options": {"symlink": false}}'
-          composer require 'devdojo/auth:@dev' --with-all-dependencies --no-progress
+          composer require 'devdojo/auth:@dev' 'livewire/livewire:^${{ matrix.livewire }}.0' --with-all-dependencies --no-progress
         working-directory: ./laravel_app_${{ matrix.php-version }}
 
       - name: Publish DevDojo Auth Assets and Config

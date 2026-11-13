@@ -5,6 +5,8 @@ updates:
     schedule:
       interval: "weekly"
       day: "monday"
+    # A library has no lock file, so add new majors to the ranges instead of raising the minimum
+    versioning-strategy: widen
     open-pull-requests-limit: 5
     labels:
       - "dependencies"

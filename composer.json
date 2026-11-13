@@ -5,7 +5,7 @@
         "devdojo",
         "auth"
     ],
-    "homepage": "https://github.com/devdojo/auth",
+    "homepage": "https://github.com/thedevdojo/auth",
     "license": "MIT",
     "type": "library",
     "authors": [
@@ -16,8 +16,8 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0|^8.1|^8.2|^8.3|^8.4",
-        "illuminate/support": "^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
+        "php": "^8.1",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
         "laravel/folio": "^1.0",
         "livewire/livewire": "^3.0|^4.0",
         "livewire/volt": "^1.10",

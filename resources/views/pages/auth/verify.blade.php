@@ -1,12 +1,11 @@
 <?php
 
-use Illuminate\Auth\Events\Verified;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 use Devdojo\Auth\Traits\HasConfigs;
 use function Laravel\Folio\{middleware, name};
 use Livewire\Volt\Component;
 
-//middleware(['auth', 'throttle:6,1']);
+middleware(['auth']);
 name('verification.notice');
 
 new class extends Component
@@ -20,13 +19,25 @@ new class extends Component
     public function resend()
     {
         $user = auth()->user();
-        if ($user->hasVerifiedEmail()) {
-            redirect('/');
+
+        if (is_null($user)) {
+            return redirect()->route('auth.login');
         }
 
-        $user->sendEmailVerificationNotification();
+        if ($user->hasVerifiedEmail()) {
+            return redirect('/');
+        }
 
-        event(new Verified($user));
+        // Livewire requests skip the page middleware, so resends are limited here
+        $key = 'devdojo-auth.verify-resend:'.$user->getKey();
+
+        if (RateLimiter::tooManyAttempts($key, 6)) {
+            return;
+        }
+
+        RateLimiter::hit($key);
+
+        $user->sendEmailVerificationNotification();
 
         $this->dispatch('resent');
         session()->flash('resent');

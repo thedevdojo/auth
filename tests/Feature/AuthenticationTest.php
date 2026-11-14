@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 
 beforeEach(function () {
     // Ensure each test starts with a clean slate
@@ -121,4 +123,36 @@ it('renders social login buttons if providers are available', function () {
         ->assertSee('Google')
         ->assertSee('Facebook')
         ->assertDontSee('Twitter');
+});
+
+it('locks the login form after too many wrong passwords', function () {
+    Event::fake([Lockout::class]);
+    $user = createUser(['password' => Hash::make('password123')]);
+    $component = Livewire::test('auth.login')
+        ->set('email', $user->email)
+        ->set('showPasswordField', true);
+
+    foreach (range(1, 5) as $attempt) {
+        $component->set('password', 'wrong-password')->call('authenticate')->assertHasErrors('password');
+    }
+
+    $component->set('password', 'password123')->call('authenticate')->assertHasErrors('password');
+
+    $this->assertGuest();
+    Event::assertDispatched(Lockout::class);
+});
+
+it('still logs in after a few wrong passwords', function () {
+    $user = createUser(['password' => Hash::make('password123')]);
+    $component = Livewire::test('auth.login')
+        ->set('email', $user->email)
+        ->set('showPasswordField', true);
+
+    foreach (range(1, 4) as $attempt) {
+        $component->set('password', 'wrong-password')->call('authenticate')->assertHasErrors('password');
+    }
+
+    $component->set('password', 'password123')->call('authenticate')->assertHasNoErrors();
+
+    $this->assertAuthenticatedAs($user);
 });

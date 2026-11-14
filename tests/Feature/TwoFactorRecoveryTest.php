@@ -200,6 +200,50 @@ it('rejects login with invalid recovery code', function () {
         ->assertHasErrors('recovery_code');
 });
 
+it('only accepts a recovery code once', function () {
+    $user = createUser([
+        'password' => Hash::make('password123'),
+        'two_factor_secret' => encrypt('JBSWY3DPEHPK3PXP'),
+        'two_factor_recovery_codes' => encrypt(json_encode(['abcdefghij-klmnopqrst', 'another-code'])),
+        'two_factor_confirmed_at' => now(),
+    ]);
+
+    Session::put('login.id', $user->id);
+    Livewire::test('auth.two-factor-challenge')
+        ->set('recovery_code', 'abcdefghij-klmnopqrst')
+        ->call('submit_recovery_code')
+        ->assertHasNoErrors();
+
+    expect(json_decode(decrypt($user->fresh()->two_factor_recovery_codes), true))->toBe(['another-code']);
+    auth()->logout();
+
+    Session::put('login.id', $user->id);
+    Livewire::test('auth.two-factor-challenge')
+        ->set('recovery_code', 'abcdefghij-klmnopqrst')
+        ->call('submit_recovery_code')
+        ->assertHasErrors('recovery_code');
+
+    $this->assertGuest();
+});
+
+it('rejects a recovery code that is not a string', function () {
+    $user = createUser([
+        'password' => Hash::make('password123'),
+        'two_factor_secret' => encrypt('JBSWY3DPEHPK3PXP'),
+        'two_factor_recovery_codes' => encrypt(json_encode(['valid-code-here'])),
+        'two_factor_confirmed_at' => now(),
+    ]);
+
+    Session::put('login.id', $user->id);
+
+    Livewire::test('auth.two-factor-challenge')
+        ->set('recovery_code', true)
+        ->call('submit_recovery_code')
+        ->assertHasErrors('recovery_code');
+
+    $this->assertGuest();
+});
+
 it('rejects login with empty recovery code', function () {
     $user = createUser([
         'password' => Hash::make('password123'),

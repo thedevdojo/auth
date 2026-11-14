@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialController
@@ -79,6 +80,16 @@ class SocialController
         if ($providerUser) {
             return $providerUser;
         }
+
+        // Validate new accounts and provider links before writing either table.
+        // Existing linked identities above can still sign in if profile data changes.
+        Validator::make([
+            'name' => $socialiteUser->getName(),
+            'email' => $socialiteUser->getEmail(),
+        ], [
+            'name' => 'nullable|string|max:'.max(1, (int) config('devdojo.auth.settings.registration_name_max_length', 191)),
+            'email' => 'required|string|email|max:'.max(1, (int) config('devdojo.auth.settings.registration_email_max_length', 191)),
+        ])->validate();
 
         $user = app(config('auth.providers.users.model'))->where('email', $socialiteUser->getEmail())->first();
 

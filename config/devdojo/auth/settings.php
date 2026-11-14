@@ -7,6 +7,9 @@ return [
     'redirect_after_auth' => '/',
     'redirect_after_logout' => '/',
     'registration_enabled' => true,
+    // Keep these aligned with the application's user and social-provider columns.
+    'registration_name_max_length' => 191,
+    'registration_email_max_length' => 191,
     'registration_show_password_same_screen' => true,
     'registration_include_name_field' => false,
     'registration_include_password_confirmation_field' => false,

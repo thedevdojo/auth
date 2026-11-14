@@ -11,6 +11,7 @@ use PragmaRX\Google2FA\Google2FA;
 use Devdojo\Auth\Traits\HasConfigs;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 
 if(!isset($_GET['preview']) || (isset($_GET['preview']) && $_GET['preview'] != true) || !app()->isLocal()){
     middleware(['two-factor-challenged', 'throttle:5,1']);
@@ -25,8 +26,10 @@ new class extends Component
     public $recovery = false;
     public $google2fa;
 
-    #[Validate('required|min:6')] 
+    #[Validate('required|string|digits:6')]
     public $auth_code;
+
+    #[Validate('required|string')]
     public $recovery_code;
 
     public function mount()
@@ -46,37 +49,95 @@ new class extends Component
         return;
     }
 
-     #[On('submitCode')] 
+    #[On('submitCode')]
     public function submitCode($code)
     {
         $this->auth_code = $code;
-        $this->validate();
+        $this->validateOnly('auth_code');
 
-        $user = User::find(session()->get('login.id'));
-        $secret = decrypt($user->two_factor_secret);
-        $google2fa = new Google2FA();
-        $valid = $google2fa->verifyKey($secret, $code);
+        $user = $this->challengedUser();
 
-        if($valid){
-            $this->loginUser($user);
-        } else {
-            $this->addError('auth_code', 'Invalid authentication code. Please try again.');
+        if (is_null($user)) {
+            return redirect()->route('auth.login');
         }
 
+        if ($this->tooManyAttempts($user, 'auth_code')) {
+            return;
+        }
+
+        $valid = (new Google2FA())->verifyKey(decrypt($user->two_factor_secret), $this->auth_code);
+
+        // A code stays valid for its whole time window, so only let it through once
+        if (! $valid || ! Cache::add('devdojo-auth.2fa-used:'.$user->getKey().':'.$this->auth_code, true, now()->addMinutes(5))) {
+            RateLimiter::hit($this->throttleKey($user));
+            $this->addError('auth_code', 'Invalid authentication code. Please try again.');
+
+            return;
+        }
+
+        return $this->loginUser($user);
     }
 
     public function submit_recovery_code(){
-        $user = User::find(session()->get('login.id'));
-        $valid = in_array($this->recovery_code, json_decode(decrypt($user->two_factor_recovery_codes)));
+        $this->validateOnly('recovery_code');
 
-        if ($valid) {
-            $this->loginUser($user);
-        } else {
-            $this->addError('recovery_code', 'This is an invalid recovery code. Please try again.');
+        $user = $this->challengedUser();
+
+        if (is_null($user)) {
+            return redirect()->route('auth.login');
         }
+
+        if ($this->tooManyAttempts($user, 'recovery_code')) {
+            return;
+        }
+
+        $codes = json_decode(decrypt($user->two_factor_recovery_codes), true) ?: [];
+        $code = trim($this->recovery_code);
+        $match = collect($codes)->first(fn ($stored) => is_string($stored) && hash_equals($stored, $code));
+
+        if (is_null($match)) {
+            RateLimiter::hit($this->throttleKey($user));
+            $this->addError('recovery_code', 'This is an invalid recovery code. Please try again.');
+
+            return;
+        }
+
+        // Each recovery code works once, new ones can be generated from the 2FA settings page
+        $user->forceFill([
+            'two_factor_recovery_codes' => encrypt(json_encode(array_values(array_diff($codes, [$match])))),
+        ])->save();
+
+        return $this->loginUser($user);
+    }
+
+    protected function challengedUser()
+    {
+        $user = User::find(session()->get('login.id'));
+
+        return ($user && $user->two_factor_secret) ? $user : null;
+    }
+
+    protected function throttleKey($user): string
+    {
+        return 'devdojo-auth.2fa:'.$user->getKey();
+    }
+
+    // Livewire requests skip the page's throttle middleware, so the attempts are limited here
+    protected function tooManyAttempts($user, string $field): bool
+    {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey($user), 5)) {
+            return false;
+        }
+
+        $seconds = RateLimiter::availableIn($this->throttleKey($user));
+        $this->addError($field, trans('auth.throttle', ['seconds' => $seconds, 'minutes' => ceil($seconds / 60)]));
+
+        return true;
     }
 
     public function loginUser($user){
+        RateLimiter::clear($this->throttleKey($user));
+
         Auth::login($user);
 
         // clear out the session that is used to determine if the user can visit the 2fa challenge page.

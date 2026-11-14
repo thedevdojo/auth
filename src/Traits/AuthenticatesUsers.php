@@ -108,7 +108,8 @@ trait AuthenticatesUsers
             return;
         }
 
-        if ($this->twoFactorEnabled && ! is_null($user->two_factor_confirmed_at)) {
+        // Public component state is client-controlled; enforce policy server-side.
+        if (config('devdojo.auth.settings.enable_2fa') && ! is_null($user->two_factor_confirmed_at)) {
             session()->put(['login.id' => $user->getKey()]);
 
             return redirect()->route('auth.two-factor-challenge');

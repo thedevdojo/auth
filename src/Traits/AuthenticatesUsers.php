@@ -4,7 +4,10 @@ namespace Devdojo\Auth\Traits;
 
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Auth\Events\Failed;
+use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
 
 /**
@@ -97,16 +100,23 @@ trait AuthenticatesUsers
             return;
         }
 
+        if ($this->hasTooManyLoginAttempts()) {
+            return;
+        }
+
         $credentials = ['email' => $this->email, 'password' => $this->password];
 
         event(new Attempting('web', $credentials, false));
 
         if (! isset($user->id) || ! Auth::validate($credentials)) {
+            RateLimiter::hit($this->throttleKey());
             event(new Failed('web', null, $credentials));
             $this->addError('password', trans('auth.failed'));
 
             return;
         }
+
+        RateLimiter::clear($this->throttleKey());
 
         if ($this->twoFactorEnabled && ! is_null($user->two_factor_confirmed_at)) {
             session()->put(['login.id' => $user->getKey()]);
@@ -136,6 +146,31 @@ trait AuthenticatesUsers
         }
 
         return redirect($to);
+    }
+
+    /** Wrong passwords allowed per email and IP address before the form locks for a minute. */
+    protected function maxLoginAttempts(): int
+    {
+        return 5;
+    }
+
+    protected function hasTooManyLoginAttempts(): bool
+    {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), $this->maxLoginAttempts())) {
+            return false;
+        }
+
+        event(new Lockout(request()));
+
+        $seconds = RateLimiter::availableIn($this->throttleKey());
+        $this->addError('password', trans('auth.throttle', ['seconds' => $seconds, 'minutes' => ceil($seconds / 60)]));
+
+        return true;
+    }
+
+    protected function throttleKey(): string
+    {
+        return 'devdojo-auth.login:'.Str::transliterate(Str::lower($this->email)).'|'.request()->ip();
     }
 
     /** Email and password on one screen (true) or the page's email-first flow (false). */

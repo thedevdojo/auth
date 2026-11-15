@@ -45,7 +45,7 @@ trait RegistersUsers
 
         $nameValidationRules = [];
         if (config('devdojo.auth.settings.registration_include_name_field')) {
-            $nameValidationRules = ['name' => 'required'];
+            $nameValidationRules = ['name' => 'bail|required|string|max:191'];
         }
 
         $includeConfirmation = config('devdojo.auth.settings.registration_include_password_confirmation_field');
@@ -53,7 +53,7 @@ trait RegistersUsers
 
         return array_merge(
             $nameValidationRules,
-            ['email' => 'required|email|unique:users'],
+            ['email' => 'bail|required|string|email|max:191|unique:users'],
             $passwordValidationRules,
         );
     }

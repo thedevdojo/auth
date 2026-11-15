@@ -87,8 +87,8 @@ class SocialController
             'name' => $socialiteUser->getName(),
             'email' => $socialiteUser->getEmail(),
         ], [
-            'name' => 'nullable|string|max:'.max(1, (int) config('devdojo.auth.settings.registration_name_max_length', 191)),
-            'email' => 'required|string|email|max:'.max(1, (int) config('devdojo.auth.settings.registration_email_max_length', 191)),
+            'name' => 'nullable|string|max:191',
+            'email' => 'required|string|email|max:191',
         ])->validate();
 
         $user = app(config('auth.providers.users.model'))->where('email', $socialiteUser->getEmail())->first();

@@ -16,8 +16,6 @@ beforeEach(function () {
         'devdojo.auth.settings.registration_show_password_same_screen' => true,
         'devdojo.auth.settings.registration_include_password_confirmation_field' => false,
         'devdojo.auth.settings.registration_require_email_verification' => false,
-        'devdojo.auth.settings.registration_name_max_length' => 191,
-        'devdojo.auth.settings.registration_email_max_length' => 191,
     ]);
     Event::fake([Registered::class]);
 });
@@ -53,7 +51,7 @@ it('rejects oversized and non-string registration names before account creation'
     Event::assertNotDispatched(Registered::class);
 })->with([[str_repeat('n', 192), 'max'], [123, 'string']]);
 
-it('rejects registration emails beyond the configured column limit', function () {
+it('rejects registration emails beyond the database column limit', function () {
     $email = registrationLengthEmail(192);
     registerWithLengths('Length test', $email)->assertHasErrors(['email' => 'max']);
     expect(User::where('email', $email)->exists())->toBeFalse();
@@ -61,7 +59,7 @@ it('rejects registration emails beyond the configured column limit', function ()
     Event::assertNotDispatched(Registered::class);
 });
 
-it('accepts names and emails at the configured limit', function () {
+it('accepts names and emails at the database column limit', function () {
     $email = registrationLengthEmail(191);
     registerWithLengths(str_repeat('n', 191), $email)->assertHasNoErrors();
     $user = User::where('email', $email)->sole();
@@ -75,11 +73,6 @@ it('validates the first step before hiding name and email fields', function () {
     Volt::test('auth.register')->set('name', str_repeat('n', 192))->set('email', 'step@example.test')
         ->call('register')->assertHasErrors(['name' => 'max'])->assertSet('showPasswordField', false);
     $this->assertGuest();
-});
-
-it('respects an application configured shorter registration limit', function () {
-    config(['devdojo.auth.settings.registration_name_max_length' => 20]);
-    registerWithLengths(str_repeat('n', 21), 'configured@example.test')->assertHasErrors(['name' => 'max']);
 });
 
 it('continues to ignore the disabled name field', function () {
@@ -97,7 +90,7 @@ it('rejects oversized social account attributes before writing either table', fu
     Event::assertNotDispatched(Registered::class);
 })->with([[str_repeat('n', 192), 'social-length@example.test'], ['Social length', registrationLengthEmail(192)], [123, 'social-type@example.test']]);
 
-it('creates a social account at the configured limits', function () {
+it('creates a social account at the database column limits', function () {
     $email = registrationLengthEmail(191);
     socialRegistrationWithLengths(str_repeat('s', 191), $email)->assertRedirect();
     $user = User::where('email', $email)->sole();

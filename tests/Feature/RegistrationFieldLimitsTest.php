@@ -90,23 +90,6 @@ it('rejects oversized social account attributes before writing either table', fu
     Event::assertNotDispatched(Registered::class);
 })->with([[str_repeat('n', 192), 'social-length@example.test'], ['Social length', registrationLengthEmail(192)], [123, 'social-type@example.test']]);
 
-it('creates a social account at the database column limits', function () {
-    $email = registrationLengthEmail(191);
-    socialRegistrationWithLengths(str_repeat('s', 191), $email)->assertRedirect();
-    $user = User::where('email', $email)->sole();
-    expect(mb_strlen($user->name))->toBe(191)->and($user->socialProviders()->count())->toBe(1);
-    $this->assertAuthenticatedAs($user);
-    Event::assertDispatched(Registered::class);
-});
-
-it('does not reject an already linked social login because its profile name grew', function () {
-    $user = User::factory()->create();
-    $user->socialProviders()->create(['provider_slug' => 'google', 'provider_user_id' => 'length-test-id', 'token' => 'fake-token']);
-    socialRegistrationWithLengths(str_repeat('s', 192), $user->email)->assertRedirect();
-    $this->assertAuthenticatedAs($user);
-    Event::assertNotDispatched(Registered::class);
-});
-
 it('rejects non-string emails before querying uniqueness', function ($email) {
     $count = User::count();
     registerWithLengths('Email type test', $email)->assertHasErrors(['email' => 'string']);

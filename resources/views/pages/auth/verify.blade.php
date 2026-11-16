@@ -1,5 +1,6 @@
 <?php
 
+use Devdojo\Auth\Enums\CodeCheckResult;
 use Illuminate\Support\Facades\RateLimiter;
 use Devdojo\Auth\Traits\HasConfigs;
 use function Laravel\Folio\{middleware, name};
@@ -12,8 +13,41 @@ new class extends Component
 {
     use HasConfigs;
 
+    public $code = '';
+
     public function mount(){
         $this->loadConfigs();
+    }
+
+    public function verifyCode()
+    {
+        $user = auth()->user();
+
+        if (is_null($user)) {
+            return redirect()->route('auth.login');
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            return redirect()->intended(config('devdojo.auth.settings.redirect_after_auth').'?verified=1');
+        }
+
+        if (! method_exists($user, 'verifyEmailWithCode')) {
+            return;
+        }
+
+        $this->validate(['code' => ['required', 'string', 'regex:/^[0-9]{6}$/D']]);
+
+        $result = $user->verifyEmailWithCode($this->code);
+
+        if ($result === CodeCheckResult::Verified) {
+            return redirect()->intended(config('devdojo.auth.settings.redirect_after_auth').'?verified=1');
+        }
+
+        $this->addError('code', match ($result) {
+            CodeCheckResult::Expired => __('This verification code has expired. Please request another email.'),
+            CodeCheckResult::TooManyAttempts => __('Too many incorrect attempts. Please request another email.'),
+            default => __('This verification code is invalid.'),
+        });
     }
 
     public function resend()
@@ -39,6 +73,8 @@ new class extends Component
 
         $user->sendEmailVerificationNotification();
 
+        $this->resetValidation('code');
+        $this->code = '';
         $this->dispatch('resent');
         session()->flash('resent');
     }
@@ -65,6 +101,24 @@ new class extends Component
 
                         <p>{{config('devdojo.auth.language.verify.new_link_sent')}}</p>
                     </div>
+                @endif
+
+                @if (auth()->check() && method_exists(auth()->user(), 'verifyEmailWithCode'))
+                <form wire:submit="verifyCode" class="my-5 space-y-5">
+                    <x-auth::elements.input
+                        :label="config('devdojo.auth.language.verify.code_label', __('Verification code'))"
+                        id="email-verification-code"
+                        name="code"
+                        wire:model="code"
+                        inputmode="numeric"
+                        autocomplete="one-time-code"
+                        maxlength="6"
+                        pattern="[0-9]{6}"
+                        required />
+                    <x-auth::elements.button submit="true" rounded="md" wire:target="verifyCode">
+                        {{ config('devdojo.auth.language.verify.code_button', __('Verify email')) }}
+                    </x-auth::elements.button>
+                </form>
                 @endif
 
                 <div class="text-sm leading-6 text-gray-700 dark:text-gray-400">

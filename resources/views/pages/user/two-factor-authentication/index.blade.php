@@ -114,7 +114,7 @@ new class extends Component
                         @if($showRecoveryCodes)
                             <div class="relative">
                                 <p class="font-medium">Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.</p>
-                                <div class="grid max-w-xl gap-1 px-4 py-4 mt-4 font-mono text-sm bg-gray-100 rounded-lg dark:bg-gray-900 dark:text-gray-100">
+                                <div class="grid max-w-xl gap-1 px-4 py-4 mt-4 font-mono text-sm text-gray-900 bg-gray-100 rounded-lg dark:bg-gray-900 dark:text-gray-100">
                                     
                                     @foreach (json_decode(decrypt(auth()->user()->two_factor_recovery_codes), true) as $code)
                                         <div>{{ $code }}</div>

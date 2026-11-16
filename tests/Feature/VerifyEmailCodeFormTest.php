@@ -1,14 +1,43 @@
 <?php
 
+use Devdojo\Auth\Models\User;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Auth\MustVerifyEmail;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Livewire\Volt\Volt;
 
+class VerificationLinkOnlyUser extends Illuminate\Foundation\Auth\User implements Illuminate\Contracts\Auth\MustVerifyEmail
+{
+    use MustVerifyEmail;
+    use Notifiable;
+
+    protected $table = 'users';
+}
+
+function verificationFormUser(): User
+{
+    $attributes = [
+        'name' => 'Code Tester',
+        'email' => uniqid('form-code-user-', true).'@example.com',
+        'password' => bcrypt('secret-password'),
+        'email_verified_at' => null,
+    ];
+
+    if (Schema::hasColumn('users', 'username')) {
+        $attributes['username'] = uniqid('form-code-user-');
+    }
+
+    return User::forceCreate($attributes);
+}
+
 beforeEach(function () {
     config()->set('devdojo.auth.settings.registration_require_email_verification', true);
-    $this->user = createUser(['email_verified_at' => null]);
+    $this->user = verificationFormUser();
     $this->actingAs($this->user);
 });
 
@@ -86,7 +115,7 @@ it('keeps the signed email link working', function () {
 });
 
 it('does not verify another account using its code', function () {
-    $other = createUser(['email_verified_at' => null]);
+    $other = verificationFormUser();
     Volt::test('auth.verify')->set('code', $other->issueEmailVerificationCode())
         ->call('verifyCode')->assertHasErrors('code');
     expect($this->user->fresh()->email_verified_at)->toBeNull()
@@ -99,4 +128,34 @@ it('does not dispatch verification again for an already verified account', funct
     $component = Volt::test('auth.verify')->set('code', $code)->call('verifyCode');
     $component->call('verifyCode')->assertRedirect();
     Event::assertDispatchedTimes(Verified::class, 1);
+});
+
+it('hides code entry for link-only users and ignores direct code submissions', function () {
+    Event::fake([Verified::class]);
+    $user = VerificationLinkOnlyUser::findOrFail($this->user->getKey());
+    $this->actingAs($user);
+
+    $this->get('/auth/verify')->assertOk()
+        ->assertDontSee('wire:submit="verifyCode"', false)
+        ->assertSee('data-auth="verify-email-resend-link"', false);
+
+    Volt::test('auth.verify')->set('code', '123456')->call('verifyCode')
+        ->assertHasNoErrors()->assertNoRedirect();
+
+    expect($user->fresh()->email_verified_at)->toBeNull();
+    Event::assertNotDispatched(Verified::class);
+});
+
+it('retains link-only email resends and signed link verification', function () {
+    Notification::fake();
+    $user = VerificationLinkOnlyUser::findOrFail($this->user->getKey());
+    $this->actingAs($user);
+    Volt::test('auth.verify')->call('resend')->assertDispatched('resent');
+    Notification::assertSentTo($user, VerifyEmail::class);
+
+    $url = URL::temporarySignedRoute('verification.verify', now()->addMinutes(30), [
+        'id' => $user->getKey(), 'hash' => sha1($user->email),
+    ]);
+    $this->get($url)->assertRedirect();
+    expect($user->fresh()->email_verified_at)->not->toBeNull();
 });

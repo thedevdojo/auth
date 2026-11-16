@@ -31,6 +31,10 @@ new class extends Component
             return redirect()->intended(config('devdojo.auth.settings.redirect_after_auth').'?verified=1');
         }
 
+        if (! method_exists($user, 'verifyEmailWithCode')) {
+            return;
+        }
+
         $this->validate(['code' => ['required', 'string', 'regex:/^[0-9]{6}$/D']]);
 
         $result = $user->verifyEmailWithCode($this->code);
@@ -99,6 +103,7 @@ new class extends Component
                     </div>
                 @endif
 
+                @if (auth()->check() && method_exists(auth()->user(), 'verifyEmailWithCode'))
                 <form wire:submit="verifyCode" class="my-5 space-y-5">
                     <x-auth::elements.input
                         :label="config('devdojo.auth.language.verify.code_label', __('Verification code'))"
@@ -114,6 +119,7 @@ new class extends Component
                         {{ config('devdojo.auth.language.verify.code_button', __('Verify email')) }}
                     </x-auth::elements.button>
                 </form>
+                @endif
 
                 <div class="text-sm leading-6 text-gray-700 dark:text-gray-400">
                     <p>{{config('devdojo.auth.language.verify.description')}} <a wire:click="resend" data-auth="verify-email-resend-link" class="text-gray-700 underline transition duration-150 ease-in-out cursor-pointer dark:text-gray-300 hover:text-gray-600 focus:outline-hidden focus:underline">{{config('devdojo.auth.language.verify.new_request_link')}}</a></p>

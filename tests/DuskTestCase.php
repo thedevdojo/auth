@@ -43,6 +43,10 @@ abstract class DuskTestCase extends BaseTestCase
             '--no-sandbox',
             '--disable-dev-shm-usage',
             '--disable-software-rasterizer',
+            '--incognito',
+            '--disable-save-password-bubble',
+            '--disable-features=PasswordManagerOnboarding,PasswordLeakDetection',
+            '--disable-password-manager-reauthentication',
         ];
 
         if (env('APP_ENV') != 'local') {

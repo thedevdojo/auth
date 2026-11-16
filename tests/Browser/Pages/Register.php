@@ -2,6 +2,8 @@
 
 namespace Devdojo\Auth\Tests\Browser\Pages;
 
+use App\Models\User;
+use Devdojo\Genesis\Genesis;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Dusk\Browser;
@@ -23,7 +25,7 @@ class Register extends Page
     public function registerAsJohnDoe(Browser $browser)
     {
         $redirectExpectedToBe = '/';
-        if (class_exists(\Devdojo\Genesis\Genesis::class)) {
+        if (class_exists(Genesis::class)) {
             $redirectExpectedToBe = '/dashboard';
         }
         $browser
@@ -38,7 +40,7 @@ class Register extends Page
     public function assertUserReceivedEmail()
     {
         // Mail::fake();
-        $user = \App\Models\User::where('email', 'johndoe@gmail.com')->first();
+        $user = User::where('email', 'johndoe@gmail.com')->first();
         Mail::assertSent(MailMessage::class, function ($mail) use ($user) {
             return $mail->hasTo($user->email);
         });

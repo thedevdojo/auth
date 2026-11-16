@@ -1,0 +1,10 @@
+# Left out of the package download. tests/ and database/ stay: apps copy vendor/devdojo/auth/tests in CI
+/.github export-ignore
+/.phpunit.cache export-ignore
+/.env.dusk.ci export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/.styleci.yml export-ignore
+/CONTRIBUTING.md export-ignore
+/phpstan.neon export-ignore
+/phpunit.xml.dist export-ignore

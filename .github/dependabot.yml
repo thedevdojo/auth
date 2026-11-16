@@ -1,0 +1,64 @@
+version: 2
+updates:
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    # A library has no lock file, so add new majors to the ranges instead of raising the minimum
+    versioning-strategy: widen
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "php"
+    commit-message:
+      prefix: "chore(deps):"
+    groups:
+      composer-minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "javascript"
+    commit-message:
+      prefix: "chore(deps):"
+    groups:
+      # vite, its laravel plugin and tailwind need to move together, majors included
+      frontend-build:
+        patterns:
+          - "vite"
+          - "laravel-vite-plugin"
+          - "tailwindcss"
+          - "@tailwindcss/*"
+      npm-minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
+      npm-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "ci"
+    commit-message:
+      prefix: "chore(deps):"
+    groups:
+      github-actions:
+        patterns:
+          - "*"

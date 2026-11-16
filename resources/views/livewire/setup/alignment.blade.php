@@ -25,13 +25,13 @@
             <label class="block text-sm font-medium leading-6 text-gray-900">Container Alignment</label>
             <div class="flex items-center mt-3 space-x-3">
                 <button :class="{ 'border-blue-500' : container == 'left', 'border-zinc-200 hover:border-blue-500' : container != 'left' }" x-on:click="container = 'left'" class="flex justify-start items-stretch w-28 h-20 rounded-md border-2 bg-zinc-200 text-zinc-600">
-                    <div class="w-9 h-full bg-white rounded"></div>
+                    <div class="w-9 h-full bg-white rounded-sm"></div>
                 </button>
                 <button :class="{ 'border-blue-500' : container == 'center', 'border-zinc-200 hover:border-blue-500' : container != 'center' }" x-on:click="container = 'center'" class="flex justify-center items-center w-28 h-20 rounded-md border-2 bg-zinc-200 text-zinc-600">
-                    <div class="w-9 h-9 bg-white rounded"></div>
+                    <div class="w-9 h-9 bg-white rounded-sm"></div>
                 </button>
                 <button :class="{ 'border-blue-500' : container == 'right', 'border-zinc-200 hover:border-blue-500' : container != 'right' }" x-on:click="container = 'right'" class="flex justify-end items-stretch w-28 h-20 rounded-md border-2 bg-zinc-200 text-zinc-600">
-                    <div class="w-9 h-full bg-white rounded"></div>
+                    <div class="w-9 h-full bg-white rounded-sm"></div>
                 </button>
             </div>
         </div>

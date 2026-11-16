@@ -68,7 +68,7 @@ new class extends Component
                         enableCodeMirror();
                     }, 100);
                 }
-            " class="relative px-4 py-5 mx-auto w-full max-w-screen-lg">
+            " class="relative px-4 py-5 mx-auto w-full max-w-(--breakpoint-lg)">
             <x-auth::setup.full-screen-loader wire:target="update" />
             <x-auth::setup.heading title="Appearance" description="Change the appearance of your auth screens, add a logo, modify the color, and more." />
             
@@ -81,7 +81,7 @@ new class extends Component
                             <div class="sm:hidden">
                                 <label for="tabs" class="sr-only">Select a tab</label>
                                 <!-- Use an "onChange" listener to redirect the user to the selected tab URL. -->
-                                <select id="tabs" name="tabs" class="block py-2 pr-10 pl-3 w-full text-base rounded-md border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                                <select id="tabs" name="tabs" class="block py-2 pr-10 pl-3 w-full text-base rounded-md border-gray-300 focus:border-indigo-500 focus:outline-hidden focus:ring-indigo-500 sm:text-sm">
                                 <option>My Account</option>
                                 <option>Company</option>
                                 <option selected>Team Members</option>

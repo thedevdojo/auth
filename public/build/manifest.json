@@ -1,6 +1,10 @@
 {
   "resources/css/auth.css": {
     "file": "assets/styles.css",
+    "name": "styles",
+    "names": [
+      "styles.css"
+    ],
     "src": "resources/css/auth.css",
     "isEntry": true
   },

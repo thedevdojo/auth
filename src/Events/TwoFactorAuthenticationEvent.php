@@ -2,6 +2,7 @@
 
 namespace Devdojo\Auth\Events;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Events\Dispatchable;
 
 abstract class TwoFactorAuthenticationEvent
@@ -11,14 +12,14 @@ abstract class TwoFactorAuthenticationEvent
     /**
      * The user instance.
      *
-     * @var \App\Models\User
+     * @var Authenticatable
      */
     public $user;
 
     /**
      * Create a new event instance.
      *
-     * @param  \App\Models\User  $user
+     * @param  Authenticatable  $user
      * @return void
      */
     public function __construct($user)

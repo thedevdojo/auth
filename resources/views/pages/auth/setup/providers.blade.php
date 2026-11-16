@@ -34,7 +34,7 @@ new class extends Component
     <x-auth::layouts.setup>
 
         @volt('auth.setup.providers')
-            <section class="relative px-4 py-5 mx-auto w-full max-w-screen-lg">
+            <section class="relative px-4 py-5 mx-auto w-full max-w-(--breakpoint-lg)">
                 <x-auth::setup.full-screen-loader wire:target="update" />
                 <x-auth::setup.heading title="Social Providers" description="Select the social networks that users can use for authentication" />
                 <div class="relative w-full">
@@ -76,7 +76,7 @@ new class extends Component
                                         @if(!isset($provider['socialite']) || !$provider['socialite'])
                                             <a href="https://devdojo.com/auth/docs/config/social-providers/#socialite-providers-package" target="_blank" class="px-2 py-0.5 text-[0.6rem] mr-1.5 text-yellow-900 bg-yellow-200 rounded-full">Requires Package</a>
                                         @endif
-                                        <x-auth::setup.checkbox wire:change="update('{{ $network_slug }}', $el.checked)" :checked="($provider['active'] ? true : false)" />
+                                        <x-auth::setup.checkbox wire:change="update('{{ $network_slug }}', $event.target.checked)" :checked="($provider['active'] ? true : false)" />
                                     </div>
                                 </div>
                             @endforeach

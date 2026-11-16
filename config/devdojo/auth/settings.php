@@ -5,11 +5,18 @@
  */
 return [
     'redirect_after_auth' => '/',
+    'redirect_after_logout' => '/',
     'registration_enabled' => true,
     'registration_show_password_same_screen' => true,
     'registration_include_name_field' => false,
     'registration_include_password_confirmation_field' => false,
     'registration_require_email_verification' => false,
+    'password_min_length' => 8,
+    'password_require_uppercase' => false,
+    'password_require_numeric' => false,
+    'password_require_special_character' => false,
+    'password_require_uncompromised' => false,
+    'password_show_requirements' => true,
     'enable_branding' => true,
     'dev_mode' => false,
     'enable_2fa' => false, // Enable or disable 2FA functionality globally
@@ -19,4 +26,11 @@ return [
     'center_align_text' => false,
     'social_providers_location' => 'bottom',
     'check_account_exists_before_login' => false,
+    // Email + password on one screen instead of the email-first two-step login.
+    'login_show_password_same_screen' => false,
+    'include_wire_navigate' => true,
+    // Code-based email verification (the inline companion to the signed link).
+    'verification_code_expires_in' => 15,      // minutes
+    'verification_code_max_attempts' => 5,     // wrong guesses before a resend is forced
+    'verification_code_resend_cooldown' => 60, // seconds between sends
 ];

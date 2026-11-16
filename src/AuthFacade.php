@@ -2,10 +2,11 @@
 
 namespace Devdojo\Auth;
 
+use Devdojo\Auth\Skeleton\SkeletonClass;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Devdojo\Auth\Skeleton\SkeletonClass
+ * @see SkeletonClass
  */
 class AuthFacade extends Facade
 {

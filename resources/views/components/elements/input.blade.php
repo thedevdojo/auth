@@ -31,8 +31,8 @@
                 </label>
             @endif
 
-            <div data-model="{{ $wireModel }}" class="mt-1.5 w-full rounded-md shadow-sm auth-component-input-container">
-                <input {{ $attributes }} {{ $attributes->whereStartsWith('wire:model') }} @focus-{{ $id }}.window="$el.focus()" id="{{ $id ?? '' }}" name="{{ $name ?? '' }}" type="{{ $type ?? '' }}" x-ref="input" @focus="focused()" @blur="blurred()" class="auth-component-input appearance-none flex w-full h-11 px-3.5 text-sm bg-white border rounded-md border-gray-300 ring-offset-background placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-zinc-800 disabled:cursor-not-allowed disabled:opacity-50 @error($wireModel) border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red @enderror" />
+            <div data-model="{{ $wireModel }}" class="mt-1.5 w-full rounded-md shadow-xs auth-component-input-container">
+                <input {{ $attributes }} {{ $attributes->whereStartsWith('wire:model') }} @focus-{{ $id }}.window="$el.focus()" id="{{ $id ?? '' }}" name="{{ $name ?? '' }}" type="{{ $type ?? '' }}" x-ref="input" @focus="focused()" @blur="blurred()" class="auth-component-input appearance-none flex w-full h-11 px-3.5 text-sm bg-white border rounded-md border-gray-300 placeholder:text-gray-500 focus:outline-hidden focus:ring-1 focus:ring-zinc-800 disabled:cursor-not-allowed disabled:opacity-50 @error($wireModel) border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red @enderror" />
             </div>
         </div>
     </div>

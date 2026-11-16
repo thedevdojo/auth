@@ -17,7 +17,7 @@ new class extends Component
 <x-auth::layouts.setup>
 
         @volt('auth.setup')
-            <section class="max-w-screen-lg px-4 mx-auto py-14">
+            <section class="max-w-(--breakpoint-lg) px-4 mx-auto py-14">
                 @if(!file_exists(base_path('config/devdojo/auth/settings.php')))
                     <x-auth::setup.config-notification />
                 @endif
@@ -32,7 +32,7 @@ new class extends Component
                     <x-auth::setup.welcome-card link="auth/setup/settings" icon="settings" title="Modify Settings" description="Adjust specific authentication features and enable/disable functionality."></x-auth::setup.welcome-card>
                 </div>
                 <div @click="preview=true" class="flex items-center w-full h-auto py-5 mt-6 space-x-5 duration-300 ease-out bg-white border rounded-md cursor-pointer px-7 hover:bg-zinc-50 border-zinc-200">
-                    <span class="flex-shrink-0 block w-24 h-24">
+                    <span class="shrink-0 block w-24 h-24">
                         @include('auth::includes.setup.icons.preview')
                     </span>
                     <div class="relative">

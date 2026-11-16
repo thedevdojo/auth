@@ -2,6 +2,8 @@
 
 namespace Devdojo\Auth\Providers;
 
+use Devdojo\Auth\Models\User;
+use Devdojo\Genesis\Genesis;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Dusk;
@@ -37,7 +39,8 @@ class DuskServiceProvider extends ServiceProvider
         });
 
         Browser::macro('createJohnDoe', function () {
-            $user = \App\Models\User::factory()->create([
+            $userModel = config('auth.providers.users.model');
+            $user = $userModel::factory()->create([
                 'email' => 'johndoe@gmail.com',
                 'password' => \Hash::make('password'),
             ]);
@@ -46,13 +49,13 @@ class DuskServiceProvider extends ServiceProvider
         });
 
         Browser::macro('loginAsJohnDoe', function () {
-            $this->loginAs(\Devdojo\Auth\Models\User::where('email', 'johndoe@gmail.com')->first());
+            $this->loginAs(User::where('email', 'johndoe@gmail.com')->first());
 
             return $this;
         });
 
         Browser::macro('enable2FAforJohnDoe', function () {
-            $johnDoe = \Devdojo\Auth\Models\User::where('email', 'johndoe@gmail.com')->first();
+            $johnDoe = User::where('email', 'johndoe@gmail.com')->first();
             $johnDoe->two_factor_confirmed_at = now();
             $johnDoe->save();
 
@@ -61,7 +64,7 @@ class DuskServiceProvider extends ServiceProvider
 
         Browser::macro('assertRedirectAfterAuthUrlIsCorrect', function () {
             $redirectExpectedToBe = '/';
-            if (class_exists(\Devdojo\Genesis\Genesis::class)) {
+            if (class_exists(Genesis::class)) {
                 $redirectExpectedToBe = '/dashboard';
             }
             $this->assertPathIs($redirectExpectedToBe);

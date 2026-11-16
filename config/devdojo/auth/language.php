@@ -41,6 +41,8 @@ return [
         'subheadline' => 'Before you can proceed you must verify your email.',
         'show_subheadline' => false,
         'description' => 'Before proceeding, please check your email for a verification link. If you did not receive the email,',
+        'code_label' => 'Verification code',
+        'code_button' => 'Verify email',
         'new_request_link' => 'click here to request another',
         'new_link_sent' => 'A new link has been sent to your email address.',
         'or' => 'Or',

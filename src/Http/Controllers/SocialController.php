@@ -21,7 +21,15 @@ class SocialController
     {
         $this->dynamicallySetSocialProviderCredentials($driver);
 
-        return Socialite::driver($driver)->redirect();
+        $provider = Socialite::driver($driver);
+        $scopes = config('devdojo.auth.providers.'.$driver.'.scopes');
+
+        // Only OAuth 2 providers have scopes, Socialite's default Twitter driver is OAuth 1.
+        if (! empty($scopes)) {
+            $provider->scopes((array) $scopes);
+        }
+
+        return $provider->redirect();
     }
 
     private function dynamicallySetSocialProviderCredentials($provider)

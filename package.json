@@ -10,7 +10,7 @@
         "@tailwindcss/postcss": "^4.3.5",
         "axios": "^1.21.1",
         "laravel-vite-plugin": "^3.2.1",
-        "postcss": "^8.5.32",
+        "postcss": "^8.5.33",
         "tailwindcss": "^4.3.5",
         "vite": "^8.3.8"
     },

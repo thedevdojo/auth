@@ -5,6 +5,7 @@ namespace Devdojo\Auth\Http\Controllers;
 use Devdojo\Auth\Models\SocialProvider;
 use Devdojo\Auth\Models\SocialProviderUser;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -116,6 +117,14 @@ class SocialController
         }
 
         return DB::transaction(function () use ($socialiteUser, $driver, $user) {
+            // The provider just vouched for this address, so an account that
+            // signed up with it by email and never verified is verified now:
+            // a social login lets the person straight in, new or not.
+            if ($user && is_null($user->email_verified_at)) {
+                $user->forceFill(['email_verified_at' => now()])->save();
+                event(new Verified($user));
+            }
+
             $user = $user ?? $this->createUser($socialiteUser);
 
             return $this->createSocialProviderUser($user, $socialiteUser, $driver);
